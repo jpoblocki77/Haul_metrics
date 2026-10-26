@@ -1,6 +1,6 @@
 import CrudPage from "@/components/CrudPage";
 import { Panel } from "@/components/Bits";
-import { DriverBars } from "@/components/Charts";
+import { DriverBars, short } from "@/components/Charts";
 import { useFetch } from "@/hooks/useData";
 import { money, num, pct } from "@/lib/api";
 
@@ -39,7 +39,7 @@ export default function Drivers() {
       {chart.length > 0 && (
         <div className="mb-6 grid gap-6 lg:grid-cols-3">
           <Panel title="Revenue by driver" testId="chart-drivers-revenue">
-            <div className="h-60"><DriverBars data={chart} dataKey="revenue" name="Revenue" color="#10B981" fmt={(v) => money(v)} /></div>
+            <div className="h-60"><DriverBars data={chart} dataKey="revenue" name="Revenue" color="#10B981" fmt={(v) => money(v)} tickFmt={short} /></div>
           </Panel>
           <Panel title="On-time % by driver" testId="chart-drivers-ontime">
             <div className="h-60"><DriverBars data={chart} dataKey="rate" name="On time" color="#06B6D4" fmt={(v) => `${Number(v).toFixed(0)}%`} /></div>

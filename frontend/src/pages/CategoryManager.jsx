@@ -20,9 +20,13 @@ function CategoryRow({ cat, onDone }) {
   };
   const remove = async () => {
     if (!window.confirm(`Remove category "${cat.name}"? Expenses using it become Uncategorized.`)) return;
-    await api.delete(`/categories/${cat.id}`);
-    toast.success("Category removed");
-    onDone();
+    try {
+      await api.delete(`/categories/${cat.id}`);
+      toast.success("Category removed");
+      onDone();
+    } catch (e) {
+      toast.error(errMsg(e));
+    }
   };
   return (
     <div data-testid={`category-${cat.id}`} className="group flex items-center gap-1 rounded-full border border-slate-700 bg-[#0B0F17] py-1 pl-3 pr-1 text-sm">

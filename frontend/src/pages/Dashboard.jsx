@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Kpi, PageHeader, Panel } from "@/components/Bits";
-import { IncomeExpenseChart, CategoryPie, FuelTrendChart, DriverBars, SimplePie } from "@/components/Charts";
+import { IncomeExpenseChart, CategoryPie, FuelTrendChart, DriverBars, SimplePie, short } from "@/components/Charts";
 import { useFetch } from "@/hooks/useData";
 import { money, num, pct } from "@/lib/api";
 
@@ -48,7 +48,7 @@ export default function Dashboard() {
           <div className="h-72"><SimplePie data={s.inspections.by_result} nameKey="result" dataKey="count" colors={RESULT_COLORS} /></div>
         </Panel>
         <Panel title="Driver revenue" testId="chart-driver-revenue">
-          <div className="h-72"><DriverBars data={drivers} dataKey="revenue" name="Revenue" color="#10B981" fmt={(v) => money(v)} /></div>
+          <div className="h-72"><DriverBars data={drivers} dataKey="revenue" name="Revenue" color="#10B981" fmt={(v) => money(v)} tickFmt={short} /></div>
         </Panel>
         <Panel title="Driver on-time %" testId="chart-driver-ontime">
           <div className="h-72"><DriverBars data={drivers} dataKey="on_time_pct" name="On time" color="#06B6D4" fmt={(v) => `${Number(v).toFixed(0)}%`} /></div>

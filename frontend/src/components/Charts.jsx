@@ -11,7 +11,7 @@ const tip = {
   itemStyle: { color: "#E2E8F0" },
   cursor: { fill: "rgba(148,163,184,0.06)" },
 };
-const short = (v) => (Math.abs(v) >= 1000 ? `$${(v / 1000).toFixed(0)}k` : `$${Math.round(v)}`);
+export const short = (v) => (Math.abs(v) >= 1000 ? `$${(v / 1000).toFixed(0)}k` : `$${Math.round(v)}`);
 
 function Empty() {
   return <div className="flex h-full items-center justify-center font-mono text-xs text-slate-600">No data yet</div>;
@@ -67,13 +67,13 @@ export function FuelTrendChart({ data }) {
   );
 }
 
-export function DriverBars({ data, dataKey, name, color = "#F59E0B", fmt = (v) => v }) {
+export function DriverBars({ data, dataKey, name, color = "#F59E0B", fmt = (v) => v, tickFmt }) {
   if (!data?.length) return <Empty />;
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <BarChart data={data} layout="vertical" margin={{ left: 10 }}>
+      <BarChart data={data} layout="vertical" margin={{ left: 10, right: 24 }}>
         <CartesianGrid stroke="#1F2937" horizontal={false} />
-        <XAxis type="number" {...axis} tickFormatter={fmt} />
+        <XAxis type="number" {...axis} tickFormatter={tickFmt || fmt} tickCount={5} />
         <YAxis type="category" dataKey="name" {...axis} width={130} tick={{ fill: "#CBD5E1", fontSize: 11 }} />
         <Tooltip {...tip} formatter={(v) => fmt(v)} />
         <Bar dataKey={dataKey} name={name} fill={color} radius={[0, 3, 3, 0]} />

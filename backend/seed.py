@@ -21,10 +21,8 @@ def seed_test_data():
         truck_ids = []
         for num, gal, model in TRUCKS:
             number = f"T-{num}"
-            existing = one(conn, "SELECT id FROM trucks WHERE truck_number = ?", (number,))
-            if existing:
-                truck_ids.append(existing["id"])
-                continue
+            while one(conn, "SELECT id FROM trucks WHERE truck_number = ?", (number,)):
+                number += "S"
             cur = conn.execute("INSERT INTO trucks (truck_number, tank_gallons, make_model, is_test) VALUES (?,?,?,1)",
                                (number, gal, model))
             truck_ids.append(cur.lastrowid)

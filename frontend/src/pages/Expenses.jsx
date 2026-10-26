@@ -33,6 +33,7 @@ export default function Expenses() {
   const [cats, reloadCats] = useFetch("/categories");
   const [catFilter, setCatFilter] = useState("all");
   const [key, setKey] = useState(0);
+  if (cats && catFilter !== "all" && !cats.some((c) => String(c.id) === catFilter)) setCatFilter("all");
   const filter = catFilter === "all" ? null : (r) => String(r.category_id) === catFilter;
   const toolbar = (
     <select data-testid="expenses-category-filter" value={catFilter} onChange={(e) => setCatFilter(e.target.value)} className="h-9 rounded-md border border-slate-700 bg-[#0B0F17] px-3 text-sm">

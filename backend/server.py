@@ -7,6 +7,7 @@ import os
 import sqlite3
 import logging
 from typing import Optional, Literal
+from datetime import date
 
 from fastapi import FastAPI, APIRouter, Depends, HTTPException, Response
 from starlette.middleware.cors import CORSMiddleware
@@ -206,7 +207,7 @@ def prep_inspection(conn, data, rid=None):
 
 def sync_load_income(conn, load_id):
     load = one(conn, "SELECT * FROM loads WHERE id = ?", (load_id,))
-    payload = {"date": load["delivered_date"] or load["due_date"] or "", "amount": load["pay"],
+    payload = {"date": load["delivered_date"] or load["due_date"] or date.today().isoformat(), "amount": load["pay"],
                "source": f"Load: {load['origin']} → {load['destination']}", "driver_id": load["driver_id"],
                "truck_id": load["truck_id"], "load_id": load_id, "is_test": load["is_test"]}
     existing = one(conn, "SELECT id FROM income WHERE load_id = ?", (load_id,))
