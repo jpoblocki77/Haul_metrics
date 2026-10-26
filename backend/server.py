@@ -420,8 +420,11 @@ def delete_user(uid: int, user=Depends(get_current_user)):
     if uid == user["id"]:
         raise HTTPException(400, "You can't remove your own account")
     with get_conn() as conn:
-        if not one(conn, "SELECT id FROM users WHERE id = ?", (uid,)):
+        target = one(conn, "SELECT id, username FROM users WHERE id = ?", (uid,))
+        if not target:
             raise HTTPException(404, "Not found")
+        if target["username"] == os.environ["OWNER_USERNAME"].lower():
+            raise HTTPException(400, "The owner account can't be removed")
         conn.execute("DELETE FROM users WHERE id = ?", (uid,))
     return {"ok": True}
 

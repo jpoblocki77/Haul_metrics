@@ -15,8 +15,9 @@ export function rankDrivers(stats) {
   const active = (stats || []).filter((d) => d.loads > 0).map((d) => ({ ...d, rate: (d.on_time / d.loads) * 100 }));
   const ranks = {};
   METRICS.forEach(({ key }) => {
-    [...active].sort((a, b) => (b[key] ?? -1) - (a[key] ?? -1)).forEach((d, i) => {
-      ranks[d.id] = (ranks[d.id] || 0) + i + 1;
+    const vals = [...new Set(active.map((d) => d[key] ?? -1))].sort((a, b) => b - a);
+    active.forEach((d) => {
+      ranks[d.id] = (ranks[d.id] || 0) + vals.indexOf(d[key] ?? -1) + 1;
     });
   });
   return active.map((d) => ({ ...d, score: ranks[d.id] / METRICS.length })).sort((a, b) => a.score - b.score);
@@ -41,7 +42,10 @@ function RankList({ metric, drivers }) {
 }
 
 export default function Leaderboard() {
-  const [month, setMonth] = useState(new Date().toISOString().slice(0, 7));
+  const [month, setMonth] = useState(() => {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+  });
   const [stats] = useFetch("/stats/drivers", monthRange(month));
   const ranked = rankDrivers(stats);
   const top = ranked[0];

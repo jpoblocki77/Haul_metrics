@@ -1,0 +1,41 @@
+{
+  "summary": "Iteration 2 tested the McCoy rebrand, Users page, global date-range bar, monthly leaderboard and CSV export, plus regression. Backend: 40/40 pytest pass (16 regression tests and 24 new ones). Frontend (Playwright, 1920x1080): every requested flow works. The brand shows McCOY/TRUCKING in the sidebar and on the login page, and the page title is 'McCoy Trucking'. The range presets (all/week/month/last-month/custom) set the correct dates, the dashboard KPIs change with the range, and the range carries across pages. Income, expenses, fuel, loads and inspections record counts filter by date. Trucks and drivers stats change with the range. The bar is hidden on /leaderboard, /users and /test-data. All 5 export buttons download a CSV for the selected range with a header row, and the row count matches the on-screen count. The leaderboard shows the month picker, top-driver card and 3 rank lists, and the empty state appears for 2025-01. On Users: a password mismatch shows a toast, creating a user works, a duplicate username shows a toast, a short password shows a toast, the new user can log in, no delete button appears for yourself, and both confirm-dismiss and confirm-accept delete work. Fuel gallons still auto-fill from the tank size. desktop.py compiles. No critical issues found.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "DELETE /api/users/{id}", "issue": "There are no roles: any signed-in user (for example dispatch1) can delete any other user, including owner. Only self-delete is blocked. Note: seed_owner recreates owner on restart, so you can't be locked out permanently."},
+      {"endpoint": "/api/auth/login", "issue": "Still no brute-force lockout, carried over from iteration 1."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "CrudPage dialog title", "issue": "When you close the 'New X' dialog (Cancel or Save), the title briefly reads 'Edit X' during the close animation, because editing becomes null and the ternary falls back to 'Edit'. Keep the last mode in state, or check editing && editing !== 'new'.", "selector": "[data-testid='fuel-dialog']", "priority": "LOW"},
+      {"component": "Users create form", "issue": "Validation errors show the raw Pydantic text ('password: String should have at least 6 characters'). Add client-side length and pattern checks with friendly messages.", "selector": "[data-testid='create-user-btn']", "priority": "LOW"}
+    ],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Leaderboard", "issues": ["Ties (for example 5 drivers at 100% on-time) get ranks 1..5 by list order, not a shared rank, which skews the combined top-driver score. Consider dense ranking.", "The default month uses new Date().toISOString() (UTC), so near midnight on the 1st or last day of a month it can pick the wrong local month. Use local year/month instead."]},
+      {"screen": "Date range bar", "issues": ["Uses the native browser date inputs instead of the shadcn Calendar (consistent with the rest of the app)."]}
+    ]
+  },
+  "test_report_links": ["/app/backend/tests/test_iter2_features.py", "/app/backend/tests/test_fleet_api.py", "/app/test_reports/pytest/pytest_results.xml"],
+  "action_items": [
+    "Optional: restrict user deletion (for example only owner can delete users, or owner can't be deleted)",
+    "Optional: fix the 'Edit' title flash when closing the New dialog in CrudPage",
+    "Optional: show friendly client-side validation on Users create",
+    "Optional: use dense ranking for ties on the leaderboard and compute the default month in local time"
+  ],
+  "critical_code_review_comments": [
+    "rng() with named params (:s/:e) works and is injection-safe. Empty start/end are normalised to None, and a start-only range works.",
+    "Export reuses list_table plus DictWriter with extrasaction='ignore'. The filename is mccoy-{table}.csv, and the frontend adds the range to the download name.",
+    "Deleted users' tokens are rejected (get_current_user re-checks the DB), which was verified.",
+    "CrudPage filters by date range on the client while export filters on the server with the same column logic (loads use COALESCE(delivered, due)). The counts matched in testing."
+  ],
+  "updated_files": ["/app/backend/tests/test_iter2_features.py"],
+  "success_rate": {"backend": "100% (40/40)", "frontend": "100% of requested flows (minor UX issues listed)"},
+  "test_credentials": "owner / trucker123, dispatch1 / haul1234 (both verified). /app/memory/test_credentials.md lists only owner; add dispatch1.",
+  "seed_data_creation": "All temporary users (test_iter2, test_tok, ui_tester) were deleted. Only owner and dispatch1 remain. The pytest TestZTestData re-seeds sample data (6 trucks, 6 drivers, 60 loads, 68 income, 40 expenses, 70 fuel, 20 inspections). The container date is 2026-10-26.",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Login testids are login-username-input / login-password-input / login-submit-btn. FieldInput testids are input-{field-with-dashes} and input-{x}-option-{id}. Run pytest from /app with REACT_APP_BACKEND_URL exported (pytest.ini uses xdist). Sample data spans 2026-04 to 2026-10."
+}

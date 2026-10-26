@@ -18,6 +18,8 @@ export default function Users() {
   const create = async (e) => {
     e.preventDefault();
     if (form.password !== form.confirm) return toast.error("Passwords don't match");
+    if (!/^[A-Za-z0-9_.-]{3,32}$/.test(form.username)) return toast.error("Username must be 3–32 letters, numbers, dot, dash or underscore");
+    if (form.password.length < 6) return toast.error("Password must be at least 6 characters");
     setBusy(true);
     try {
       await api.post("/users", { username: form.username, password: form.password });

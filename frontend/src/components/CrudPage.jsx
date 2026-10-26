@@ -28,6 +28,7 @@ export default function CrudPage({ cfg, children, filter, onChanged }) {
   const [items, reload] = useFetch(`/${cfg.endpoint}`);
   const lookups = useLookups();
   const [editing, setEditing] = useState(null);
+  const [mode, setMode] = useState("New");
   const [form, setForm] = useState({});
   const [toDelete, setToDelete] = useState(null);
   const [q, setQ] = useState("");
@@ -62,12 +63,14 @@ export default function CrudPage({ cfg, children, filter, onChanged }) {
 
   const openNew = () => {
     setForm(cfg.defaults ? cfg.defaults() : {});
+    setMode("New");
     setEditing("new");
   };
   const openEdit = (row) => {
     const f = {};
     allFields.forEach((fd) => (f[fd.name] = row[fd.name] == null ? "" : String(row[fd.name])));
     setForm(f);
+    setMode("Edit");
     setEditing(row);
   };
   const setField = (name, value) => {
@@ -171,7 +174,7 @@ export default function CrudPage({ cfg, children, filter, onChanged }) {
       <Dialog open={!!editing} onOpenChange={(o) => !o && setEditing(null)}>
         <DialogContent data-testid={`${slug}-dialog`} className="max-h-[90vh] overflow-y-auto border-slate-700 bg-[#111827] text-slate-100 sm:max-w-2xl">
           <DialogHeader>
-            <DialogTitle className="font-heading text-xl">{editing === "new" ? "New" : "Edit"} {cfg.singular}</DialogTitle>
+            <DialogTitle className="font-heading text-xl">{mode} {cfg.singular}</DialogTitle>
             <DialogDescription className="text-slate-500">{cfg.description}</DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 sm:grid-cols-2">
