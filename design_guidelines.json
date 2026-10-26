@@ -1,0 +1,128 @@
+{
+  "project_name": "HaulMetrics - Virtual Fleet & Financial Intelligence Platform",
+  "app_type": "dashboard",
+  "archetype": "THE PERFORMANCE PRO (Tactical Industrial Logistics)",
+  "theme": {
+    "default_mode": "dark",
+    "primary_color": "#F59E0B",
+    "primary_hover": "#D97706",
+    "background_dark": "#0B0F17",
+    "surface_dark": "#111827",
+    "surface_border_dark": "#1F2937",
+    "card_bg_dark": "#161E2E",
+    "text_primary_dark": "#F9FAFB",
+    "text_secondary_dark": "#9CA3AF",
+    "accent_cyan": "#06B6D4",
+    "accent_emerald": "#10B981",
+    "accent_rose": "#F43F5E",
+    "accent_amber": "#F59E0B"
+  },
+  "typography": {
+    "font_family_heading": "Chivo, Barlow Condensed, sans-serif",
+    "font_family_body": "Inter, system-ui, sans-serif",
+    "font_family_mono": "JetBrains Mono, monospace",
+    "hierarchy": {
+      "h1": "text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight",
+      "h2": "text-2xl sm:text-3xl font-bold tracking-tight",
+      "h3": "text-xl sm:text-2xl font-semibold",
+      "h4": "text-lg font-medium",
+      "body": "text-sm sm:text-base text-gray-300 leading-relaxed",
+      "caption": "text-xs font-mono uppercase tracking-widest text-gray-400"
+    }
+  },
+  "layout_and_navigation": {
+    "sidebar_layout": {
+      "width": "w-64",
+      "collapsed_width": "w-20",
+      "position": "fixed left-0 top-0 bottom-0 z-40 bg-slate-950 border-r border-slate-800",
+      "navigation_items": [
+        {"name": "Dashboard & KPIs", "path": "/", "icon": "LayoutDashboard"},
+        {"name": "Income Tracker", "path": "/income", "icon": "TrendingUp"},
+        {"name": "Expenses & Categories", "path": "/expenses", "icon": "Receipt"},
+        {"name": "Fuel Log & MPG", "path": "/fuel", "icon": "Fuel"},
+        {"name": "Trucks Fleet", "path": "/trucks", "icon": "Truck"},
+        {"name": "Loads & Timeliness", "path": "/loads", "icon": "PackageCheck"},
+        {"name": "Driver Performance", "path": "/drivers", "icon": "Users"},
+        {"name": "DOT Inspections", "path": "/dot-inspections", "icon": "ShieldAlert"},
+        {"name": "System & Test Data", "path": "/settings", "icon": "Database"}
+      ]
+    },
+    "top_bar": {
+      "position": "sticky top-0 z-30 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-6 py-4 flex items-center justify-between",
+      "elements": [
+        "Company selector / Fleet status badge",
+        "Quick Action Modal trigger ('+ New Transaction')",
+        "Seed/Clear Test Data quick actions",
+        "User Profile & Theme Toggle"
+      ]
+    }
+  },
+  "key_functionalities_and_requirements": [
+    {
+      "feature": "Authentication & Session",
+      "details": "Simple login screen with prefilled demo credentials or quick-login button, persistent user session state."
+    },
+    {
+      "feature": "Dashboard KPIs & Analytics",
+      "details": "Recharts visual charts: Income vs Expenses over time (Bar/Line), Expense Breakdown by Category (Donut/Pie), Fuel Cost & MPG Trends (Line Chart), Driver On-Time Performance Comparison (Bar Chart)."
+    },
+    {
+      "feature": "Income & Revenue Management",
+      "details": "CRUD table with load source, amount, date, truck #, status, filters, and summary metrics."
+    },
+    {
+      "feature": "Expenses & Custom Categories",
+      "details": "CRUD for expenses + ability to add and manage custom expense categories (e.g. Maintenance, Tolls, Tires, Insurance, Driver Pay, Permits)."
+    },
+    {
+      "feature": "Trucks Fleet Management",
+      "details": "CRUD for trucks by Truck Number (e.g., TRK-101) and Tank Capacity (gallons held). Gallons capacity is auto-fetched during fuel purchase logging."
+    },
+    {
+      "feature": "Fuel Purchase Tracking & Auto-Calculations",
+      "details": "Log fuel purchases: Select Truck -> Auto-fill tank capacity / default gallons bought, enter Price Per Gallon -> Auto-calculate Fuel Purchase Total (Gallons * Price/Gal). Log starting/ending odometer or miles driven -> Auto-calculate MPG (Miles / Gallons)."
+    },
+    {
+      "feature": "Loads & Timeliness Tracking",
+      "details": "Record loads with pickup/delivery location, rate, status (On Time vs Late), late reason if applicable. KPI metrics for On-Time Delivery Percentage."
+    },
+    {
+      "feature": "Driver Performance Table & Metrics",
+      "details": "Track drivers, assigned truck, completed loads, total miles, revenue generated, avg MPG, on-time percentage, and safety infractions."
+    },
+    {
+      "feature": "DOT Inspection Records",
+      "details": "Record DOT inspections with outcome options: Passed, Fined, or Put Out of Service. Fines reason text field. Summary section for total fines incurred and fine category breakdown."
+    },
+    {
+      "feature": "Test Data Generator & Reset",
+      "details": "One-click 'Seed Test Data' button (populates realistic virtual trucking company dataset: 10 trucks, 8 drivers, 30 loads, fuel logs, DOT records, custom expense categories) and 'Clear All Data' button."
+    }
+  ],
+  "image_urls": [
+    {
+      "category": "hero_banner",
+      "url": "https://images.unsplash.com/photo-1745956983820-6e960f7e8472?crop=entropy&cs=srgb&fm=jpg&q=85",
+      "description": "Trucks driving on highway at sunset for fleet dashboard header"
+    },
+    {
+      "category": "truck_preview",
+      "url": "https://images.unsplash.com/photo-1592805144716-feeccccef5ac?crop=entropy&cs=srgb&fm=jpg&q=85",
+      "description": "Semi truck driving on highway under sunset sky"
+    },
+    {
+      "category": "freight_liner",
+      "url": "https://images.unsplash.com/photo-1616432043562-3671ea2e5242?crop=entropy&cs=srgb&fm=jpg&q=85",
+      "description": "Freightliner white semi truck"
+    },
+    {
+      "category": "night_fleet",
+      "url": "https://images.unsplash.com/photo-1485575301924-6891ef935dcd?crop=entropy&cs=srgb&fm=jpg&q=85",
+      "description": "Long haul trailer truck on open highway"
+    }
+  ],
+  "testing_requirements": {
+    "data_testid_convention": "All interactive elements, input fields, action buttons, table rows, and key KPI values MUST include explicit `data-testid` attributes (e.g., `data-testid='login-submit-button'`, `data-testid='kpi-total-revenue'`, `data-testid='seed-test-data-btn'`)."
+  },
+  "instructions_to_main_agent": "1. Build a high-performance Python FastAPI backend using SQLite (`fleet.db`) with full CRUD routes for trucks, drivers, income, expenses, expense categories, fuel purchases, loads, and DOT inspections.\n2. Include seed/reset endpoints in FastAPI so test data can be reset directly via API or UI.\n3. Implement auto-calculation logic on backend and UI for fuel purchase totals (`gallons * price_per_gallon`) and MPG (`miles / gallons`). When selecting a truck, pre-fill its tank capacity into the fuel form.\n4. Design a dark tactical slate UI using React, Tailwind CSS, Lucide icons, and Recharts.\n5. Ensure all dropdowns use Shadcn/Radix select or custom styled select, avoiding unstyled native elements or transparent dropdown backgrounds.\n6. Add responsive sidebar navigation, summary KPI stats cards, interactive metric charts, filterable tables with status badges, and clear modal forms for data entry.\n7. Add `data-testid` to every button, modal, form input, metric card, and table row."
+}
