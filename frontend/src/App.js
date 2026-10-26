@@ -13,12 +13,19 @@ import Loads from "@/pages/Loads";
 import Drivers from "@/pages/Drivers";
 import Inspections from "@/pages/Inspections";
 import TestData from "@/pages/TestData";
+import Leaderboard from "@/pages/Leaderboard";
+import Users from "@/pages/Users";
+import { DateRangeProvider } from "@/context/DateRangeContext";
 
 function Protected() {
   const { user } = useAuth();
   if (user === null) return <div className="flex min-h-screen items-center justify-center bg-[#0B0F17] font-mono text-sm text-slate-500">Loading…</div>;
   if (!user) return <Navigate to="/login" replace />;
-  return <Layout />;
+  return (
+    <DateRangeProvider>
+      <Layout />
+    </DateRangeProvider>
+  );
 }
 
 function App() {
@@ -37,6 +44,8 @@ function App() {
             <Route path="/drivers" element={<Drivers />} />
             <Route path="/inspections" element={<Inspections />} />
             <Route path="/test-data" element={<TestData />} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route path="/users" element={<Users />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

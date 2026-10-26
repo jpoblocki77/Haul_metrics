@@ -1,7 +1,8 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
+import DateRangeBar from "@/components/DateRangeBar";
 import { useState } from "react";
 import {
-  LayoutDashboard, TrendingUp, Receipt, Fuel, Truck, PackageCheck, Users, ShieldAlert, Database, LogOut, Menu, X,
+  LayoutDashboard, TrendingUp, Receipt, Fuel, Truck, PackageCheck, Users, ShieldAlert, Database, LogOut, Menu, X, Trophy, UserCog,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 
@@ -13,7 +14,9 @@ const NAV = [
   { to: "/trucks", label: "Trucks", icon: Truck, id: "trucks" },
   { to: "/loads", label: "Loads", icon: PackageCheck, id: "loads" },
   { to: "/drivers", label: "Drivers", icon: Users, id: "drivers" },
+  { to: "/leaderboard", label: "Leaderboard", icon: Trophy, id: "leaderboard" },
   { to: "/inspections", label: "DOT Inspections", icon: ShieldAlert, id: "inspections" },
+  { to: "/users", label: "Users", icon: UserCog, id: "users" },
   { to: "/test-data", label: "Test Data", icon: Database, id: "test-data" },
 ];
 
@@ -23,7 +26,7 @@ function Sidebar({ onNavigate }) {
     <div className="flex h-full flex-col">
       <div className="px-6 pb-8 pt-7">
         <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-amber-500">Virtual Trucking Co.</div>
-        <div className="font-heading text-2xl font-black tracking-tight text-white">HAUL<span className="text-amber-500">/</span>METRICS</div>
+        <div className="font-heading text-2xl font-black tracking-tight text-white" data-testid="brand-name">McCOY<span className="text-amber-500">/</span>TRUCKING</div>
       </div>
       <nav className="flex-1 space-y-1 px-3">
         {NAV.map(({ to, label, icon: Icon, id }) => (
@@ -60,15 +63,18 @@ function Sidebar({ onNavigate }) {
   );
 }
 
+const NO_RANGE = ["/leaderboard", "/users", "/test-data"];
+
 export default function Layout() {
   const [open, setOpen] = useState(false);
+  const { pathname } = useLocation();
   return (
     <div className="min-h-screen bg-[#0B0F17] text-slate-100">
       <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 border-r border-slate-800 bg-[#080B12] lg:block">
         <Sidebar />
       </aside>
       <div className="sticky top-0 z-30 flex items-center justify-between border-b border-slate-800 bg-[#080B12]/90 px-4 py-3 backdrop-blur-md lg:hidden">
-        <div className="font-heading text-lg font-black">HAUL<span className="text-amber-500">/</span>METRICS</div>
+        <div className="font-heading text-lg font-black">McCOY<span className="text-amber-500">/</span>TRUCKING</div>
         <button data-testid="mobile-menu-btn" onClick={() => setOpen(true)} className="p-2 text-slate-300"><Menu /></button>
       </div>
       {open && (
@@ -82,6 +88,7 @@ export default function Layout() {
       )}
       <main className="lg:pl-64">
         <div className="mx-auto max-w-[1500px] px-4 py-8 sm:px-8 lg:px-12 lg:py-10">
+          {!NO_RANGE.includes(pathname) && <DateRangeBar />}
           <Outlet />
         </div>
       </main>

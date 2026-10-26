@@ -1,12 +1,14 @@
 import { useState } from "react";
 import CrudPage from "@/components/CrudPage";
 import { Kpi, Panel, StatusBadge } from "@/components/Bits";
-import { useFetch } from "@/hooks/useData";
+import { useRangedFetch } from "@/hooks/useData";
 import { money, today } from "@/lib/api";
 
 const RESULTS = ["Passed", "Fined", "Out of Service"];
 
 const cfg = {
+  dateKey: "date",
+  exportable: true,
   endpoint: "inspections",
   kicker: "Safety",
   title: "DOT inspections",
@@ -39,7 +41,7 @@ const cfg = {
 };
 
 export default function Inspections() {
-  const [s, reload] = useFetch("/stats/inspections");
+  const [s, reload] = useRangedFetch("/stats/inspections");
   const [result, setResult] = useState("all");
   const filter = result === "all" ? null : (r) => r.result === result;
   const counts = Object.fromEntries((s?.by_result || []).map((r) => [r.result, r.count]));

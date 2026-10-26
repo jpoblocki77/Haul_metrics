@@ -1,11 +1,11 @@
 import CrudPage from "@/components/CrudPage";
 import { Panel } from "@/components/Bits";
 import { DriverBars } from "@/components/Charts";
-import { useFetch } from "@/hooks/useData";
+import { useRangedFetch } from "@/hooks/useData";
 import { money, num } from "@/lib/api";
 
 export default function Trucks() {
-  const [stats, reload] = useFetch("/stats/trucks");
+  const [stats, reload] = useRangedFetch("/stats/trucks");
   const byId = Object.fromEntries((stats || []).map((s) => [s.id, s]));
   const st = (r, k) => byId[r.id]?.[k];
   const cfg = {

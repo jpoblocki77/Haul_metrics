@@ -4,6 +4,8 @@ from pathlib import Path
 load_dotenv(Path(__file__).parent / ".env")
 
 import os
+import io
+import csv
 import sqlite3
 import logging
 from typing import Optional, Literal
@@ -14,7 +16,7 @@ from starlette.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from db import get_conn, rows, one, init_db
-from auth import verify_password, create_token, get_current_user, seed_owner
+from auth import hash_password, verify_password, create_token, get_current_user, seed_owner
 from seed import seed_test_data, clear_test_data, test_data_status
 
 app = FastAPI()
@@ -252,96 +254,176 @@ def me(user=Depends(get_current_user)):
 
 
 # ---------- Stats ----------
-def driver_performance(conn):
-    return rows(conn, """
+def rng(col):
+    return f"(:s IS NULL OR {col} >= :s) AND (:e IS NULL OR {col} <= :e)"
+
+
+LOAD_DATE = "COALESCE(l.delivered_date, l.due_date)"
+
+
+def driver_performance(conn, p):
+    return rows(conn, f"""
         SELECT d.id, d.name, d.is_test,
-          (SELECT COUNT(*) FROM loads l WHERE l.driver_id = d.id) AS loads,
-          (SELECT COUNT(*) FROM loads l WHERE l.driver_id = d.id AND l.status = 'On Time') AS on_time,
-          (SELECT COUNT(*) FROM loads l WHERE l.driver_id = d.id AND l.status = 'Late') AS late,
-          (SELECT COALESCE(SUM(miles),0) FROM loads l WHERE l.driver_id = d.id) AS load_miles,
-          (SELECT COALESCE(SUM(amount),0) FROM income i WHERE i.driver_id = d.id) AS revenue,
-          (SELECT COALESCE(SUM(gallons),0) FROM fuel f WHERE f.driver_id = d.id) AS gallons,
-          (SELECT SUM(miles) / SUM(gallons) FROM fuel f WHERE f.driver_id = d.id AND f.miles > 0) AS avg_mpg,
-          (SELECT COUNT(*) FROM inspections n WHERE n.driver_id = d.id) AS inspections,
-          (SELECT COUNT(*) FROM inspections n WHERE n.driver_id = d.id AND n.result = 'Passed') AS passed,
-          (SELECT COUNT(*) FROM inspections n WHERE n.driver_id = d.id AND n.result = 'Fined') AS fined,
-          (SELECT COUNT(*) FROM inspections n WHERE n.driver_id = d.id AND n.result = 'Out of Service') AS oos,
-          (SELECT COALESCE(SUM(fine_amount),0) FROM inspections n WHERE n.driver_id = d.id) AS fines_total
-        FROM drivers d ORDER BY d.name""")
+          (SELECT COUNT(*) FROM loads l WHERE l.driver_id = d.id AND {rng(LOAD_DATE)}) AS loads,
+          (SELECT COUNT(*) FROM loads l WHERE l.driver_id = d.id AND l.status = 'On Time' AND {rng(LOAD_DATE)}) AS on_time,
+          (SELECT COUNT(*) FROM loads l WHERE l.driver_id = d.id AND l.status = 'Late' AND {rng(LOAD_DATE)}) AS late,
+          (SELECT COALESCE(SUM(miles),0) FROM loads l WHERE l.driver_id = d.id AND {rng(LOAD_DATE)}) AS load_miles,
+          (SELECT COALESCE(SUM(amount),0) FROM income i WHERE i.driver_id = d.id AND {rng('i.date')}) AS revenue,
+          (SELECT COALESCE(SUM(gallons),0) FROM fuel f WHERE f.driver_id = d.id AND {rng('f.date')}) AS gallons,
+          (SELECT SUM(miles) / SUM(gallons) FROM fuel f WHERE f.driver_id = d.id AND f.miles > 0 AND {rng('f.date')}) AS avg_mpg,
+          (SELECT COUNT(*) FROM inspections n WHERE n.driver_id = d.id AND {rng('n.date')}) AS inspections,
+          (SELECT COUNT(*) FROM inspections n WHERE n.driver_id = d.id AND n.result = 'Passed' AND {rng('n.date')}) AS passed,
+          (SELECT COUNT(*) FROM inspections n WHERE n.driver_id = d.id AND n.result = 'Fined' AND {rng('n.date')}) AS fined,
+          (SELECT COUNT(*) FROM inspections n WHERE n.driver_id = d.id AND n.result = 'Out of Service' AND {rng('n.date')}) AS oos,
+          (SELECT COALESCE(SUM(fine_amount),0) FROM inspections n WHERE n.driver_id = d.id AND {rng('n.date')}) AS fines_total
+        FROM drivers d ORDER BY d.name""", p)
+
+
+def period(start: Optional[str] = None, end: Optional[str] = None):
+    return {"s": start or None, "e": end or None}
 
 
 @secure.get("/stats/drivers")
-def stats_drivers():
+def stats_drivers(p=Depends(period)):
     with get_conn() as conn:
-        return driver_performance(conn)
+        return driver_performance(conn, p)
 
 
 @secure.get("/stats/trucks")
-def stats_trucks():
+def stats_trucks(p=Depends(period)):
     with get_conn() as conn:
-        return rows(conn, """
+        return rows(conn, f"""
             SELECT t.*, COUNT(f.id) AS fillups, COALESCE(SUM(f.gallons),0) AS gallons_bought,
               COALESCE(SUM(f.total),0) AS fuel_spend,
               SUM(CASE WHEN f.miles > 0 THEN f.miles END) / SUM(CASE WHEN f.miles > 0 THEN f.gallons END) AS avg_mpg,
               SUM(f.total) / NULLIF(SUM(f.gallons),0) AS avg_ppg
-            FROM trucks t LEFT JOIN fuel f ON f.truck_id = t.id GROUP BY t.id ORDER BY t.truck_number""")
+            FROM trucks t LEFT JOIN fuel f ON f.truck_id = t.id AND {rng('f.date')}
+            GROUP BY t.id ORDER BY t.truck_number""", p)
+
+
+def fuel_summary(conn, p):
+    return one(conn, f"""SELECT COUNT(*) AS fillups, COALESCE(SUM(gallons),0) AS gallons, COALESCE(SUM(total),0) AS spend,
+        SUM(total) / NULLIF(SUM(gallons),0) AS avg_ppg,
+        SUM(CASE WHEN miles > 0 THEN miles END) / SUM(CASE WHEN miles > 0 THEN gallons END) AS avg_mpg
+        FROM fuel WHERE {rng('date')}""", p)
+
+
+def inspection_summary(conn, p):
+    return {
+        "by_result": rows(conn, f"SELECT result, COUNT(*) AS count FROM inspections WHERE {rng('date')} GROUP BY result", p),
+        "by_reason": rows(conn, f"""SELECT fine_reason AS reason, COUNT(*) AS count, COALESCE(SUM(fine_amount),0) AS total
+            FROM inspections WHERE fine_reason IS NOT NULL AND fine_reason != '' AND {rng('date')}
+            GROUP BY fine_reason ORDER BY total DESC""", p),
+        "fines_total": one(conn, f"SELECT COALESCE(SUM(fine_amount),0) AS v FROM inspections WHERE {rng('date')}", p)["v"],
+    }
 
 
 @secure.get("/stats/fuel")
-def stats_fuel():
+def stats_fuel(p=Depends(period)):
     with get_conn() as conn:
-        summary = one(conn, """SELECT COUNT(*) AS fillups, COALESCE(SUM(gallons),0) AS gallons, COALESCE(SUM(total),0) AS spend,
-            SUM(total) / NULLIF(SUM(gallons),0) AS avg_ppg,
-            SUM(CASE WHEN miles > 0 THEN miles END) / SUM(CASE WHEN miles > 0 THEN gallons END) AS avg_mpg FROM fuel""")
-        return summary
+        return fuel_summary(conn, p)
 
 
 @secure.get("/stats/inspections")
-def stats_inspections():
+def stats_inspections(p=Depends(period)):
     with get_conn() as conn:
-        return {
-            "by_result": rows(conn, "SELECT result, COUNT(*) AS count FROM inspections GROUP BY result"),
-            "by_reason": rows(conn, """SELECT fine_reason AS reason, COUNT(*) AS count, COALESCE(SUM(fine_amount),0) AS total
-                FROM inspections WHERE fine_reason IS NOT NULL AND fine_reason != '' GROUP BY fine_reason ORDER BY total DESC"""),
-            "fines_total": one(conn, "SELECT COALESCE(SUM(fine_amount),0) AS v FROM inspections")["v"],
-        }
+        return inspection_summary(conn, p)
 
 
 @secure.get("/stats/dashboard")
-def stats_dashboard():
+def stats_dashboard(p=Depends(period)):
     with get_conn() as conn:
-        income = one(conn, "SELECT COALESCE(SUM(amount),0) AS v FROM income")["v"]
-        other_exp = one(conn, "SELECT COALESCE(SUM(amount),0) AS v FROM expenses")["v"]
-        fuel = stats_fuel()
-        fines = one(conn, "SELECT COALESCE(SUM(fine_amount),0) AS v FROM inspections")["v"]
+        income = one(conn, f"SELECT COALESCE(SUM(amount),0) AS v FROM income WHERE {rng('date')}", p)["v"]
+        other_exp = one(conn, f"SELECT COALESCE(SUM(amount),0) AS v FROM expenses WHERE {rng('date')}", p)["v"]
+        fuel = fuel_summary(conn, p)
+        insp = inspection_summary(conn, p)
+        fines = insp["fines_total"]
         expenses = other_exp + fuel["spend"] + fines
-        loads = one(conn, "SELECT COUNT(*) AS total, SUM(status = 'On Time') AS on_time FROM loads")
-        monthly = rows(conn, """
-            SELECT m, SUM(inc) AS income, SUM(exp) AS expenses FROM (
-              SELECT substr(date,1,7) AS m, amount AS inc, 0 AS exp FROM income
-              UNION ALL SELECT substr(date,1,7), 0, amount FROM expenses
-              UNION ALL SELECT substr(date,1,7), 0, total FROM fuel
-              UNION ALL SELECT substr(date,1,7), 0, COALESCE(fine_amount,0) FROM inspections
-            ) WHERE m != '' GROUP BY m ORDER BY m""")
-        by_cat = rows(conn, """SELECT COALESCE(c.name,'Uncategorized') AS name, SUM(e.amount) AS value
-            FROM expenses e LEFT JOIN categories c ON c.id = e.category_id GROUP BY c.name""")
+        loads = one(conn, f"SELECT COUNT(*) AS total, SUM(l.status = 'On Time') AS on_time FROM loads l WHERE {rng(LOAD_DATE)}", p)
+        monthly = rows(conn, f"""
+            SELECT substr(date,1,7) AS m, SUM(inc) AS income, SUM(exp) AS expenses FROM (
+              SELECT date, amount AS inc, 0 AS exp FROM income
+              UNION ALL SELECT date, 0, amount FROM expenses
+              UNION ALL SELECT date, 0, total FROM fuel
+              UNION ALL SELECT date, 0, COALESCE(fine_amount,0) FROM inspections
+            ) WHERE {rng('date')} AND date != '' GROUP BY m ORDER BY m""", p)
+        by_cat = rows(conn, f"""SELECT COALESCE(c.name,'Uncategorized') AS name, SUM(e.amount) AS value
+            FROM expenses e LEFT JOIN categories c ON c.id = e.category_id WHERE {rng('e.date')} GROUP BY c.name""", p)
         if fuel["spend"]:
             by_cat.append({"name": "Fuel", "value": fuel["spend"]})
         if fines:
             by_cat.append({"name": "DOT Fines", "value": fines})
         by_cat.sort(key=lambda r: -r["value"])
-        fuel_trend = rows(conn, """SELECT substr(date,1,7) AS m, SUM(total) AS cost, SUM(gallons) AS gallons,
+        fuel_trend = rows(conn, f"""SELECT substr(date,1,7) AS m, SUM(total) AS cost, SUM(gallons) AS gallons,
             SUM(total)/SUM(gallons) AS avg_ppg,
             SUM(CASE WHEN miles > 0 THEN miles END) / SUM(CASE WHEN miles > 0 THEN gallons END) AS avg_mpg
-            FROM fuel GROUP BY m ORDER BY m""")
-        insp = stats_inspections()
+            FROM fuel WHERE {rng('date')} GROUP BY m ORDER BY m""", p)
         return {
             "income": income, "expenses": expenses, "profit": income - expenses, "fuel": fuel,
             "fines_total": fines, "loads_total": loads["total"], "loads_on_time": loads["on_time"] or 0,
             "on_time_rate": (loads["on_time"] or 0) / loads["total"] * 100 if loads["total"] else None,
             "monthly": monthly, "by_category": by_cat, "fuel_trend": fuel_trend,
-            "drivers": driver_performance(conn), "inspections": insp,
+            "drivers": driver_performance(conn, p), "inspections": insp,
         }
+
+
+# ---------- CSV export ----------
+EXPORT_COLS = {
+    "income": ["date", "source", "amount", "driver_name", "truck_number", "notes"],
+    "expenses": ["date", "category_name", "description", "amount", "driver_name", "truck_number"],
+    "fuel": ["date", "truck_number", "driver_name", "gallons", "price_per_gallon", "total", "miles", "mpg", "location"],
+    "loads": ["due_date", "delivered_date", "origin", "destination", "cargo", "driver_name", "truck_number", "miles", "pay", "status"],
+    "inspections": ["date", "result", "driver_name", "truck_number", "location", "fine_amount", "fine_reason", "notes"],
+}
+
+
+@secure.get("/export/{table}")
+def export_csv(table: str, p=Depends(period)):
+    if table not in EXPORT_COLS:
+        raise HTTPException(404, "Unknown table")
+    col = "COALESCE(x.delivered_date, x.due_date)" if table == "loads" else "x.date"
+    with get_conn() as conn:
+        data = list_table(conn, table, f"WHERE {rng(col)}", p)
+    buf = io.StringIO()
+    w = csv.DictWriter(buf, fieldnames=EXPORT_COLS[table], extrasaction="ignore")
+    w.writeheader()
+    w.writerows(data)
+    return Response(buf.getvalue(), media_type="text/csv",
+                    headers={"Content-Disposition": f'attachment; filename="mccoy-{table}.csv"'})
+
+
+# ---------- Users ----------
+class UserIn(BaseModel):
+    username: str = Field(min_length=3, max_length=32, pattern=r"^[A-Za-z0-9_.-]+$")
+    password: str = Field(min_length=6)
+
+
+@secure.get("/users")
+def list_users():
+    with get_conn() as conn:
+        return rows(conn, "SELECT id, username, created_at FROM users ORDER BY id")
+
+
+@secure.post("/users")
+def create_user(body: UserIn):
+    username = body.username.strip().lower()
+    with get_conn() as conn:
+        if one(conn, "SELECT id FROM users WHERE username = ?", (username,)):
+            raise HTTPException(400, "That username is already taken")
+        uid = conn.execute("INSERT INTO users (username, password_hash) VALUES (?, ?)",
+                           (username, hash_password(body.password))).lastrowid
+        return one(conn, "SELECT id, username, created_at FROM users WHERE id = ?", (uid,))
+
+
+@secure.delete("/users/{uid}")
+def delete_user(uid: int, user=Depends(get_current_user)):
+    if uid == user["id"]:
+        raise HTTPException(400, "You can't remove your own account")
+    with get_conn() as conn:
+        if not one(conn, "SELECT id FROM users WHERE id = ?", (uid,)):
+            raise HTTPException(404, "Not found")
+        conn.execute("DELETE FROM users WHERE id = ?", (uid,))
+    return {"ok": True}
 
 
 # ---------- Test data ----------

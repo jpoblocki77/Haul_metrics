@@ -1,13 +1,20 @@
 import { useCallback, useEffect, useState } from "react";
 import { api } from "@/lib/api";
+import { useDateRange } from "@/context/DateRangeContext";
 
-export function useFetch(path) {
+export function useFetch(path, params) {
   const [data, setData] = useState(null);
-  const reload = useCallback(() => api.get(path).then((r) => setData(r.data)), [path]);
+  const key = JSON.stringify(params || {});
+  const reload = useCallback(() => api.get(path, { params: JSON.parse(key) }).then((r) => setData(r.data)), [path, key]);
   useEffect(() => {
     reload();
   }, [reload]);
   return [data, reload];
+}
+
+export function useRangedFetch(path) {
+  const { params } = useDateRange();
+  return useFetch(path, params);
 }
 
 export function useLookups() {

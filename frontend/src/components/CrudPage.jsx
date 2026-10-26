@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
-import { Plus, Pencil, Trash2, Search } from "lucide-react";
+import { Plus, Pencil, Trash2, Search, Download } from "lucide-react";
+import { useDateRange } from "@/context/DateRangeContext";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -31,16 +32,33 @@ export default function CrudPage({ cfg, children, filter, onChanged }) {
   const [toDelete, setToDelete] = useState(null);
   const [q, setQ] = useState("");
   const [saving, setSaving] = useState(false);
+  const range = useDateRange();
+  const dateOf = typeof cfg.dateKey === "function" ? cfg.dateKey : (r) => r[cfg.dateKey];
+  const ranged = useMemo(() => (items || []).filter((r) => !cfg.dateKey || range.inRange(dateOf(r))), [items, range]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const exportCsv = async () => {
+    try {
+      const res = await api.get(`/export/${cfg.endpoint}`, { params: range.params, responseType: "blob" });
+      const url = URL.createObjectURL(res.data);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `mccoy-${cfg.endpoint}${range.start ? `-${range.start}` : ""}${range.end ? `-to-${range.end}` : ""}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      toast.error(errMsg(e));
+    }
+  };
 
   const fields = typeof cfg.fields === "function" ? cfg.fields(form) : cfg.fields;
   const allFields = typeof cfg.fields === "function" ? cfg.fields({ ...form, __all: true }) : cfg.fields;
 
   const rows = useMemo(() => {
-    let r = items || [];
+    let r = ranged;
     if (filter) r = r.filter(filter);
     if (q) r = r.filter((x) => JSON.stringify(x).toLowerCase().includes(q.toLowerCase()));
     return r;
-  }, [items, q, filter]);
+  }, [ranged, q, filter]);
 
   const openNew = () => {
     setForm(cfg.defaults ? cfg.defaults() : {});
@@ -93,12 +111,17 @@ export default function CrudPage({ cfg, children, filter, onChanged }) {
   return (
     <div data-testid={`${slug}-page`}>
       <PageHeader kicker={cfg.kicker} title={cfg.title}>
+        {cfg.exportable && (
+          <Button data-testid={`export-${slug}-btn`} variant="outline" onClick={exportCsv} className="border-slate-700 bg-transparent text-slate-300 hover:bg-slate-800 hover:text-white">
+            <Download className="mr-1 h-4 w-4" /> Export CSV
+          </Button>
+        )}
         <Button data-testid={`add-${slug}-btn`} onClick={openNew} className="bg-amber-500 font-semibold text-slate-950 hover:bg-amber-400">
           <Plus className="mr-1 h-4 w-4" /> Add {cfg.singular}
         </Button>
       </PageHeader>
 
-      {typeof children === "function" ? children(items || []) : children}
+      {typeof children === "function" ? children(ranged) : children}
 
       <div className="animate-rise rounded-lg border border-slate-800 bg-[#111827]">
         <div className="flex flex-wrap items-center gap-3 border-b border-slate-800 p-4">

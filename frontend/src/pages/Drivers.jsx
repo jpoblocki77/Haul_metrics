@@ -1,11 +1,11 @@
 import CrudPage from "@/components/CrudPage";
 import { Panel } from "@/components/Bits";
 import { DriverBars, short } from "@/components/Charts";
-import { useFetch } from "@/hooks/useData";
+import { useRangedFetch } from "@/hooks/useData";
 import { money, num, pct } from "@/lib/api";
 
 export default function Drivers() {
-  const [stats, reload] = useFetch("/stats/drivers");
+  const [stats, reload] = useRangedFetch("/stats/drivers");
   const byId = Object.fromEntries((stats || []).map((s) => [s.id, s]));
   const st = (r) => byId[r.id] || {};
   const rate = (s) => (s.loads ? (s.on_time / s.loads) * 100 : null);

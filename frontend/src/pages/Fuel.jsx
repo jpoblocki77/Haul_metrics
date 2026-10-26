@@ -1,6 +1,6 @@
 import CrudPage from "@/components/CrudPage";
 import { Kpi } from "@/components/Bits";
-import { useFetch } from "@/hooks/useData";
+import { useRangedFetch } from "@/hooks/useData";
 import { money, num, today } from "@/lib/api";
 
 function calc(form) {
@@ -11,6 +11,8 @@ function calc(form) {
 }
 
 const cfg = {
+  dateKey: "date",
+  exportable: true,
   endpoint: "fuel",
   kicker: "Fuel log",
   title: "Fuel & MPG",
@@ -62,7 +64,7 @@ const cfg = {
 };
 
 export default function FuelPage() {
-  const [s, reload] = useFetch("/stats/fuel");
+  const [s, reload] = useRangedFetch("/stats/fuel");
   return (
     <CrudPage cfg={cfg} onChanged={reload}>
       <div className="mb-6 grid grid-cols-2 gap-4 md:grid-cols-5">

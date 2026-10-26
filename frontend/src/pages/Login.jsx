@@ -43,8 +43,8 @@ export default function Login() {
       <div className="flex items-center justify-center px-6">
         <form onSubmit={submit} className="w-full max-w-sm animate-rise" data-testid="login-form">
           <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-amber-500">Virtual Trucking Co.</div>
-          <h1 className="font-heading text-4xl font-black tracking-tight text-white">HAUL<span className="text-amber-500">/</span>METRICS</h1>
-          <p className="mb-10 mt-2 text-sm text-slate-400">Sign in to your company office.</p>
+          <h1 className="font-heading text-4xl font-black tracking-tight text-white">McCOY<span className="text-amber-500">/</span>TRUCKING</h1>
+          <p className="mb-10 mt-2 text-sm text-slate-400">Sign in to the McCoy Trucking office.</p>
           <div className="space-y-5">
             <div className="space-y-1.5">
               <Label htmlFor="username" className="font-mono text-[11px] uppercase tracking-wider text-slate-400">Username</Label>

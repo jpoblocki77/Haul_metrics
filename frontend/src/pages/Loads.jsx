@@ -4,6 +4,8 @@ import { Kpi, StatusBadge } from "@/components/Bits";
 import { money, num, pct, today } from "@/lib/api";
 
 const cfg = {
+  dateKey: (r) => r.delivered_date || r.due_date,
+  exportable: true,
   endpoint: "loads",
   kicker: "Dispatch",
   title: "Loads",

@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
 import { Kpi, PageHeader, Panel } from "@/components/Bits";
 import { IncomeExpenseChart, CategoryPie, FuelTrendChart, DriverBars, SimplePie, short } from "@/components/Charts";
-import { useFetch } from "@/hooks/useData";
+import { useRangedFetch } from "@/hooks/useData";
 import { money, num, pct } from "@/lib/api";
 
 export const RESULT_COLORS = { Passed: "#10B981", Fined: "#F59E0B", "Out of Service": "#F43F5E" };
 
 export default function Dashboard() {
-  const [s] = useFetch("/stats/dashboard");
+  const [s] = useRangedFetch("/stats/dashboard");
   if (!s) return <div className="font-mono text-sm text-slate-500">Loading dashboard…</div>;
   const drivers = s.drivers
     .filter((d) => d.loads > 0)

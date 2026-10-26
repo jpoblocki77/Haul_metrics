@@ -2,6 +2,8 @@ import CrudPage from "@/components/CrudPage";
 import { money, today } from "@/lib/api";
 
 const cfg = {
+  dateKey: "date",
+  exportable: true,
   endpoint: "income",
   kicker: "Money in",
   title: "Income",

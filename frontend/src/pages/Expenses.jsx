@@ -5,6 +5,8 @@ import { useFetch } from "@/hooks/useData";
 import { money, today } from "@/lib/api";
 
 const cfg = {
+  dateKey: "date",
+  exportable: true,
   endpoint: "expenses",
   kicker: "Money out",
   title: "Expenses",
