@@ -1,0 +1,42 @@
+{
+  "summary": "Iteration 3: tested blue/red rebrand, owner/dispatcher roles (API + UI), leaderboard history + trophy cabinet, monthly printable report, plus regression (CRUD, date range bar, CSV export, fuel auto-fill). Backend: 53/53 pytest pass (new test_iter3_roles_history.py + previous suites). Frontend: all requested flows work; found 1 medium data race in the report (stale month data on first load), unguarded owner-only routes for dispatchers, and one leftover orange chart color.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "POST /api/auth/login", "issue": "There's no brute-force lockout: 6 wrong passwords in a row all return 401 and the correct password still works right after. The auth playbook expects a lockout after 5 failures."},
+      {"endpoint": "startup seed_owner (auth.py)", "issue": "On every startup it resets the owner password to OWNER_PASSWORD whenever they differ. The playbook says an existing admin password should never be changed."},
+      {"endpoint": "CORS", "issue": "CORS_ORIGINS='*' is combined with allow_credentials=True. Use explicit origins. Low impact because auth is by Bearer token."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "Report.jsx / hooks/useData.js useFetch", "issue": "Race condition shows the wrong month's data. On first visit to /report the default-month request (Oct) was still in flight when the month was changed to 2026-07. The Oct response came back last and replaced July's data, so the sheet said 'July 2026' while showing October numbers (income $6,149.50 vs the API's $26,576.29 for July). useFetch has no stale-response guard or AbortController. Once requests settle, values match /api/stats/dashboard exactly (verified 2026-05, 06, 07). The same hook backs the leaderboard month picker, history-row clicks and the date range bar.", "selector": "[data-testid=report-sheet]", "priority": "MEDIUM"},
+      {"component": "App.js routes /users and /test-data", "issue": "A dispatcher who opens /users or /test-data directly still gets the full page (create-user form, seed/clear buttons). The background GET /users returns 403 and shows up as an unhandled promise rejection overlay because useFetch has no catch. The backend blocks the actions correctly, so this is UX only. Add an owner-only route guard (redirect to /) and error handling in useFetch.", "selector": "[data-testid=users-page], [data-testid=test-data-page]", "priority": "MEDIUM"}
+    ],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Dashboard 'Expenses by category' donut", "issues": ["Orange #FB923C is still in the chart palette (Charts.jsx COLORS[5]) and is used for the Insurance slice and legend. The request was no amber or orange. Replace it with another blue or red family shade."]}
+    ]
+  },
+  "test_report_links": ["/app/backend/tests/test_iter3_roles_history.py", "/app/backend/tests/test_fleet_api.py", "/app/backend/tests/test_iter2_features.py", "/app/test_reports/pytest/pytest_results_iter3.xml"],
+  "action_items": [
+    "Fix the stale-response race in useFetch: ignore out-of-order responses with a request counter or cancelled flag in the useEffect cleanup, or use AbortController",
+    "Add an owner-only route guard for /users and /test-data, and add .catch/error state to useFetch so 403s don't become unhandled rejections",
+    "Remove orange #FB923C from Charts.jsx COLORS",
+    "Optional: login lockout after 5 failures, stop resetting the owner password on startup, explicit CORS origins"
+  ],
+  "critical_code_review_comments": [
+    "useFetch (hooks/useData.js) has no error handling and no stale-response protection. Every page depends on it.",
+    "Frontend rankDrivers (Leaderboard.jsx) and backend rank_drivers (server.py) duplicate the ranking logic. They agree today because both use stable name order for ties, but they could drift apart.",
+    "Bits.jsx keeps the tone key 'amber' mapped to text-blue-400. It works, but the name is misleading; rename it to 'blue'.",
+    "Any owner-role user other than the env owner can delete other owners. Only the env OWNER_USERNAME account is protected. This is acceptable per the spec."
+  ],
+  "updated_files": ["/app/backend/tests/test_iter3_roles_history.py"],
+  "success_rate": {"backend": "100% (53/53)", "frontend": "~90% (all requested flows pass; report race and unguarded routes are the issues)"},
+  "test_credentials": "owner / trucker123 (owner), dispatch1 / haul1234 (dispatcher), both from /app/memory/test_credentials.md. bcrypt hashes start with $2b$. The httpOnly Secure SameSite=None cookie is set on login.",
+  "seed_data_creation": "None kept. Temporary test_* users and TEST_ records were created and deleted. Users table has only owner and dispatch1.",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Run pytest from /app with REACT_APP_BACKEND_URL exported (pytest.ini uses xdist; don't pass -p no:xdist). Browser clock is around 2026-10, so the report and leaderboard default to Oct 2026. Leaderboard history has 6 months (2026-05..10) and trophies are 2/2/2 (Tasha Brooks, Jenny Park, Dale Rivers). To reproduce the race: open /report and immediately fill report-month with 2026-07 before the first load finishes. CrudPage testids: add-{slug}-btn, edit-{slug}-{id}, delete-{slug}-{id}, {slug}-save-btn, input-{field}.",
+  "rca of the issue": "Report stale data: useFetch fires api.get inside useEffect on key change and calls setData whenever any promise resolves. There is no cleanup to ignore earlier requests, so a slower earlier request (default month) overwrites a newer one. Fix: let ignore=false; ...then(r=>!ignore&&setData(r.data)); return ()=>{ignore=true}."
+}

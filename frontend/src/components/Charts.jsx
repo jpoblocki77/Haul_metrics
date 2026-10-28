@@ -3,7 +3,7 @@ import {
 } from "recharts";
 import { money, num } from "@/lib/api";
 
-export const COLORS = ["#3B82F6", "#EF4444", "#93C5FD", "#FCA5A5", "#A3E635", "#FB923C", "#38BDF8", "#E879F9", "#94A3B8"];
+export const COLORS = ["#3B82F6", "#EF4444", "#93C5FD", "#FCA5A5", "#1D4ED8", "#B91C1C", "#38BDF8", "#E879F9", "#94A3B8"];
 const axis = { stroke: "#475569", fontSize: 11, fontFamily: "JetBrains Mono, monospace", tickLine: false, axisLine: false };
 const tip = {
   contentStyle: { background: "#0B0F17", border: "1px solid #334155", borderRadius: 6, fontSize: 12 },

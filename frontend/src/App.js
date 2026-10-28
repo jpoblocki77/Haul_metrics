@@ -29,6 +29,11 @@ function Protected() {
   );
 }
 
+function OwnerOnly({ children }) {
+  const { isOwner } = useAuth();
+  return isOwner ? children : <Navigate to="/" replace />;
+}
+
 function App() {
   return (
     <AuthProvider>
@@ -44,9 +49,9 @@ function App() {
             <Route path="/loads" element={<Loads />} />
             <Route path="/drivers" element={<Drivers />} />
             <Route path="/inspections" element={<Inspections />} />
-            <Route path="/test-data" element={<TestData />} />
+            <Route path="/test-data" element={<OwnerOnly><TestData /></OwnerOnly>} />
             <Route path="/leaderboard" element={<Leaderboard />} />
-            <Route path="/users" element={<Users />} />
+            <Route path="/users" element={<OwnerOnly><Users /></OwnerOnly>} />
             <Route path="/report" element={<Report />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />

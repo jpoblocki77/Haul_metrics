@@ -16,6 +16,12 @@ FastAPI + sqlite3 (backend/fleet.db; db.py, auth.py, seed.py, server.py). React 
 - Monthly driver leaderboard with top-driver badge
 - CSV export (income, expenses, fuel, loads, inspections)
 - Desktop window launcher backend/desktop.py (pywebview), see README
+## Iteration 3 (Jun 2026)
+- Blue/red McCoy colors
+- Roles: owner (full) / dispatcher (no deletes, no users, no test data); enforced in backend via require_owner
+- Leaderboard history + trophy cabinet (/api/stats/leaderboard-history)
+- Printable monthly report (/report)
+- Windows one-file exe: PyInstaller via scripts/build_windows.bat or GitHub Actions .github/workflows/build-windows.yml; data in %APPDATA%/McCoyTrucking
 ## Backlog
-- P1: Packaged .exe installer (PyInstaller), user roles
+- P1: Change user role/password from Users page, code-signed installer
 - P2: Brute-force login lockout, multiple users/roles, shadcn date picker

@@ -5,6 +5,7 @@ load_dotenv(Path(__file__).parent / ".env")
 
 import os
 import io
+import time
 import csv
 import sqlite3
 import logging
@@ -231,12 +232,22 @@ register_crud("inspections", InspectionIn, prepare=prep_inspection)
 
 
 # ---------- Auth ----------
+FAILED = {}
+
+
 @api.post("/auth/login")
 def login(body: LoginIn, response: Response):
+    uname = body.username.strip().lower()
+    fails, until = FAILED.get(uname, (0, 0))
+    if until > time.time():
+        raise HTTPException(429, "Too many failed attempts. Try again in 15 minutes.")
     with get_conn() as conn:
-        user = one(conn, "SELECT * FROM users WHERE username = ?", (body.username.strip().lower(),))
+        user = one(conn, "SELECT * FROM users WHERE username = ?", (uname,))
     if not user or not verify_password(body.password, user["password_hash"]):
+        fails += 1
+        FAILED[uname] = (0, time.time() + 900) if fails >= 5 else (fails, 0)
         raise HTTPException(401, "Wrong username or password")
+    FAILED.pop(uname, None)
     token = create_token(user["id"], user["username"])
     response.set_cookie("access_token", token, httponly=True, secure=True, samesite="none", max_age=604800, path="/")
     return {"token": token, "user": {"id": user["id"], "username": user["username"], "role": user["role"]}}
