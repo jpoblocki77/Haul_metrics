@@ -12,6 +12,7 @@ import FieldInput from "@/components/FieldInput";
 import { PageHeader, TestTag } from "@/components/Bits";
 import { api, errMsg } from "@/lib/api";
 import { useFetch, useLookups } from "@/hooks/useData";
+import { useAuth } from "@/context/AuthContext";
 
 function toPayload(fields, form) {
   const out = {};
@@ -34,6 +35,7 @@ export default function CrudPage({ cfg, children, filter, onChanged }) {
   const [q, setQ] = useState("");
   const [saving, setSaving] = useState(false);
   const range = useDateRange();
+  const { isOwner } = useAuth();
   const dateOf = typeof cfg.dateKey === "function" ? cfg.dateKey : (r) => r[cfg.dateKey];
   const ranged = useMemo(() => (items || []).filter((r) => !cfg.dateKey || range.inRange(dateOf(r))), [items, range]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -119,7 +121,7 @@ export default function CrudPage({ cfg, children, filter, onChanged }) {
             <Download className="mr-1 h-4 w-4" /> Export CSV
           </Button>
         )}
-        <Button data-testid={`add-${slug}-btn`} onClick={openNew} className="bg-amber-500 font-semibold text-slate-950 hover:bg-amber-400">
+        <Button data-testid={`add-${slug}-btn`} onClick={openNew} className="bg-blue-600 font-semibold text-white hover:bg-blue-500">
           <Plus className="mr-1 h-4 w-4" /> Add {cfg.singular}
         </Button>
       </PageHeader>
@@ -161,8 +163,8 @@ export default function CrudPage({ cfg, children, filter, onChanged }) {
                     </td>
                   ))}
                   <td className="whitespace-nowrap px-4 py-3 text-right">
-                    <button data-testid={`edit-${slug}-${r.id}`} onClick={() => openEdit(r)} className="rounded p-1.5 text-slate-500 transition-colors hover:bg-slate-700 hover:text-amber-400"><Pencil className="h-4 w-4" /></button>
-                    <button data-testid={`delete-${slug}-${r.id}`} onClick={() => setToDelete(r)} className="rounded p-1.5 text-slate-500 transition-colors hover:bg-slate-700 hover:text-rose-400"><Trash2 className="h-4 w-4" /></button>
+                    <button data-testid={`edit-${slug}-${r.id}`} onClick={() => openEdit(r)} className="rounded p-1.5 text-slate-500 transition-colors hover:bg-slate-700 hover:text-blue-400"><Pencil className="h-4 w-4" /></button>
+                    {isOwner && <button data-testid={`delete-${slug}-${r.id}`} onClick={() => setToDelete(r)} className="rounded p-1.5 text-slate-500 transition-colors hover:bg-slate-700 hover:text-rose-400"><Trash2 className="h-4 w-4" /></button>}
                   </td>
                 </tr>
               ))}
@@ -185,7 +187,7 @@ export default function CrudPage({ cfg, children, filter, onChanged }) {
           {cfg.preview && cfg.preview(form, lookups)}
           <DialogFooter>
             <Button variant="ghost" data-testid={`${slug}-cancel-btn`} onClick={() => setEditing(null)} className="text-slate-400 hover:bg-slate-800 hover:text-white">Cancel</Button>
-            <Button data-testid={`${slug}-save-btn`} disabled={saving} onClick={save} className="bg-amber-500 font-semibold text-slate-950 hover:bg-amber-400">
+            <Button data-testid={`${slug}-save-btn`} disabled={saving} onClick={save} className="bg-blue-600 font-semibold text-white hover:bg-blue-500">
               {saving ? "Saving…" : "Save"}
             </Button>
           </DialogFooter>

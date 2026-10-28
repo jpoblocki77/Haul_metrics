@@ -15,7 +15,7 @@ body {
 .font-heading { font-family: "Chivo", sans-serif; }
 .font-mono { font-family: "JetBrains Mono", monospace; }
 
-::selection { background: #F59E0B; color: #0B0F17; }
+::selection { background: #DC2626; color: #fff; }
 input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.7); }
 
 @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
@@ -29,7 +29,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.7); }
         --card-foreground: 210 40% 98%;
         --popover: 221 39% 11%;
         --popover-foreground: 210 40% 98%;
-        --primary: 38 92% 50%;
+        --primary: 217 91% 60%;
         --primary-foreground: 222 47% 6%;
         --secondary: 217 33% 17%;
         --secondary-foreground: 210 40% 98%;
@@ -41,7 +41,7 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.7); }
         --destructive-foreground: 210 40% 98%;
         --border: 217 33% 20%;
         --input: 217 33% 20%;
-        --ring: 38 92% 50%;
+        --ring: 217 91% 60%;
         --radius: 0.5rem;
     }
 }
@@ -85,4 +85,11 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.7); }
         border-top-color: inherit;
         border-bottom-color: inherit;
     }
+}
+
+@media print {
+    .no-print { display: none !important; }
+    main { padding-left: 0 !important; }
+    body, .min-h-screen { background: #fff !important; }
+    @page { size: letter; margin: 0.4in; }
 }

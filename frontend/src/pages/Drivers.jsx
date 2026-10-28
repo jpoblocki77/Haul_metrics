@@ -30,7 +30,7 @@ export default function Drivers() {
       { key: "avg_mpg", label: "Avg MPG", right: true, render: (r) => num(st(r).avg_mpg, 2) },
       { key: "gallons", label: "Gallons", right: true, render: (r) => num(st(r).gallons, 0) },
       { key: "insp", label: "DOT P / F / OOS", right: true, render: (r) => `${st(r).passed ?? 0} / ${st(r).fined ?? 0} / ${st(r).oos ?? 0}` },
-      { key: "fines_total", label: "Fines", right: true, render: (r) => <span className="text-amber-400">{money(st(r).fines_total)}</span> },
+      { key: "fines_total", label: "Fines", right: true, render: (r) => <span className="text-blue-400">{money(st(r).fines_total)}</span> },
     ],
   };
   const chart = (stats || []).filter((s) => s.loads).map((s) => ({ ...s, rate: rate(s) }));

@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS users (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   username TEXT UNIQUE NOT NULL,
   password_hash TEXT NOT NULL,
+  role TEXT NOT NULL DEFAULT 'dispatcher',
   created_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TABLE IF NOT EXISTS categories (
@@ -113,5 +114,8 @@ def one(conn, sql, params=()):
 def init_db():
     with get_conn() as conn:
         conn.executescript(SCHEMA)
+        cols = [r[1] for r in conn.execute("PRAGMA table_info(users)")]
+        if "role" not in cols:
+            conn.execute("ALTER TABLE users ADD COLUMN role TEXT NOT NULL DEFAULT 'dispatcher'")
         if not one(conn, "SELECT id FROM categories LIMIT 1"):
             conn.executemany("INSERT INTO categories (name) VALUES (?)", [(c,) for c in DEFAULT_CATEGORIES])

@@ -36,7 +36,7 @@ const cfg = {
     { key: "truck_number", label: "Truck", mono: true, render: (r) => (r.truck_number ? `#${r.truck_number}` : "—") },
     { key: "location", label: "Location" },
     { key: "fine_reason", label: "Fine reason" },
-    { key: "fine_amount", label: "Fine", right: true, render: (r) => (r.fine_amount ? <span className="text-amber-400">{money(r.fine_amount)}</span> : "—") },
+    { key: "fine_amount", label: "Fine", right: true, render: (r) => (r.fine_amount ? <span className="text-blue-400">{money(r.fine_amount)}</span> : "—") },
   ],
 };
 
@@ -49,7 +49,7 @@ export default function Inspections() {
     <div className="flex flex-wrap gap-1" data-testid="inspections-result-filter">
       {["all", ...RESULTS].map((x) => (
         <button key={x} data-testid={`inspections-filter-${x.replace(/ /g, "-").toLowerCase()}`} onClick={() => setResult(x)}
-          className={`rounded-md px-3 py-1.5 text-xs transition-colors ${result === x ? "bg-amber-500 text-slate-950" : "bg-slate-800 text-slate-400 hover:text-white"}`}>
+          className={`rounded-md px-3 py-1.5 text-xs transition-colors ${result === x ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-400 hover:text-white"}`}>
           {x === "all" ? "All" : x}
         </button>
       ))}
@@ -75,9 +75,9 @@ export default function Inspections() {
                   <div key={r.reason} data-testid={`fine-reason-${r.reason}`} className="text-sm">
                     <div className="mb-1 flex justify-between">
                       <span>{r.reason} <span className="font-mono text-xs text-slate-500">×{r.count}</span></span>
-                      <span className="font-mono text-amber-400">{money(r.total)}</span>
+                      <span className="font-mono text-blue-400">{money(r.total)}</span>
                     </div>
-                    <div className="h-1.5 rounded bg-slate-800"><div className="h-1.5 rounded bg-amber-500" style={{ width: `${(r.total / max) * 100}%` }} /></div>
+                    <div className="h-1.5 rounded bg-slate-800"><div className="h-1.5 rounded bg-blue-500" style={{ width: `${(r.total / max) * 100}%` }} /></div>
                   </div>
                 );
               })}

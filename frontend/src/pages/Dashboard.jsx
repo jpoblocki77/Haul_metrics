@@ -4,7 +4,7 @@ import { IncomeExpenseChart, CategoryPie, FuelTrendChart, DriverBars, SimplePie,
 import { useRangedFetch } from "@/hooks/useData";
 import { money, num, pct } from "@/lib/api";
 
-export const RESULT_COLORS = { Passed: "#10B981", Fined: "#F59E0B", "Out of Service": "#F43F5E" };
+export const RESULT_COLORS = { Passed: "#10B981", Fined: "#3B82F6", "Out of Service": "#F43F5E" };
 
 export default function Dashboard() {
   const [s] = useRangedFetch("/stats/dashboard");

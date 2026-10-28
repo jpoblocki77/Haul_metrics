@@ -4,10 +4,12 @@ import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Panel } from "@/components/Bits";
+import { useAuth } from "@/context/AuthContext";
 import { api, errMsg } from "@/lib/api";
 
 function CategoryRow({ cat, onDone }) {
   const [edit, setEdit] = useState(false);
+  const { isOwner } = useAuth();
   const [name, setName] = useState(cat.name);
   const save = async () => {
     try {
@@ -39,8 +41,8 @@ function CategoryRow({ cat, onDone }) {
       ) : (
         <>
           <span>{cat.name}</span>
-          <button data-testid={`category-rename-${cat.id}`} onClick={() => setEdit(true)} className="p-1 text-slate-500 hover:text-amber-400"><Pencil className="h-3 w-3" /></button>
-          <button data-testid={`category-delete-${cat.id}`} onClick={remove} className="p-1 text-slate-500 hover:text-rose-400"><Trash2 className="h-3 w-3" /></button>
+          <button data-testid={`category-rename-${cat.id}`} onClick={() => setEdit(true)} className="p-1 text-slate-500 hover:text-blue-400"><Pencil className="h-3 w-3" /></button>
+          {isOwner && <button data-testid={`category-delete-${cat.id}`} onClick={remove} className="p-1 text-slate-500 hover:text-rose-400"><Trash2 className="h-3 w-3" /></button>}
         </>
       )}
     </div>
@@ -67,7 +69,7 @@ export default function CategoryManager({ categories, onChange }) {
         {categories.map((c) => <CategoryRow key={c.id} cat={c} onDone={onChange} />)}
         <form onSubmit={add} className="flex items-center gap-2">
           <Input data-testid="new-category-input" value={name} onChange={(e) => setName(e.target.value)} placeholder="New category" className="h-8 w-40 border-slate-700 bg-[#0B0F17]" />
-          <Button data-testid="add-category-btn" type="submit" size="sm" variant="outline" className="h-8 border-amber-500/40 bg-transparent text-amber-400 hover:bg-amber-500/10 hover:text-amber-300">
+          <Button data-testid="add-category-btn" type="submit" size="sm" variant="outline" className="h-8 border-blue-500/40 bg-transparent text-blue-400 hover:bg-blue-500/10 hover:text-blue-300">
             <Plus className="h-3.5 w-3.5" /> Add
           </Button>
         </form>

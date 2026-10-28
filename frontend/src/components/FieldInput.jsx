@@ -51,7 +51,7 @@ export default function FieldInput({ field, value, onChange, lookups }) {
   return (
     <div className={`space-y-1.5 ${field.full ? "sm:col-span-2" : ""}`}>
       <Label htmlFor={id} className="font-mono text-[11px] uppercase tracking-wider text-slate-400">
-        {field.label}{field.required && <span className="text-amber-500"> *</span>}
+        {field.label}{field.required && <span className="text-blue-500"> *</span>}
       </Label>
       {control}
       {field.hint && <p className="text-[11px] text-slate-500">{field.hint}</p>}

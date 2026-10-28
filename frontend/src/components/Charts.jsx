@@ -3,11 +3,11 @@ import {
 } from "recharts";
 import { money, num } from "@/lib/api";
 
-export const COLORS = ["#F59E0B", "#06B6D4", "#10B981", "#F43F5E", "#A3E635", "#FB923C", "#38BDF8", "#E879F9", "#94A3B8"];
+export const COLORS = ["#3B82F6", "#EF4444", "#93C5FD", "#FCA5A5", "#A3E635", "#FB923C", "#38BDF8", "#E879F9", "#94A3B8"];
 const axis = { stroke: "#475569", fontSize: 11, fontFamily: "JetBrains Mono, monospace", tickLine: false, axisLine: false };
 const tip = {
   contentStyle: { background: "#0B0F17", border: "1px solid #334155", borderRadius: 6, fontSize: 12 },
-  labelStyle: { color: "#F59E0B", fontFamily: "JetBrains Mono, monospace" },
+  labelStyle: { color: "#3B82F6", fontFamily: "JetBrains Mono, monospace" },
   itemStyle: { color: "#E2E8F0" },
   cursor: { fill: "rgba(148,163,184,0.06)" },
 };
@@ -27,8 +27,8 @@ export function IncomeExpenseChart({ data }) {
         <YAxis {...axis} tickFormatter={short} width={50} />
         <Tooltip {...tip} formatter={(v) => money(v)} />
         <Legend wrapperStyle={{ fontSize: 12 }} />
-        <Bar dataKey="income" name="Income" fill="#10B981" radius={[3, 3, 0, 0]} />
-        <Bar dataKey="expenses" name="Expenses" fill="#F43F5E" radius={[3, 3, 0, 0]} />
+        <Bar dataKey="income" name="Income" fill="#3B82F6" radius={[3, 3, 0, 0]} />
+        <Bar dataKey="expenses" name="Expenses" fill="#EF4444" radius={[3, 3, 0, 0]} />
       </BarChart>
     </ResponsiveContainer>
   );
@@ -60,14 +60,14 @@ export function FuelTrendChart({ data }) {
         <YAxis yAxisId="r" orientation="right" {...axis} domain={["auto", "auto"]} width={36} />
         <Tooltip {...tip} formatter={(v, n) => (n === "Fuel cost" ? money(v) : num(v, 2))} />
         <Legend wrapperStyle={{ fontSize: 12 }} />
-        <Bar yAxisId="l" dataKey="cost" name="Fuel cost" fill="#F59E0B" fillOpacity={0.7} radius={[3, 3, 0, 0]} />
+        <Bar yAxisId="l" dataKey="cost" name="Fuel cost" fill="#3B82F6" fillOpacity={0.7} radius={[3, 3, 0, 0]} />
         <Line yAxisId="r" dataKey="avg_mpg" name="Avg MPG" stroke="#06B6D4" strokeWidth={2} dot={{ r: 3 }} />
       </ComposedChart>
     </ResponsiveContainer>
   );
 }
 
-export function DriverBars({ data, dataKey, name, color = "#F59E0B", fmt = (v) => v, tickFmt }) {
+export function DriverBars({ data, dataKey, name, color = "#3B82F6", fmt = (v) => v, tickFmt }) {
   if (!data?.length) return <Empty />;
   return (
     <ResponsiveContainer width="100%" height="100%">

@@ -38,7 +38,7 @@ def get_current_user(request: Request) -> dict:
     except jwt.InvalidTokenError:
         raise HTTPException(401, "Invalid token")
     with get_conn() as conn:
-        user = one(conn, "SELECT id, username FROM users WHERE id = ?", (int(payload["sub"]),))
+        user = one(conn, "SELECT id, username, role FROM users WHERE id = ?", (int(payload["sub"]),))
     if not user:
         raise HTTPException(401, "User not found")
     return user
@@ -50,6 +50,15 @@ def seed_owner():
     with get_conn() as conn:
         existing = one(conn, "SELECT * FROM users WHERE username = ?", (username,))
         if not existing:
-            conn.execute("INSERT INTO users (username, password_hash) VALUES (?, ?)", (username, hash_password(password)))
-        elif not verify_password(password, existing["password_hash"]):
+            conn.execute("INSERT INTO users (username, password_hash, role) VALUES (?, ?, 'owner')", (username, hash_password(password)))
+        else:
+            conn.execute("UPDATE users SET role = 'owner' WHERE id = ?", (existing["id"],))
+        if existing and not verify_password(password, existing["password_hash"]):
             conn.execute("UPDATE users SET password_hash = ? WHERE id = ?", (hash_password(password), existing["id"]))
+
+
+def require_owner(request: Request) -> dict:
+    user = get_current_user(request)
+    if user["role"] != "owner":
+        raise HTTPException(403, "Only an owner can do this")
+    return user

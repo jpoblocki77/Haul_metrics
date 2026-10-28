@@ -2,7 +2,7 @@ import { NavLink, Outlet, useLocation } from "react-router-dom";
 import DateRangeBar from "@/components/DateRangeBar";
 import { useState } from "react";
 import {
-  LayoutDashboard, TrendingUp, Receipt, Fuel, Truck, PackageCheck, Users, ShieldAlert, Database, LogOut, Menu, X, Trophy, UserCog,
+  LayoutDashboard, TrendingUp, Receipt, Fuel, Truck, PackageCheck, Users, ShieldAlert, Database, LogOut, Menu, X, Trophy, UserCog, FileText,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 
@@ -16,20 +16,21 @@ const NAV = [
   { to: "/drivers", label: "Drivers", icon: Users, id: "drivers" },
   { to: "/leaderboard", label: "Leaderboard", icon: Trophy, id: "leaderboard" },
   { to: "/inspections", label: "DOT Inspections", icon: ShieldAlert, id: "inspections" },
-  { to: "/users", label: "Users", icon: UserCog, id: "users" },
-  { to: "/test-data", label: "Test Data", icon: Database, id: "test-data" },
+  { to: "/users", label: "Users", icon: UserCog, id: "users", owner: true },
+  { to: "/report", label: "Monthly Report", icon: FileText, id: "report" },
+  { to: "/test-data", label: "Test Data", icon: Database, id: "test-data", owner: true },
 ];
 
 function Sidebar({ onNavigate }) {
-  const { user, logout } = useAuth();
+  const { user, logout, isOwner } = useAuth();
   return (
     <div className="flex h-full flex-col">
       <div className="px-6 pb-8 pt-7">
-        <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-amber-500">Virtual Trucking Co.</div>
-        <div className="font-heading text-2xl font-black tracking-tight text-white" data-testid="brand-name">McCOY<span className="text-amber-500">/</span>TRUCKING</div>
+        <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-red-500">Virtual Trucking Co.</div>
+        <div className="font-heading text-2xl font-black tracking-tight text-white" data-testid="brand-name">McCOY<span className="text-red-500">/</span>TRUCKING</div>
       </div>
       <nav className="flex-1 space-y-1 px-3">
-        {NAV.map(({ to, label, icon: Icon, id }) => (
+        {NAV.filter((n) => isOwner || !n.owner).map(({ to, label, icon: Icon, id }) => (
           <NavLink
             key={to}
             to={to}
@@ -38,7 +39,7 @@ function Sidebar({ onNavigate }) {
             data-testid={`nav-${id}`}
             className={({ isActive }) =>
               `group flex items-center gap-3 rounded-md px-3 py-2.5 text-sm transition-colors duration-150 ${
-                isActive ? "bg-amber-500/10 text-amber-400 shadow-[inset_3px_0_0_#F59E0B]" : "text-slate-400 hover:bg-slate-800/60 hover:text-slate-100"
+                isActive ? "bg-blue-500/10 text-blue-400 shadow-[inset_3px_0_0_#3B82F6]" : "text-slate-400 hover:bg-slate-800/60 hover:text-slate-100"
               }`
             }
           >
@@ -50,6 +51,7 @@ function Sidebar({ onNavigate }) {
       <div className="border-t border-slate-800 p-4">
         <div className="mb-3 font-mono text-xs text-slate-500">
           Signed in as <span className="text-slate-300" data-testid="current-username">{user?.username}</span>
+          <span data-testid="current-role" className="ml-2 rounded bg-red-500/10 px-1.5 py-0.5 text-[10px] uppercase text-red-400">{user?.role}</span>
         </div>
         <button
           data-testid="logout-btn"
@@ -63,18 +65,18 @@ function Sidebar({ onNavigate }) {
   );
 }
 
-const NO_RANGE = ["/leaderboard", "/users", "/test-data"];
+const NO_RANGE = ["/leaderboard", "/users", "/test-data", "/report"];
 
 export default function Layout() {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
   return (
     <div className="min-h-screen bg-[#0B0F17] text-slate-100">
-      <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 border-r border-slate-800 bg-[#080B12] lg:block">
+      <aside className="no-print fixed inset-y-0 left-0 z-40 hidden w-64 border-r border-slate-800 bg-[#080B12] lg:block">
         <Sidebar />
       </aside>
-      <div className="sticky top-0 z-30 flex items-center justify-between border-b border-slate-800 bg-[#080B12]/90 px-4 py-3 backdrop-blur-md lg:hidden">
-        <div className="font-heading text-lg font-black">McCOY<span className="text-amber-500">/</span>TRUCKING</div>
+      <div className="no-print sticky top-0 z-30 flex items-center justify-between border-b border-slate-800 bg-[#080B12]/90 px-4 py-3 backdrop-blur-md lg:hidden">
+        <div className="font-heading text-lg font-black">McCOY<span className="text-red-500">/</span>TRUCKING</div>
         <button data-testid="mobile-menu-btn" onClick={() => setOpen(true)} className="p-2 text-slate-300"><Menu /></button>
       </div>
       {open && (

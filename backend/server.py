@@ -16,7 +16,7 @@ from starlette.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from db import get_conn, rows, one, init_db
-from auth import hash_password, verify_password, create_token, get_current_user, seed_owner
+from auth import hash_password, verify_password, create_token, get_current_user, seed_owner, require_owner
 from seed import seed_test_data, clear_test_data, test_data_status
 
 app = FastAPI()
@@ -180,7 +180,7 @@ def register_crud(table, model, prepare=None, after_save=None):
             return get_row(c, table, rid)
         return run(fn)
 
-    @secure.delete(f"/{table}/{{rid}}", name=f"delete_{table}")
+    @secure.delete(f"/{table}/{{rid}}", name=f"delete_{table}", dependencies=[Depends(require_owner)])
     def _delete(rid: int):
         def fn(c):
             one_or_404(c, table, rid)
@@ -239,7 +239,7 @@ def login(body: LoginIn, response: Response):
         raise HTTPException(401, "Wrong username or password")
     token = create_token(user["id"], user["username"])
     response.set_cookie("access_token", token, httponly=True, secure=True, samesite="none", max_age=604800, path="/")
-    return {"token": token, "user": {"id": user["id"], "username": user["username"]}}
+    return {"token": token, "user": {"id": user["id"], "username": user["username"], "role": user["role"]}}
 
 
 @api.post("/auth/logout")
@@ -367,6 +367,36 @@ def stats_dashboard(p=Depends(period)):
         }
 
 
+def rank_drivers(stats):
+    active = [dict(d, rate=d["on_time"] / d["loads"] * 100) for d in stats if d["loads"]]
+    score = {d["id"]: 0 for d in active}
+    for key in ("rate", "avg_mpg", "revenue"):
+        vals = sorted({d[key] if d[key] is not None else -1 for d in active}, reverse=True)
+        for d in active:
+            score[d["id"]] += vals.index(d[key] if d[key] is not None else -1) + 1
+    return sorted(active, key=lambda d: score[d["id"]])
+
+
+@secure.get("/stats/leaderboard-history")
+def leaderboard_history():
+    with get_conn() as conn:
+        months = [r["m"] for r in rows(conn, """SELECT DISTINCT substr(COALESCE(delivered_date, due_date),1,7) AS m
+            FROM loads WHERE COALESCE(delivered_date, due_date) IS NOT NULL AND driver_id IS NOT NULL ORDER BY m DESC""")]
+        history = []
+        for m in months:
+            ranked = rank_drivers(driver_performance(conn, {"s": f"{m}-01", "e": f"{m}-31"}))
+            if ranked:
+                w = ranked[0]
+                history.append({"month": m, "driver_id": w["id"], "name": w["name"], "rate": w["rate"],
+                                "avg_mpg": w["avg_mpg"], "revenue": w["revenue"], "loads": w["loads"]})
+    trophies = {}
+    for h in history:
+        t = trophies.setdefault(h["driver_id"], {"driver_id": h["driver_id"], "name": h["name"], "trophies": 0, "months": []})
+        t["trophies"] += 1
+        t["months"].append(h["month"])
+    return {"history": history, "trophies": sorted(trophies.values(), key=lambda t: -t["trophies"])}
+
+
 # ---------- CSV export ----------
 EXPORT_COLS = {
     "income": ["date", "source", "amount", "driver_name", "truck_number", "notes"],
@@ -396,27 +426,28 @@ def export_csv(table: str, p=Depends(period)):
 class UserIn(BaseModel):
     username: str = Field(min_length=3, max_length=32, pattern=r"^[A-Za-z0-9_.-]+$")
     password: str = Field(min_length=6)
+    role: Literal["owner", "dispatcher"] = "dispatcher"
 
 
-@secure.get("/users")
+@secure.get("/users", dependencies=[Depends(require_owner)])
 def list_users():
     with get_conn() as conn:
-        return rows(conn, "SELECT id, username, created_at FROM users ORDER BY id")
+        return rows(conn, "SELECT id, username, role, created_at FROM users ORDER BY id")
 
 
-@secure.post("/users")
+@secure.post("/users", dependencies=[Depends(require_owner)])
 def create_user(body: UserIn):
     username = body.username.strip().lower()
     with get_conn() as conn:
         if one(conn, "SELECT id FROM users WHERE username = ?", (username,)):
             raise HTTPException(400, "That username is already taken")
-        uid = conn.execute("INSERT INTO users (username, password_hash) VALUES (?, ?)",
-                           (username, hash_password(body.password))).lastrowid
-        return one(conn, "SELECT id, username, created_at FROM users WHERE id = ?", (uid,))
+        uid = conn.execute("INSERT INTO users (username, password_hash, role) VALUES (?, ?, ?)",
+                           (username, hash_password(body.password), body.role)).lastrowid
+        return one(conn, "SELECT id, username, role, created_at FROM users WHERE id = ?", (uid,))
 
 
 @secure.delete("/users/{uid}")
-def delete_user(uid: int, user=Depends(get_current_user)):
+def delete_user(uid: int, user=Depends(require_owner)):
     if uid == user["id"]:
         raise HTTPException(400, "You can't remove your own account")
     with get_conn() as conn:
@@ -435,14 +466,14 @@ def test_data_get():
     return test_data_status()
 
 
-@secure.post("/test-data")
+@secure.post("/test-data", dependencies=[Depends(require_owner)])
 def test_data_add():
     clear_test_data()
     seed_test_data()
     return test_data_status()
 
 
-@secure.delete("/test-data")
+@secure.delete("/test-data", dependencies=[Depends(require_owner)])
 def test_data_remove():
     return {"removed": clear_test_data()}
 

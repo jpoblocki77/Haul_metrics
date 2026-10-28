@@ -15,6 +15,7 @@ import Inspections from "@/pages/Inspections";
 import TestData from "@/pages/TestData";
 import Leaderboard from "@/pages/Leaderboard";
 import Users from "@/pages/Users";
+import Report from "@/pages/Report";
 import { DateRangeProvider } from "@/context/DateRangeContext";
 
 function Protected() {
@@ -46,6 +47,7 @@ function App() {
             <Route path="/test-data" element={<TestData />} />
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/users" element={<Users />} />
+            <Route path="/report" element={<Report />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

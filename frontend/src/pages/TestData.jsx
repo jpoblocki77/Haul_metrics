@@ -34,7 +34,7 @@ export default function TestData() {
             Removing it deletes only the sample records — anything you entered yourself is never touched.
           </p>
           <div className="flex flex-wrap gap-3">
-            <Button data-testid="seed-test-data-btn" disabled={busy} onClick={() => act("post", "Sample data added")} className="bg-amber-500 font-semibold text-slate-950 hover:bg-amber-400">
+            <Button data-testid="seed-test-data-btn" disabled={busy} onClick={() => act("post", "Sample data added")} className="bg-blue-600 font-semibold text-white hover:bg-blue-500">
               <Database className="mr-2 h-4 w-4" /> {total ? "Reload sample data" : "Add sample data"}
             </Button>
             <Button data-testid="clear-test-data-btn" disabled={busy || !total} onClick={() => act("delete", "Sample data removed")} variant="outline" className="border-rose-500/40 bg-transparent text-rose-400 hover:bg-rose-500/10 hover:text-rose-300">

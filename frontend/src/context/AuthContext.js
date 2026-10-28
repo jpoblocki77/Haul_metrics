@@ -22,7 +22,7 @@ export function AuthProvider({ children }) {
     setUser(false);
   };
 
-  return <AuthCtx.Provider value={{ user, login, logout }}>{children}</AuthCtx.Provider>;
+  return <AuthCtx.Provider value={{ user, login, logout, isOwner: user?.role === "owner" }}>{children}</AuthCtx.Provider>;
 }
 
 export const useAuth = () => useContext(AuthCtx);

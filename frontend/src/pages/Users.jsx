@@ -12,7 +12,7 @@ import { api, errMsg } from "@/lib/api";
 export default function Users() {
   const { user } = useAuth();
   const [users, reload] = useFetch("/users");
-  const [form, setForm] = useState({ username: "", password: "", confirm: "" });
+  const [form, setForm] = useState({ username: "", password: "", confirm: "", role: "dispatcher" });
   const [busy, setBusy] = useState(false);
 
   const create = async (e) => {
@@ -22,9 +22,9 @@ export default function Users() {
     if (form.password.length < 6) return toast.error("Password must be at least 6 characters");
     setBusy(true);
     try {
-      await api.post("/users", { username: form.username, password: form.password });
+      await api.post("/users", { username: form.username, password: form.password, role: form.role });
       toast.success(`User ${form.username} created`);
-      setForm({ username: "", password: "", confirm: "" });
+      setForm({ username: "", password: "", confirm: "", role: "dispatcher" });
       reload();
     } catch (err) {
       toast.error(errMsg(err));
@@ -60,8 +60,20 @@ export default function Users() {
             {field("username", "Username")}
             {field("password", "Password", "password")}
             {field("confirm", "Confirm password", "password")}
+            <div className="space-y-1.5">
+              <div className="font-mono text-[11px] uppercase tracking-wider text-slate-400">Role</div>
+              <div className="grid grid-cols-2 gap-2" data-testid="new-user-role">
+                {[["dispatcher", "Dispatcher", "Logs and edits records. Can't delete data or manage users."], ["owner", "Owner", "Full control, including users and deleting data."]].map(([v, l, d]) => (
+                  <button type="button" key={v} data-testid={`new-user-role-${v}`} onClick={() => setForm({ ...form, role: v })}
+                    className={`rounded-md border p-3 text-left transition-colors ${form.role === v ? "border-blue-500 bg-blue-500/10" : "border-slate-700 hover:border-slate-500"}`}>
+                    <div className="text-sm font-semibold">{l}</div>
+                    <div className="mt-1 text-[11px] text-slate-500">{d}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
             <p className="text-[11px] text-slate-500">3–32 letters, numbers, dot, dash or underscore. Password at least 6 characters.</p>
-            <Button data-testid="create-user-btn" disabled={busy} type="submit" className="bg-amber-500 font-semibold text-slate-950 hover:bg-amber-400">
+            <Button data-testid="create-user-btn" disabled={busy} type="submit" className="bg-blue-600 font-semibold text-white hover:bg-blue-500">
               <UserPlus className="mr-2 h-4 w-4" /> Create user
             </Button>
           </form>
@@ -70,7 +82,7 @@ export default function Users() {
           <div className="space-y-2">
             {(users || []).map((u) => (
               <div key={u.id} data-testid={`user-row-${u.username}`} className="flex items-center gap-3 rounded-md bg-[#0B0F17] px-4 py-3">
-                <span className="flex-1 font-mono text-sm">{u.username}{u.id === user?.id && <span className="ml-2 text-[10px] uppercase text-amber-400">you</span>}</span>
+                <span className="flex-1 font-mono text-sm">{u.username}<span className={`ml-2 rounded px-1.5 py-0.5 text-[10px] uppercase ${u.role === "owner" ? "bg-red-500/10 text-red-400" : "bg-blue-500/10 text-blue-400"}`} data-testid={`user-role-${u.username}`}>{u.role}</span>{u.id === user?.id && <span className="ml-2 text-[10px] uppercase text-blue-400">you</span>}</span>
                 <span className="font-mono text-xs text-slate-500">{u.created_at?.slice(0, 10)}</span>
                 {u.id !== user?.id && (
                   <button data-testid={`delete-user-${u.username}`} onClick={() => remove(u)} className="rounded p-1.5 text-slate-500 hover:bg-slate-700 hover:text-rose-400"><Trash2 className="h-4 w-4" /></button>

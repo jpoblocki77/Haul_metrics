@@ -13,14 +13,14 @@ export default function DateRangeBar() {
   const r = useDateRange();
   return (
     <div data-testid="date-range-bar" className="mb-8 flex flex-wrap items-center gap-2 rounded-lg border border-slate-800 bg-[#0F1522] px-3 py-2">
-      <CalendarRange className="h-4 w-4 text-amber-500" />
+      <CalendarRange className="h-4 w-4 text-blue-500" />
       <span className="mr-1 font-mono text-[10px] uppercase tracking-[0.2em] text-slate-500">Period</span>
       {PRESETS.map(([k, label]) => (
         <button
           key={k}
           data-testid={`range-${k}`}
           onClick={() => r.setPreset(k)}
-          className={`rounded-md px-3 py-1 text-xs transition-colors ${r.preset === k ? "bg-amber-500 text-slate-950" : "text-slate-400 hover:bg-slate-800 hover:text-white"}`}
+          className={`rounded-md px-3 py-1 text-xs transition-colors ${r.preset === k ? "bg-blue-600 text-white" : "text-slate-400 hover:bg-slate-800 hover:text-white"}`}
         >
           {label}
         </button>

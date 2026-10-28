@@ -20,7 +20,7 @@ const cfg = {
   ],
   columns: [
     { key: "date", label: "Date", mono: true },
-    { key: "source", label: "Source", render: (r) => <>{r.source}{r.load_id && <span className="ml-2 rounded bg-amber-500/10 px-1.5 font-mono text-[9px] uppercase text-amber-400">load</span>}</> },
+    { key: "source", label: "Source", render: (r) => <>{r.source}{r.load_id && <span className="ml-2 rounded bg-blue-500/10 px-1.5 font-mono text-[9px] uppercase text-blue-400">load</span>}</> },
     { key: "driver_name", label: "Driver" },
     { key: "truck_number", label: "Truck", mono: true, render: (r) => (r.truck_number ? `#${r.truck_number}` : "—") },
     { key: "amount", label: "Amount", right: true, render: (r) => <span className="text-emerald-400">{money(r.amount)}</span> },

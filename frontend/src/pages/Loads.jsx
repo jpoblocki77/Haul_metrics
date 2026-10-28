@@ -26,7 +26,7 @@ const cfg = {
   ],
   columns: [
     { key: "delivered_date", label: "Delivered", mono: true, render: (r) => r.delivered_date || r.due_date || "—" },
-    { key: "route", label: "Route", render: (r) => <>{r.origin} <span className="text-amber-500">→</span> {r.destination}</> },
+    { key: "route", label: "Route", render: (r) => <>{r.origin} <span className="text-blue-500">→</span> {r.destination}</> },
     { key: "cargo", label: "Cargo" },
     { key: "driver_name", label: "Driver" },
     { key: "truck_number", label: "Truck", mono: true, render: (r) => (r.truck_number ? `#${r.truck_number}` : "—") },
@@ -43,7 +43,7 @@ export default function Loads() {
     <div className="flex gap-1" data-testid="loads-status-filter">
       {["all", "On Time", "Late"].map((s) => (
         <button key={s} data-testid={`loads-filter-${s.replace(" ", "-").toLowerCase()}`} onClick={() => setStatus(s)}
-          className={`rounded-md px-3 py-1.5 text-xs transition-colors ${status === s ? "bg-amber-500 text-slate-950" : "bg-slate-800 text-slate-400 hover:text-white"}`}>
+          className={`rounded-md px-3 py-1.5 text-xs transition-colors ${status === s ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-400 hover:text-white"}`}>
           {s === "all" ? "All" : s}
         </button>
       ))}

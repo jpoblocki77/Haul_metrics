@@ -22,7 +22,7 @@ export default function Trucks() {
       { name: "make_model", label: "Make / model", full: true, placeholder: "e.g. Peterbilt 579" },
     ],
     columns: [
-      { key: "truck_number", label: "Truck #", mono: true, render: (r) => <span className="text-amber-400">#{r.truck_number}</span> },
+      { key: "truck_number", label: "Truck #", mono: true, render: (r) => <span className="text-blue-400">#{r.truck_number}</span> },
       { key: "make_model", label: "Make / model" },
       { key: "tank_gallons", label: "Tank (gal)", right: true, render: (r) => num(r.tank_gallons, 0) },
       { key: "fillups", label: "Fill-ups", right: true, render: (r) => st(r, "fillups") ?? 0 },

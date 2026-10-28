@@ -38,10 +38,10 @@ const cfg = {
   preview: (form) => {
     const { total, mpg } = calc(form);
     return (
-      <div className="grid grid-cols-2 gap-3 rounded-md border border-amber-500/30 bg-amber-500/5 p-4">
+      <div className="grid grid-cols-2 gap-3 rounded-md border border-blue-500/30 bg-blue-500/5 p-4">
         <div>
           <div className="font-mono text-[10px] uppercase tracking-widest text-slate-500">Purchase total</div>
-          <div className="font-mono text-2xl font-semibold text-amber-400" data-testid="fuel-total-preview">{total == null ? "—" : money(total)}</div>
+          <div className="font-mono text-2xl font-semibold text-blue-400" data-testid="fuel-total-preview">{total == null ? "—" : money(total)}</div>
         </div>
         <div>
           <div className="font-mono text-[10px] uppercase tracking-widest text-slate-500">MPG</div>
@@ -56,7 +56,7 @@ const cfg = {
     { key: "driver_name", label: "Driver" },
     { key: "gallons", label: "Gallons", right: true, render: (r) => num(r.gallons, 1) },
     { key: "price_per_gallon", label: "$/gal", right: true, render: (r) => `$${num(r.price_per_gallon, 3)}` },
-    { key: "total", label: "Total", right: true, render: (r) => <span className="text-amber-400">{money(r.total)}</span> },
+    { key: "total", label: "Total", right: true, render: (r) => <span className="text-blue-400">{money(r.total)}</span> },
     { key: "miles", label: "Miles", right: true, render: (r) => num(r.miles, 0) },
     { key: "mpg", label: "MPG", right: true, render: (r) => <span className="text-cyan-400">{num(r.mpg, 2)}</span> },
     { key: "location", label: "Location" },

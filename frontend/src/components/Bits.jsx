@@ -2,7 +2,7 @@ export function PageHeader({ kicker, title, children }) {
   return (
     <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between animate-rise">
       <div>
-        <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-amber-500">{kicker}</div>
+        <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-red-500">{kicker}</div>
         <h1 className="font-heading text-3xl font-black tracking-tight text-white sm:text-4xl">{title}</h1>
       </div>
       <div className="flex flex-wrap gap-2">{children}</div>
@@ -11,7 +11,7 @@ export function PageHeader({ kicker, title, children }) {
 }
 
 const TONES = {
-  amber: "text-amber-400", cyan: "text-cyan-400", emerald: "text-emerald-400", rose: "text-rose-400", slate: "text-slate-100",
+  amber: "text-blue-400", cyan: "text-cyan-400", emerald: "text-emerald-400", rose: "text-rose-400", slate: "text-slate-100",
 };
 
 export function Kpi({ label, value, sub, tone = "slate", testId, delay = 0 }) {
@@ -46,7 +46,7 @@ const BADGE = {
   "On Time": "bg-emerald-500/10 text-emerald-400 border-emerald-500/30",
   Late: "bg-rose-500/10 text-rose-400 border-rose-500/30",
   Passed: "bg-emerald-500/10 text-emerald-400 border-emerald-500/30",
-  Fined: "bg-amber-500/10 text-amber-400 border-amber-500/30",
+  Fined: "bg-blue-500/10 text-blue-400 border-blue-500/30",
   "Out of Service": "bg-rose-500/10 text-rose-400 border-rose-500/30",
   Test: "bg-cyan-500/10 text-cyan-400 border-cyan-500/30",
 };
