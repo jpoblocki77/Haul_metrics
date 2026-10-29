@@ -1,0 +1,38 @@
+[
+  {
+    "client": "urllib",
+    "ua": "Python-urllib/3.11",
+    "status": 403,
+    "server": "cloudflare",
+    "cf_mitigated": null,
+    "body_prefix": "error code: 1010\n"
+  },
+  {
+    "client": "urllib",
+    "ua": "python-requests/2.34.2",
+    "status": 200,
+    "server": "cloudflare",
+    "cf_mitigated": null
+  },
+  {
+    "client": "urllib",
+    "ua": "Mozilla/5.0",
+    "status": 200,
+    "server": "cloudflare",
+    "cf_mitigated": null
+  },
+  {
+    "client": "requests",
+    "ua": "Python-urllib/3.11",
+    "status": 403,
+    "server": "cloudflare",
+    "cf_mitigated": null
+  },
+  {
+    "client": "requests",
+    "ua": "python-requests/2.34.2",
+    "status": 200,
+    "server": "cloudflare",
+    "cf_mitigated": null
+  }
+]

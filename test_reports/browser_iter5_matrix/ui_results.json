@@ -1,0 +1,548 @@
+{
+  "results": [
+    {
+      "name": "company save colors validation default reload header report login long mobile",
+      "status": "PASS"
+    },
+    {
+      "name": "Today local date dashboard lists CSV profile shared range",
+      "status": "PASS"
+    },
+    {
+      "name": "report charts nonzero visible path geometry and axis labels",
+      "status": "FAIL",
+      "error": "Report axes have no text tick labels"
+    },
+    {
+      "name": "all sixteen routes desktop mobile dark light persistence sidebar scroll",
+      "status": "PASS"
+    },
+    {
+      "name": "dispatcher signs in hides owner links direct guards no deletes",
+      "status": "FAIL",
+      "error": "Page.goto: net::ERR_ABORTED at https://haul-metrics-2.preview.emergentagent.com/login\nCall log:\n  - navigating to \"https://haul-metrics-2.preview.emergentagent.com/login\", waiting until \"load\"\n"
+    },
+    {
+      "name": "delete confirm cancel persisted removal",
+      "status": "FAIL",
+      "error": "Locator.click: Timeout 12000ms exceeded.\nCall log:\n  - waiting for get_by_test_id(\"nav-income\").last\n"
+    }
+  ],
+  "diagnostics": {
+    "company_long_name_mobile": {
+      "width": 390,
+      "scroll": 390
+    },
+    "report_visible_geometry": [
+      {
+        "svg": 1,
+        "paths": [
+          {
+            "box": {
+              "w": 3,
+              "h": 52.412506103515625
+            },
+            "fill": "rgb(42, 92, 174)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 3,
+              "h": 13.9371337890625
+            },
+            "fill": "rgb(42, 92, 174)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 3,
+              "h": 22.961669921875
+            },
+            "fill": "rgb(42, 92, 174)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 3,
+              "h": 19.228515625
+            },
+            "fill": "rgb(42, 92, 174)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 3,
+              "h": 22.00128173828125
+            },
+            "fill": "rgb(42, 92, 174)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 3,
+              "h": 92.535888671875
+            },
+            "fill": "rgb(42, 92, 174)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 3,
+              "h": 17.58477783203125
+            },
+            "fill": "rgb(42, 92, 174)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 3,
+              "h": 14.70758056640625
+            },
+            "fill": "rgb(42, 92, 174)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 3,
+              "h": 9.515869140625
+            },
+            "fill": "rgb(42, 92, 174)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 3,
+              "h": 59.239105224609375
+            },
+            "fill": "rgb(42, 92, 174)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 3,
+              "h": 7.445068359375
+            },
+            "fill": "rgb(185, 32, 32)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 3,
+              "h": 9.7255859375
+            },
+            "fill": "rgb(185, 32, 32)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 3,
+              "h": 13.2991943359375
+            },
+            "fill": "rgb(185, 32, 32)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 3,
+              "h": 9.35369873046875
+            },
+            "fill": "rgb(185, 32, 32)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 3,
+              "h": 14.58172607421875
+            },
+            "fill": "rgb(185, 32, 32)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 3,
+              "h": 15.4036865234375
+            },
+            "fill": "rgb(185, 32, 32)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 3,
+              "h": 12.427001953125
+            },
+            "fill": "rgb(185, 32, 32)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 3,
+              "h": 23.1611328125
+            },
+            "fill": "rgb(185, 32, 32)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 3,
+              "h": 39.771209716796875
+            },
+            "fill": "rgb(185, 32, 32)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 3,
+              "h": 6.0980224609375
+            },
+            "fill": "rgb(185, 32, 32)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 3,
+              "h": 7.6715087890625
+            },
+            "fill": "rgb(185, 32, 32)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 3,
+              "h": 9.0908203125
+            },
+            "fill": "rgb(185, 32, 32)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 3,
+              "h": 7.63092041015625
+            },
+            "fill": "rgb(185, 32, 32)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 3,
+              "h": 16.236328125
+            },
+            "fill": "rgb(185, 32, 32)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 3,
+              "h": 7.54217529296875
+            },
+            "fill": "rgb(185, 32, 32)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 3,
+              "h": 19.58160400390625
+            },
+            "fill": "rgb(185, 32, 32)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 3,
+              "h": 0.61798095703125
+            },
+            "fill": "rgb(185, 32, 32)",
+            "stroke": "none"
+          }
+        ],
+        "ticks": 0,
+        "wrapper": [
+          {
+            "w": 372,
+            "h": 144
+          }
+        ],
+        "root": "<div class=\"report-chart h-36\" x-file-name=\"ReportCharts\" x-line-number=\"7\" x-column=\"4\" x-component=\"div\" x-id=\"ReportCharts_7_4\" x-dynamic=\"true\" x-source-type=\"computed\" x-source-editable=\"false\"><div class=\"recharts-responsive-container\" style=\"width: 100%; height: 100%; min-width: 0px;\"><div style=\"width: 0px; height: 0px; overflow: visible;\"><div width=\"372\" height=\"144\" class=\"recharts-wrapper\" style=\"position: relative; cursor: default; width: 372px; height: 144px;\"><div xmlns=\"http://ww"
+      },
+      {
+        "svg": 1,
+        "paths": [
+          {
+            "box": {
+              "w": 325,
+              "h": 31.720977783203125
+            },
+            "fill": "none",
+            "stroke": "rgb(42, 92, 174)"
+          }
+        ],
+        "ticks": 0,
+        "wrapper": [
+          {
+            "w": 372,
+            "h": 144
+          }
+        ],
+        "root": "<div class=\"report-chart h-36\" x-file-name=\"ReportCharts\" x-line-number=\"9\" x-column=\"204\" x-component=\"div\" x-id=\"ReportCharts_9_204\" x-dynamic=\"true\" x-source-type=\"computed\" x-source-editable=\"false\"><div class=\"recharts-responsive-container\" style=\"width: 100%; height: 100%; min-width: 0px;\"><div style=\"width: 0px; height: 0px; overflow: visible;\"><div width=\"372\" height=\"144\" class=\"recharts-wrapper\" style=\"position: relative; cursor: default; width: 372px; height: 144px;\"><div xmlns=\"http:"
+      }
+    ],
+    "dashboard_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "income_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "expenses_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "fuel_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "trucks_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "loads_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "telemetry_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "drivers_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "leaderboard_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "inspections_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "users_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "create-user_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "company_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "report_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "backup_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "test-data_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "dashboard_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "income_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "expenses_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "fuel_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "trucks_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "loads_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "telemetry_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "drivers_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "leaderboard_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "inspections_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "users_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "create-user_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "company_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "report_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "backup_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "test-data_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "dashboard_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "income_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "expenses_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "fuel_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "trucks_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "loads_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "telemetry_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "drivers_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "leaderboard_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "inspections_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "users_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "create-user_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "company_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "report_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "backup_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "test-data_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "dashboard_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "income_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "expenses_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "fuel_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "trucks_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "loads_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "telemetry_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "drivers_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "leaderboard_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "inspections_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "users_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "create-user_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "company_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "report_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "backup_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "test-data_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "error_text": "",
+    "cleanup_original_restored": true
+  },
+  "page_errors": []
+}

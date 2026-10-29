@@ -9,15 +9,16 @@ import time
 import csv
 import sqlite3
 import logging
-from typing import Optional, Literal
+import uuid
+from typing import Optional, Literal, Annotated
 from datetime import date
 
-from fastapi import FastAPI, APIRouter, Depends, HTTPException, Response
+from fastapi import FastAPI, APIRouter, Depends, HTTPException, Response, Request
 from starlette.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, AfterValidator
 
 from db import get_conn, rows, one, init_db
-from auth import hash_password, verify_password, create_token, get_current_user, seed_owner, require_owner
+from auth import hash_password, verify_password, create_token, get_current_user, seed_owner, require_owner, revoke_token
 from seed import seed_test_data, clear_test_data, test_data_status
 
 app = FastAPI()
@@ -27,6 +28,18 @@ logger = logging.getLogger(__name__)
 
 
 # ---------- Models ----------
+def validate_calendar_date(value):
+    try:
+        if date.fromisoformat(value).isoformat() != value:
+            raise ValueError()
+    except ValueError:
+        raise ValueError("Use a valid calendar date in YYYY-MM-DD format")
+    return value
+
+
+ISODate = Annotated[str, AfterValidator(validate_calendar_date)]
+
+
 class LoginIn(BaseModel):
     username: str
     password: str
@@ -48,7 +61,7 @@ class DriverIn(BaseModel):
 
 
 class IncomeIn(BaseModel):
-    date: str
+    date: ISODate
     amount: float
     source: str = Field(min_length=1)
     driver_id: Optional[int] = None
@@ -57,7 +70,7 @@ class IncomeIn(BaseModel):
 
 
 class ExpenseIn(BaseModel):
-    date: str
+    date: ISODate
     amount: float
     category_id: Optional[int] = None
     driver_id: Optional[int] = None
@@ -66,7 +79,7 @@ class ExpenseIn(BaseModel):
 
 
 class FuelIn(BaseModel):
-    date: str
+    date: ISODate
     truck_id: int
     driver_id: Optional[int] = None
     gallons: Optional[float] = Field(default=None, gt=0)
@@ -83,13 +96,13 @@ class LoadIn(BaseModel):
     truck_id: Optional[int] = None
     pay: float = 0
     miles: Optional[float] = None
-    due_date: Optional[str] = None
-    delivered_date: Optional[str] = None
+    due_date: Optional[ISODate] = None
+    delivered_date: Optional[ISODate] = None
     status: Literal["On Time", "Late"] = "On Time"
 
 
 class InspectionIn(BaseModel):
-    date: str
+    date: ISODate
     driver_id: Optional[int] = None
     truck_id: Optional[int] = None
     location: Optional[str] = None
@@ -232,29 +245,34 @@ register_crud("inspections", InspectionIn, prepare=prep_inspection)
 
 
 # ---------- Auth ----------
-FAILED = {}
-
-
 @api.post("/auth/login")
-def login(body: LoginIn, response: Response):
+def login(body: LoginIn, response: Response, request: Request):
     uname = body.username.strip().lower()
-    fails, until = FAILED.get(uname, (0, 0))
-    if until > time.time():
-        raise HTTPException(429, "Too many failed attempts. Try again in 15 minutes.")
+    identifiers = [f"account:{uname}", f"ip:{request.client.host if request.client else 'local'}:{uname}"]
     with get_conn() as conn:
+        conn.execute("BEGIN IMMEDIATE")
+        attempts = [one(conn, "SELECT * FROM login_attempts WHERE identifier=?", (key,)) for key in identifiers]
+        if any(attempt and attempt["locked_until"] > time.time() for attempt in attempts):
+            raise HTTPException(429, "Too many failed attempts. Try again in 15 minutes.")
         user = one(conn, "SELECT * FROM users WHERE username = ?", (uname,))
-    if not user or not verify_password(body.password, user["password_hash"]):
-        fails += 1
-        FAILED[uname] = (0, time.time() + 900) if fails >= 5 else (fails, 0)
+        valid = user and verify_password(body.password, user["password_hash"])
+        if not valid:
+            for identifier, attempt in zip(identifiers, attempts):
+                fails = (attempt["failures"] if attempt and not attempt["locked_until"] else 0) + 1
+                conn.execute("INSERT OR REPLACE INTO login_attempts VALUES (?,?,?,?)", (identifier, uname, fails, time.time() + 900 if fails >= 5 else 0))
+        else:
+            conn.execute("DELETE FROM login_attempts WHERE username=?", (uname,))
+            conn.execute("DELETE FROM session_revocations WHERE expires_at < ?", (time.time(),))
+    if not valid:
         raise HTTPException(401, "Wrong username or password")
-    FAILED.pop(uname, None)
-    token = create_token(user["id"], user["username"])
+    token = create_token(user["id"], user["username"], user["session_version"])
     response.set_cookie("access_token", token, httponly=True, secure=True, samesite="none", max_age=604800, path="/")
     return {"token": token, "user": {"id": user["id"], "username": user["username"], "role": user["role"]}}
 
 
 @api.post("/auth/logout")
-def logout(response: Response):
+def logout(response: Response, request: Request, user=Depends(get_current_user)):
+    revoke_token(request)
     response.delete_cookie("access_token", path="/")
     return {"ok": True}
 
@@ -428,7 +446,8 @@ def export_csv(table: str, p=Depends(period)):
     buf = io.StringIO()
     w = csv.DictWriter(buf, fieldnames=EXPORT_COLS[table], extrasaction="ignore")
     w.writeheader()
-    w.writerows(data)
+    safe_data = [{k: "'" + v if isinstance(v, str) and v.lstrip().startswith(("=", "+", "-", "@", "\t", "\r", "\n")) else v for k, v in r.items()} for r in data]
+    w.writerows(safe_data)
     return Response(buf.getvalue(), media_type="text/csv",
                     headers={"Content-Disposition": f'attachment; filename="mccoy-{table}.csv"'})
 
@@ -436,8 +455,36 @@ def export_csv(table: str, p=Depends(period)):
 # ---------- Users ----------
 class UserIn(BaseModel):
     username: str = Field(min_length=3, max_length=32, pattern=r"^[A-Za-z0-9_.-]+$")
-    password: str = Field(min_length=6)
+    password: str = Field(min_length=6, max_length=72)
     role: Literal["owner", "dispatcher"] = "dispatcher"
+
+
+class UserEdit(BaseModel):
+    role: Optional[Literal["owner", "dispatcher"]] = None
+    password: Optional[str] = Field(default=None, min_length=6, max_length=72)
+
+
+@secure.patch("/users/{uid}")
+def edit_user(uid: int, body: UserEdit, user=Depends(require_owner)):
+    with get_conn() as conn:
+        conn.execute("BEGIN IMMEDIATE")
+        target = one_or_404(conn, "users", uid)
+        if body.role == "dispatcher" and target["role"] == "owner":
+            if uid == user["id"]:
+                raise HTTPException(400, "You can't demote your own account")
+            if one(conn, "SELECT COUNT(*) AS n FROM users WHERE role = 'owner'")["n"] <= 1:
+                raise HTTPException(400, "At least one owner is required")
+        if body.role is None and body.password is None:
+            raise HTTPException(400, "No account changes supplied")
+        updates = {}
+        if body.role is not None:
+            updates["role"] = body.role
+        if body.password is not None:
+            updates["password_hash"] = hash_password(body.password)
+        updates["session_version"] = uuid.uuid4().hex
+        update(conn, "users", uid, updates)
+        conn.execute("DELETE FROM login_attempts WHERE username=?", (target["username"],))
+        return one(conn, "SELECT id, username, role, created_at FROM users WHERE id = ?", (uid,))
 
 
 @secure.get("/users", dependencies=[Depends(require_owner)])
@@ -489,6 +536,15 @@ def test_data_remove():
     return {"removed": clear_test_data()}
 
 
+from telemetry import build_router as telemetry_router
+from backups import router as backup_router
+from profiles import build_router as profile_router
+from company import router as company_router
+
+app.include_router(telemetry_router(LoadIn, FuelIn, prep_fuel, sync_load_income, insert))
+app.include_router(backup_router)
+app.include_router(company_router)
+app.include_router(profile_router(driver_performance, leaderboard_history, list_table, period))
 app.include_router(api)
 app.include_router(secure)
 app.add_middleware(

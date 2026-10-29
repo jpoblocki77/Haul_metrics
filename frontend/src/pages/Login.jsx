@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/context/AuthContext";
 import { errMsg } from "@/lib/api";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { CompanyName } from "@/components/CompanyName";
 
 const HERO = "https://images.unsplash.com/photo-1592805144716-feeccccef5ac?crop=entropy&cs=srgb&fm=jpg&q=85&w=1600";
 
@@ -31,20 +33,21 @@ export default function Login() {
   };
 
   return (
-    <div className="grid min-h-screen bg-[#0B0F17] lg:grid-cols-[1.2fr_1fr]">
+    <div className="relative grid min-h-screen bg-background lg:grid-cols-[1.2fr_1fr]">
+      <div className="absolute right-4 top-4 z-10"><ThemeToggle testId="login-theme-toggle" /></div>
       <div className="relative hidden overflow-hidden lg:block">
         <img src={HERO} alt="Semi truck on highway at sunset" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0B0F17]/30 to-[#0B0F17]" />
         <div className="absolute bottom-12 left-12 max-w-md">
           <div className="font-mono text-xs uppercase tracking-[0.3em] text-red-500">Dispatch · Books · Safety</div>
-          <p className="mt-3 font-heading text-4xl font-black leading-tight text-white">Every mile, every dollar, every driver.</p>
+          <p className="login-hero-copy mt-3 font-heading text-4xl font-black leading-tight text-white">Every mile, every dollar, every driver.</p>
         </div>
       </div>
-      <div className="flex items-center justify-center px-6">
+      <div className="flex items-center justify-center px-6 py-24">
         <form onSubmit={submit} className="w-full max-w-sm animate-rise" data-testid="login-form">
           <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-red-500">Virtual Trucking Co.</div>
-          <h1 className="font-heading text-4xl font-black tracking-tight text-white">McCOY<span className="text-red-500">/</span>TRUCKING</h1>
-          <p className="mb-10 mt-2 text-sm text-slate-400">Sign in to the McCoy Trucking office.</p>
+          <h1 className="font-heading text-4xl font-black text-foreground"><CompanyName testId="login-company-name" /></h1>
+          <p className="mb-10 mt-2 text-sm text-muted-foreground">Sign in to your company office.</p>
           <div className="space-y-5">
             <div className="space-y-1.5">
               <Label htmlFor="username" className="font-mono text-[11px] uppercase tracking-wider text-slate-400">Username</Label>

@@ -1,0 +1,425 @@
+{
+  "visible_origins": [
+    "TEST_literal_%",
+    "TEST_plainXtoken",
+    "TEST_plain_token",
+    "TEST_literal_\\",
+    "Montr\u00e9al"
+  ],
+  "ascii_escaped_payload_verified": true,
+  "queries": {
+    "Montr\u00e9al": {
+      "items": [
+        {
+          "id": 2162,
+          "user_id": 1,
+          "event_key": "job:1:5ca382359d39449db2e7499d9b879075",
+          "kind": "load",
+          "status": "pending",
+          "detected_at": "2026-10-29T00:31:55.323915+00:00",
+          "payload": {
+            "driver_id": 400,
+            "truck_id": 393,
+            "date": "2026-10-29",
+            "game": "ATS",
+            "origin": "Montr\u00e9al",
+            "destination": "TEST_end",
+            "cargo": "TEST_Cargo",
+            "pay": 1.0,
+            "miles": null,
+            "due_date": null,
+            "delivered_date": null,
+            "status": null,
+            "game_deadline": null,
+            "note": "Job detected, not confirmed delivered. Verify completion, actual pay and On Time / Late. Game deadlines are simulated time."
+          },
+          "record_id": null,
+          "reviewed_by": null
+        }
+      ],
+      "total": 1,
+      "offset": 0,
+      "limit": 100
+    },
+    "MONTR\u00c9AL": {
+      "items": [
+        {
+          "id": 2162,
+          "user_id": 1,
+          "event_key": "job:1:5ca382359d39449db2e7499d9b879075",
+          "kind": "load",
+          "status": "pending",
+          "detected_at": "2026-10-29T00:31:55.323915+00:00",
+          "payload": {
+            "driver_id": 400,
+            "truck_id": 393,
+            "date": "2026-10-29",
+            "game": "ATS",
+            "origin": "Montr\u00e9al",
+            "destination": "TEST_end",
+            "cargo": "TEST_Cargo",
+            "pay": 1.0,
+            "miles": null,
+            "due_date": null,
+            "delivered_date": null,
+            "status": null,
+            "game_deadline": null,
+            "note": "Job detected, not confirmed delivered. Verify completion, actual pay and On Time / Late. Game deadlines are simulated time."
+          },
+          "record_id": null,
+          "reviewed_by": null
+        }
+      ],
+      "total": 1,
+      "offset": 0,
+      "limit": 100
+    },
+    "Montr": {
+      "items": [
+        {
+          "id": 2162,
+          "user_id": 1,
+          "event_key": "job:1:5ca382359d39449db2e7499d9b879075",
+          "kind": "load",
+          "status": "pending",
+          "detected_at": "2026-10-29T00:31:55.323915+00:00",
+          "payload": {
+            "driver_id": 400,
+            "truck_id": 393,
+            "date": "2026-10-29",
+            "game": "ATS",
+            "origin": "Montr\u00e9al",
+            "destination": "TEST_end",
+            "cargo": "TEST_Cargo",
+            "pay": 1.0,
+            "miles": null,
+            "due_date": null,
+            "delivered_date": null,
+            "status": null,
+            "game_deadline": null,
+            "note": "Job detected, not confirmed delivered. Verify completion, actual pay and On Time / Late. Game deadlines are simulated time."
+          },
+          "record_id": null,
+          "reviewed_by": null
+        }
+      ],
+      "total": 1,
+      "offset": 0,
+      "limit": 100
+    },
+    "\\": {
+      "items": [
+        {
+          "id": 2163,
+          "user_id": 1,
+          "event_key": "job:1:169ba35f823b438a87b47c96299fb347",
+          "kind": "load",
+          "status": "pending",
+          "detected_at": "2026-10-29T00:31:55.379565+00:00",
+          "payload": {
+            "driver_id": 400,
+            "truck_id": 393,
+            "date": "2026-10-29",
+            "game": "ATS",
+            "origin": "TEST_literal_\\",
+            "destination": "TEST_end",
+            "cargo": "TEST_Cargo",
+            "pay": 1.0,
+            "miles": null,
+            "due_date": null,
+            "delivered_date": null,
+            "status": null,
+            "game_deadline": null,
+            "note": "Job detected, not confirmed delivered. Verify completion, actual pay and On Time / Late. Game deadlines are simulated time."
+          },
+          "record_id": null,
+          "reviewed_by": null
+        }
+      ],
+      "total": 1,
+      "offset": 0,
+      "limit": 100
+    },
+    "plain_token": {
+      "items": [
+        {
+          "id": 2164,
+          "user_id": 1,
+          "event_key": "job:1:2dfa06b09d0a4461bdc102238bb6e882",
+          "kind": "load",
+          "status": "pending",
+          "detected_at": "2026-10-29T00:31:55.425506+00:00",
+          "payload": {
+            "driver_id": 400,
+            "truck_id": 393,
+            "date": "2026-10-29",
+            "game": "ATS",
+            "origin": "TEST_plain_token",
+            "destination": "TEST_end",
+            "cargo": "TEST_Cargo",
+            "pay": 1.0,
+            "miles": null,
+            "due_date": null,
+            "delivered_date": null,
+            "status": null,
+            "game_deadline": null,
+            "note": "Job detected, not confirmed delivered. Verify completion, actual pay and On Time / Late. Game deadlines are simulated time."
+          },
+          "record_id": null,
+          "reviewed_by": null
+        }
+      ],
+      "total": 1,
+      "offset": 0,
+      "limit": 100
+    },
+    "%": {
+      "items": [
+        {
+          "id": 2166,
+          "user_id": 1,
+          "event_key": "job:1:a937a5010b0645fd803c8311d7f288e8",
+          "kind": "load",
+          "status": "pending",
+          "detected_at": "2026-10-29T00:31:55.524090+00:00",
+          "payload": {
+            "driver_id": 400,
+            "truck_id": 393,
+            "date": "2026-10-29",
+            "game": "ATS",
+            "origin": "TEST_literal_%",
+            "destination": "TEST_end",
+            "cargo": "TEST_Cargo",
+            "pay": 1.0,
+            "miles": null,
+            "due_date": null,
+            "delivered_date": null,
+            "status": null,
+            "game_deadline": null,
+            "note": "Job detected, not confirmed delivered. Verify completion, actual pay and On Time / Late. Game deadlines are simulated time."
+          },
+          "record_id": null,
+          "reviewed_by": null
+        }
+      ],
+      "total": 1,
+      "offset": 0,
+      "limit": 100
+    },
+    "TEST_absent_query": {
+      "items": [],
+      "total": 0,
+      "offset": 0,
+      "limit": 100
+    }
+  },
+  "restored_queries": {
+    "Montr\u00e9al": {
+      "items": [
+        {
+          "id": 2162,
+          "user_id": 1,
+          "event_key": "job:1:5ca382359d39449db2e7499d9b879075",
+          "kind": "load",
+          "status": "pending",
+          "detected_at": "2026-10-29T00:31:55.323915+00:00",
+          "payload": {
+            "driver_id": 400,
+            "truck_id": 393,
+            "date": "2026-10-29",
+            "game": "ATS",
+            "origin": "Montr\u00e9al",
+            "destination": "TEST_end",
+            "cargo": "TEST_Cargo",
+            "pay": 1.0,
+            "miles": null,
+            "due_date": null,
+            "delivered_date": null,
+            "status": null,
+            "game_deadline": null,
+            "note": "Job detected, not confirmed delivered. Verify completion, actual pay and On Time / Late. Game deadlines are simulated time."
+          },
+          "record_id": null,
+          "reviewed_by": null
+        }
+      ],
+      "total": 1,
+      "offset": 0,
+      "limit": 100
+    },
+    "MONTR\u00c9AL": {
+      "items": [
+        {
+          "id": 2162,
+          "user_id": 1,
+          "event_key": "job:1:5ca382359d39449db2e7499d9b879075",
+          "kind": "load",
+          "status": "pending",
+          "detected_at": "2026-10-29T00:31:55.323915+00:00",
+          "payload": {
+            "driver_id": 400,
+            "truck_id": 393,
+            "date": "2026-10-29",
+            "game": "ATS",
+            "origin": "Montr\u00e9al",
+            "destination": "TEST_end",
+            "cargo": "TEST_Cargo",
+            "pay": 1.0,
+            "miles": null,
+            "due_date": null,
+            "delivered_date": null,
+            "status": null,
+            "game_deadline": null,
+            "note": "Job detected, not confirmed delivered. Verify completion, actual pay and On Time / Late. Game deadlines are simulated time."
+          },
+          "record_id": null,
+          "reviewed_by": null
+        }
+      ],
+      "total": 1,
+      "offset": 0,
+      "limit": 100
+    },
+    "Montr": {
+      "items": [
+        {
+          "id": 2162,
+          "user_id": 1,
+          "event_key": "job:1:5ca382359d39449db2e7499d9b879075",
+          "kind": "load",
+          "status": "pending",
+          "detected_at": "2026-10-29T00:31:55.323915+00:00",
+          "payload": {
+            "driver_id": 400,
+            "truck_id": 393,
+            "date": "2026-10-29",
+            "game": "ATS",
+            "origin": "Montr\u00e9al",
+            "destination": "TEST_end",
+            "cargo": "TEST_Cargo",
+            "pay": 1.0,
+            "miles": null,
+            "due_date": null,
+            "delivered_date": null,
+            "status": null,
+            "game_deadline": null,
+            "note": "Job detected, not confirmed delivered. Verify completion, actual pay and On Time / Late. Game deadlines are simulated time."
+          },
+          "record_id": null,
+          "reviewed_by": null
+        }
+      ],
+      "total": 1,
+      "offset": 0,
+      "limit": 100
+    },
+    "\\": {
+      "items": [
+        {
+          "id": 2163,
+          "user_id": 1,
+          "event_key": "job:1:169ba35f823b438a87b47c96299fb347",
+          "kind": "load",
+          "status": "pending",
+          "detected_at": "2026-10-29T00:31:55.379565+00:00",
+          "payload": {
+            "driver_id": 400,
+            "truck_id": 393,
+            "date": "2026-10-29",
+            "game": "ATS",
+            "origin": "TEST_literal_\\",
+            "destination": "TEST_end",
+            "cargo": "TEST_Cargo",
+            "pay": 1.0,
+            "miles": null,
+            "due_date": null,
+            "delivered_date": null,
+            "status": null,
+            "game_deadline": null,
+            "note": "Job detected, not confirmed delivered. Verify completion, actual pay and On Time / Late. Game deadlines are simulated time."
+          },
+          "record_id": null,
+          "reviewed_by": null
+        }
+      ],
+      "total": 1,
+      "offset": 0,
+      "limit": 100
+    },
+    "plain_token": {
+      "items": [
+        {
+          "id": 2164,
+          "user_id": 1,
+          "event_key": "job:1:2dfa06b09d0a4461bdc102238bb6e882",
+          "kind": "load",
+          "status": "pending",
+          "detected_at": "2026-10-29T00:31:55.425506+00:00",
+          "payload": {
+            "driver_id": 400,
+            "truck_id": 393,
+            "date": "2026-10-29",
+            "game": "ATS",
+            "origin": "TEST_plain_token",
+            "destination": "TEST_end",
+            "cargo": "TEST_Cargo",
+            "pay": 1.0,
+            "miles": null,
+            "due_date": null,
+            "delivered_date": null,
+            "status": null,
+            "game_deadline": null,
+            "note": "Job detected, not confirmed delivered. Verify completion, actual pay and On Time / Late. Game deadlines are simulated time."
+          },
+          "record_id": null,
+          "reviewed_by": null
+        }
+      ],
+      "total": 1,
+      "offset": 0,
+      "limit": 100
+    },
+    "%": {
+      "items": [
+        {
+          "id": 2166,
+          "user_id": 1,
+          "event_key": "job:1:a937a5010b0645fd803c8311d7f288e8",
+          "kind": "load",
+          "status": "pending",
+          "detected_at": "2026-10-29T00:31:55.524090+00:00",
+          "payload": {
+            "driver_id": 400,
+            "truck_id": 393,
+            "date": "2026-10-29",
+            "game": "ATS",
+            "origin": "TEST_literal_%",
+            "destination": "TEST_end",
+            "cargo": "TEST_Cargo",
+            "pay": 1.0,
+            "miles": null,
+            "due_date": null,
+            "delivered_date": null,
+            "status": null,
+            "game_deadline": null,
+            "note": "Job detected, not confirmed delivered. Verify completion, actual pay and On Time / Late. Game deadlines are simulated time."
+          },
+          "record_id": null,
+          "reviewed_by": null
+        }
+      ],
+      "total": 1,
+      "offset": 0,
+      "limit": 100
+    },
+    "TEST_absent_query": {
+      "items": [],
+      "total": 0,
+      "offset": 0,
+      "limit": 100
+    }
+  },
+  "restored_escaped_payload_search_passed": true,
+  "browser_search_passed": true,
+  "original_restored": true
+}

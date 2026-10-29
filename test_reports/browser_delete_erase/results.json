@@ -1,0 +1,40 @@
+{
+  "results": [
+    {
+      "name": "global utility every page both sizes themes no overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "ten global types all dates nested cancel confirm safe self account",
+      "status": "PASS"
+    },
+    {
+      "name": "first hundred count search finds entries beyond display limit",
+      "status": "PASS"
+    },
+    {
+      "name": "global delete refreshes current dashboard and mobile income without reload",
+      "status": "FAIL",
+      "error": "Error('Locator.click: Element is not visible\\nCall log:\\n  - waiting for get_by_test_id(\"nav-income\").last\\n    - locator resolved to <a href=\"/income\" data-discover=\"true\" data-testid=\"nav-income\" class=\"group flex items-center gap-3 rounded-md px-3 py-2.5 text-sm transition-colors duration-150 text-slate-400 hover:bg-slate-800/60 hover:text-slate-100\">\u2026</a>\\n  - attempting click action\\n    - scrolling into view if needed\\n')"
+    },
+    {
+      "name": "direct profile three tables and telemetry pending history deletion",
+      "status": "FAIL",
+      "error": "Error('Locator.click: Element is not visible\\nCall log:\\n  - waiting for get_by_test_id(\"nav-drivers\").first\\n    - locator resolved to <a href=\"/drivers\" data-discover=\"true\" data-testid=\"nav-drivers\" class=\"group flex items-center gap-3 rounded-md px-3 py-2.5 text-sm transition-colors duration-150 text-slate-400 hover:bg-slate-800/60 hover:text-slate-100\">\u2026</a>\\n  - attempting click action\\n    - scrolling into view if needed\\n')"
+    },
+    {
+      "name": "dispatcher no delete controls protected owner failure stays visible",
+      "status": "PASS"
+    },
+    {
+      "name": "erase dialogs both themes sizes cancel invalid reauth success signed in zero recreate",
+      "status": "PASS"
+    }
+  ],
+  "diagnostics": {
+    "erased_accounts_and_branding_preserved": true,
+    "error_text": "",
+    "original_restored": true
+  },
+  "page_errors": []
+}

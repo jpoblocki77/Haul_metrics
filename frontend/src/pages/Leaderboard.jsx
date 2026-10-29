@@ -60,14 +60,14 @@ export default function Leaderboard() {
         <div data-testid="leaderboard-empty" className="rounded-lg border border-slate-800 bg-[#111827] p-10 text-center text-slate-500">No loads delivered in this month.</div>
       )}
       {top && (
-        <div data-testid="top-driver-card" className="animate-rise mb-6 flex flex-wrap items-center gap-6 rounded-lg border border-blue-500/40 bg-gradient-to-r from-blue-500/15 to-transparent p-6">
+        <div data-testid="top-driver-card" className="animate-rise mb-6 grid min-w-0 grid-cols-[minmax(0,1fr)] items-center gap-5 rounded-lg border border-blue-500/40 bg-gradient-to-r from-blue-500/15 to-transparent p-5 sm:grid-cols-[auto_minmax(0,1fr)] xl:grid-cols-[auto_minmax(0,1fr)_auto] sm:p-6">
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-600 text-white"><Trophy className="h-8 w-8" /></div>
-          <div className="flex-1">
+          <div className="min-w-0">
             <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-red-500">Top driver of the month</div>
-            <div className="font-heading text-3xl font-black text-white" data-testid="top-driver-name">{top.name}</div>
+            <div className="break-words font-heading text-3xl font-black text-foreground" style={{ overflowWrap: "anywhere" }} data-testid="top-driver-name">{top.name}</div>
             <div className="mt-1 text-xs text-slate-400">Best combined rank across on-time rate, MPG and revenue</div>
           </div>
-          <div className="flex gap-6 font-mono text-sm">
+          <div className="flex min-w-0 flex-wrap gap-4 font-mono text-sm sm:col-span-2 xl:col-span-1">
             <div><div className="text-[10px] uppercase text-slate-500">On time</div><div className="text-cyan-400">{pct(top.rate)}</div></div>
             <div><div className="text-[10px] uppercase text-slate-500">MPG</div><div className="text-blue-400">{num(top.avg_mpg, 2)}</div></div>
             <div><div className="text-[10px] uppercase text-slate-500">Revenue</div><div className="text-emerald-400">{money(top.revenue)}</div></div>

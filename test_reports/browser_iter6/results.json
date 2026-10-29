@@ -1,0 +1,155 @@
+{
+  "results": [
+    {
+      "name": "winner 2010-01 1920 dark",
+      "status": "PASS"
+    },
+    {
+      "name": "winner 2010-01 1920 light",
+      "status": "PASS"
+    },
+    {
+      "name": "winner 2010-01 390 dark",
+      "status": "PASS"
+    },
+    {
+      "name": "winner 2010-01 390 light",
+      "status": "PASS"
+    },
+    {
+      "name": "winner 2010-02 1920 dark",
+      "status": "PASS"
+    },
+    {
+      "name": "winner 2010-02 1920 light",
+      "status": "PASS"
+    },
+    {
+      "name": "winner 2010-02 390 dark",
+      "status": "PASS"
+    },
+    {
+      "name": "winner 2010-02 390 light",
+      "status": "PASS"
+    },
+    {
+      "name": "direct profile loads cancel confirm immediate refresh",
+      "status": "PASS"
+    },
+    {
+      "name": "direct profile fuel cancel confirm immediate refresh",
+      "status": "PASS"
+    },
+    {
+      "name": "direct profile inspections cancel confirm immediate refresh",
+      "status": "PASS"
+    },
+    {
+      "name": "direct telemetry pending cancel confirm safety",
+      "status": "PASS"
+    },
+    {
+      "name": "direct telemetry approved_load cancel confirm safety",
+      "status": "PASS"
+    },
+    {
+      "name": "direct telemetry approved_fuel cancel confirm safety",
+      "status": "PASS"
+    },
+    {
+      "name": "direct telemetry dismissed cancel confirm safety",
+      "status": "PASS"
+    },
+    {
+      "name": "mobile dark global delete live dashboard and menu navigation",
+      "status": "PASS"
+    },
+    {
+      "name": "mobile light global delete live dashboard and menu navigation",
+      "status": "PASS"
+    },
+    {
+      "name": "501 history complete server search pagination oldest delete last page adjusts",
+      "status": "PASS"
+    },
+    {
+      "name": "dispatcher direct buttons hidden and manage/delete APIs forbidden",
+      "status": "PASS"
+    }
+  ],
+  "diagnostics": {
+    "winner_normal_1920_dark": {
+      "width": 1096,
+      "height": 36,
+      "subtitle": 1096,
+      "scroll": 1920,
+      "viewport": 1920
+    },
+    "winner_normal_1920_light": {
+      "width": 1096,
+      "height": 36,
+      "subtitle": 1096,
+      "scroll": 1920,
+      "viewport": 1920
+    },
+    "winner_normal_390_dark": {
+      "width": 316,
+      "height": 36,
+      "subtitle": 316,
+      "scroll": 390,
+      "viewport": 390
+    },
+    "winner_normal_390_light": {
+      "width": 316,
+      "height": 36,
+      "subtitle": 316,
+      "scroll": 390,
+      "viewport": 390
+    },
+    "winner_long_1920_dark": {
+      "width": 1096,
+      "height": 108,
+      "subtitle": 1096,
+      "scroll": 1920,
+      "viewport": 1920
+    },
+    "winner_long_1920_light": {
+      "width": 1096,
+      "height": 108,
+      "subtitle": 1096,
+      "scroll": 1920,
+      "viewport": 1920
+    },
+    "winner_long_390_dark": {
+      "width": 316,
+      "height": 360,
+      "subtitle": 316,
+      "scroll": 390,
+      "viewport": 390
+    },
+    "winner_long_390_light": {
+      "width": 316,
+      "height": 360,
+      "subtitle": 316,
+      "scroll": 390,
+      "viewport": 390
+    },
+    "error_text": "",
+    "original_restored": true,
+    "final_counts": {
+      "users": 2,
+      "company_settings": 0,
+      "categories": 8,
+      "trucks": 0,
+      "drivers": 0,
+      "loads": 0,
+      "income": 0,
+      "expenses": 0,
+      "fuel": 0,
+      "inspections": 0,
+      "telemetry_sources": 0,
+      "telemetry_events": 0
+    }
+  },
+  "page_errors": []
+}

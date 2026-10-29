@@ -43,6 +43,32 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.7); }
         --input: 217 33% 20%;
         --ring: 217 91% 60%;
         --radius: 0.5rem;
+        --chart-grid: #1f2937;
+        --chart-axis: #94a3b8;
+        --chart-label: #cbd5e1;
+    }
+    :root[data-theme="light"] {
+        --background: 216 25% 97%;
+        --foreground: 222 35% 13%;
+        --card: 0 0% 100%;
+        --card-foreground: 222 35% 13%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 222 35% 13%;
+        --primary: 221 83% 45%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 216 28% 92%;
+        --secondary-foreground: 222 35% 13%;
+        --muted: 216 28% 92%;
+        --muted-foreground: 215 18% 39%;
+        --accent: 216 28% 92%;
+        --accent-foreground: 222 35% 13%;
+        --destructive: 350 80% 43%;
+        --border: 215 23% 82%;
+        --input: 215 23% 78%;
+        --ring: 221 83% 45%;
+        --chart-grid: #d7dfe9;
+        --chart-axis: #526175;
+        --chart-label: #243449;
     }
 }
 
@@ -92,4 +118,59 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.7); }
     main { padding-left: 0 !important; }
     body, .min-h-screen { background: #fff !important; }
     @page { size: letter; margin: 0.4in; }
+}
+
+.form-select { width: 100%; min-width: 0; height: 40px; border-radius: 6px; border: 1px solid hsl(var(--border)); background: hsl(var(--background)); padding: 0 10px; color: hsl(var(--foreground)); font-size: 14px; }
+.form-select:focus { outline: 2px solid hsl(var(--ring)); outline-offset: 2px; }
+.form-select:disabled { opacity: .6; }
+.report-sheet { --report-blue: #1d4ed8; --report-red: #b91c1c; --report-muted: #64748b; --report-grid: #e2e8f0; background: white; color: #172033; }
+.report-header, .report-stat { border-color: var(--report-blue); }
+.report-section-title { color: var(--report-blue); border-color: var(--report-red); }
+.report-income-key { color: var(--report-blue); }
+.report-expense-key { color: var(--report-red); }
+.report-driver-row { display: grid; grid-template-columns: minmax(0, 1.8fr) repeat(3, minmax(0, .7fr)) minmax(0, 1.2fr); gap: 6px; padding: 5px 0; border-bottom: 1px solid var(--report-grid); font-size: 10px; }
+.report-driver-row > span:not(:first-child) { text-align: right; overflow-wrap: anywhere; }
+
+/* Compatibility tokens keep the existing operational screens on the same two themes. */
+:root[data-theme="light"] :is([class~="bg-[#0B0F17]"], [class~="bg-[#080B12]"], [class~="bg-[#080B12]/90"]) { background-color: hsl(var(--background)); }
+:root[data-theme="light"] :is([class~="bg-[#111827]"], [class~="bg-[#161E2E]"]) { background-color: hsl(var(--card)); }
+:root[data-theme="light"] :is(.text-slate-100, .text-slate-200, .text-slate-300) { color: hsl(var(--foreground)); }
+:root[data-theme="light"] .text-white:not(button):not(.login-hero-copy) { color: hsl(var(--foreground)); }
+:root[data-theme="light"] :is(.text-slate-400, .text-slate-500, .text-slate-600) { color: hsl(var(--muted-foreground)); }
+:root[data-theme="light"] :is(.border-slate-700, .border-slate-800, [class~="border-slate-800/60"]) { border-color: hsl(var(--border)); }
+:root[data-theme="light"] :is(.bg-slate-700, .bg-slate-800, [class~="bg-slate-800/50"]) { background-color: hsl(var(--secondary)); }
+:root[data-theme="light"] :is([class~="hover:bg-slate-700"], [class~="hover:bg-slate-800"], [class~="hover:bg-slate-800/60"], [class~="hover:bg-slate-800/30"]):hover { background-color: hsl(var(--secondary)); }
+:root[data-theme="light"] :is([class~="hover:text-white"], [class~="hover:text-slate-100"]):hover { color: hsl(var(--foreground)); }
+:root[data-theme="light"] .text-blue-400 { color: #1d4ed8; }
+:root[data-theme="light"] :is(.text-red-400, .text-red-500, .text-rose-400) { color: #be123c; }
+:root[data-theme="light"] .text-emerald-400 { color: #047857; }
+:root[data-theme="light"] :is(.text-cyan-300, .text-cyan-400) { color: #0e7490; }
+:root[data-theme="light"] input[type="date"]::-webkit-calendar-picker-indicator { filter: none; }
+:root[data-theme="light"] input[type="month"]::-webkit-calendar-picker-indicator { filter: none; }
+:root[data-theme="light"] [class~="hover:bg-blue-500"]:hover { color: white; }
+
+:root[data-theme] :is([class~="bg-[#0B0F17]"], [class~="bg-[#080B12]"], [class~="bg-[#080B12]/90"], [class~="bg-[#0F1522]"]) { background-color: hsl(var(--background)); }
+:root[data-theme] :is([class~="bg-[#111827]"], [class~="bg-[#161E2E]"]) { background-color: hsl(var(--card)); }
+:root[data-theme] :is(.text-blue-400, .text-blue-500, .text-blue-600, .text-blue-700) { color: var(--brand-ink); }
+:root[data-theme] :is(.text-red-400, .text-red-500, .text-red-600) { color: var(--brand-accent-ink); }
+:root[data-theme] :is(.bg-blue-600, .bg-blue-500) { background-color: var(--brand-primary); color: var(--brand-primary-text); }
+:root[data-theme] :is([class~="bg-blue-500/10"], [class~="bg-blue-500/15"]) { background-color: color-mix(in srgb, var(--brand-primary) 12%, transparent); }
+:root[data-theme] [class~="bg-red-500/10"] { background-color: color-mix(in srgb, var(--brand-accent) 12%, transparent); }
+:root[data-theme] :is(.border-blue-500, .border-blue-600, .border-blue-700) { border-color: var(--brand-primary); }
+:root[data-theme] [class~="hover:bg-blue-500"]:hover { background-color: color-mix(in srgb, var(--brand-primary) 85%, black); color: var(--brand-primary-text); }
+:root[data-theme] nav a[aria-current="page"] { color: var(--brand-ink); box-shadow: inset 3px 0 0 var(--brand-primary); }
+.company-name { overflow-wrap: anywhere; }
+:root[data-theme] .text-primary { color: var(--brand-ink); }
+.report-sheet { --report-blue: var(--brand-print-primary); --report-red: var(--brand-print-accent); }
+@media (max-width: 480px) { .report-driver-row { font-size: 8px; gap: 3px; } }
+@media print {
+  body { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  main > div { padding: 0 !important; max-width: none !important; }
+  .report-sheet { max-width: none !important; padding: 0 !important; border-radius: 0; }
+  .report-charts { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .report-stats { grid-template-columns: repeat(4,minmax(0,1fr)); }
+  .report-section { margin-top: 16px; }
+  .report-chart { height: 135px; }
+  .report-driver-row { font-size: 10px; }
+  .report-chart .recharts-tooltip-wrapper { display: none !important; }
 }

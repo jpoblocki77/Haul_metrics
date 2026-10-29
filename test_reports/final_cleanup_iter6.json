@@ -1,0 +1,30 @@
+{
+  "command": "pytest -n0 /app/backend/tests/test_full_regression.py /app/backend/tests/test_latest_features.py /app/backend/tests/test_final_verification.py /app/backend/tests/test_isolated_persistence.py /app/backend/tests/test_delete_erase_regression.py /app/backend/tests/test_telemetry_management.py -v --tb=short --junitxml=/app/test_reports/pytest/pytest_results_iter6_serial.xml",
+  "pytest_exit": 1,
+  "bridge_exit": 0,
+  "suites_restored_original": true,
+  "original_data_restored": true,
+  "accounts_password_hashes_and_branding_unchanged": true,
+  "credentials_verified": true,
+  "retained_test_accounts": [],
+  "counts": {
+    "users": 2,
+    "company_settings": 0,
+    "categories": 8,
+    "trucks": 0,
+    "drivers": 0,
+    "loads": 0,
+    "income": 0,
+    "expenses": 0,
+    "fuel": 0,
+    "inspections": 0,
+    "telemetry_sources": 0,
+    "telemetry_events": 0
+  },
+  "final_post_diagnostic_comparison": true,
+  "compared_all_three_safety_snapshots": true,
+  "retained_test_users": [],
+  "retained_company_test_records": 0,
+  "password_hashes_unchanged": true,
+  "effective_branding_unchanged": true
+}

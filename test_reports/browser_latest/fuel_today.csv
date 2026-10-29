@@ -1,0 +1,3 @@
+date,truck_number,driver_name,gallons,price_per_gallon,total,miles,mpg,location
+2026-10-28,T-105,Ray Holloway,240.0,4.669,1120.56,1633.0,6.8,"El Paso, TX"
+2026-10-28,T-102,Sarah Kent,200.0,4.179,835.8,1335.0,6.67,"Seattle, WA"

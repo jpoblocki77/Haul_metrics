@@ -4,18 +4,25 @@ import { useDateRange } from "@/context/DateRangeContext";
 
 export function useFetch(path, params) {
   const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
   const key = JSON.stringify(params || {});
   const reqId = useRef(0);
   const reload = useCallback(() => {
     const id = ++reqId.current;
     return api.get(path, { params: JSON.parse(key) })
-      .then((r) => id === reqId.current && setData(r.data))
-      .catch(() => {});
+      .then((r) => { if (id === reqId.current) { setData(r.data); setError(null); } })
+      .catch((e) => { if (id === reqId.current) setError(e); });
   }, [path, key]);
   useEffect(() => {
+    setData(null); setError(null);
     reload();
+    return () => { reqId.current += 1; };
   }, [reload]);
-  return [data, reload];
+  useEffect(() => {
+    window.addEventListener("company-records-changed", reload);
+    return () => window.removeEventListener("company-records-changed", reload);
+  }, [reload]);
+  return [data, reload, error];
 }
 
 export function useRangedFetch(path) {

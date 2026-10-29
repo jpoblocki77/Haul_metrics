@@ -1,0 +1,2 @@
+date,truck_number,driver_name,gallons,price_per_gallon,total,miles,mpg,location
+2026-10-12,TEST_UI_TRUCK,TEST_UI_DRIVER,180.0,5.0,900.0,1080.0,6.0,TEST_UI_STATION

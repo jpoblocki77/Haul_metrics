@@ -1,0 +1,526 @@
+{
+  "results": [
+    {
+      "name": "company save colors validation default reload header report login long mobile",
+      "status": "PASS"
+    },
+    {
+      "name": "Today local date dashboard lists CSV profile shared range",
+      "status": "PASS"
+    },
+    {
+      "name": "report charts nonzero visible path geometry and axis labels",
+      "status": "FAIL",
+      "error": "Report axes have no text tick labels"
+    },
+    {
+      "name": "overflow leaderboard_390_dark",
+      "status": "FAIL",
+      "error": "{'width': 390, 'scroll': 578}"
+    },
+    {
+      "name": "overflow leaderboard_390_light",
+      "status": "FAIL",
+      "error": "{'width': 390, 'scroll': 578}"
+    },
+    {
+      "name": "all sixteen routes desktop mobile dark light persistence sidebar scroll",
+      "status": "PASS"
+    },
+    {
+      "name": "dispatcher signs in hides owner links direct guards no deletes",
+      "status": "PASS"
+    },
+    {
+      "name": "delete confirm cancel persisted removal",
+      "status": "PASS"
+    }
+  ],
+  "diagnostics": {
+    "company_long_name_mobile": {
+      "width": 390,
+      "scroll": 390
+    },
+    "report_visible_geometry": [
+      {
+        "svg": 1,
+        "paths": [
+          {
+            "box": {
+              "w": 4,
+              "h": 34.445098876953125
+            },
+            "fill": "rgb(42, 92, 174)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 4,
+              "h": 113.481689453125
+            },
+            "fill": "rgb(42, 92, 174)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 4,
+              "h": 69.09909057617188
+            },
+            "fill": "rgb(42, 92, 174)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 4,
+              "h": 36.10540771484375
+            },
+            "fill": "rgb(42, 92, 174)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 4,
+              "h": 40.8026123046875
+            },
+            "fill": "rgb(42, 92, 174)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 4,
+              "h": 40.489990234375
+            },
+            "fill": "rgb(42, 92, 174)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 4,
+              "h": 86.10379028320312
+            },
+            "fill": "rgb(42, 92, 174)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 4,
+              "h": 76.38330078125
+            },
+            "fill": "rgb(42, 92, 174)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 4,
+              "h": 83.22491455078125
+            },
+            "fill": "rgb(42, 92, 174)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 4,
+              "h": 49.28460693359375
+            },
+            "fill": "rgb(42, 92, 174)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 4,
+              "h": 56.564788818359375
+            },
+            "fill": "rgb(185, 32, 32)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 4,
+              "h": 22.48040771484375
+            },
+            "fill": "rgb(185, 32, 32)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 4,
+              "h": 27.98291015625
+            },
+            "fill": "rgb(185, 32, 32)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 4,
+              "h": 28.23291015625
+            },
+            "fill": "rgb(185, 32, 32)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 4,
+              "h": 99.42181396484375
+            },
+            "fill": "rgb(185, 32, 32)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 4,
+              "h": 12.517608642578125
+            },
+            "fill": "rgb(185, 32, 32)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 4,
+              "h": 46.386199951171875
+            },
+            "fill": "rgb(185, 32, 32)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 4,
+              "h": 2.36669921875
+            },
+            "fill": "rgb(185, 32, 32)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 4,
+              "h": 23.402587890625
+            },
+            "fill": "rgb(185, 32, 32)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 4,
+              "h": 14.291107177734375
+            },
+            "fill": "rgb(185, 32, 32)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 4,
+              "h": 77.93569946289062
+            },
+            "fill": "rgb(185, 32, 32)",
+            "stroke": "none"
+          },
+          {
+            "box": {
+              "w": 4,
+              "h": 45.534912109375
+            },
+            "fill": "rgb(185, 32, 32)",
+            "stroke": "none"
+          }
+        ],
+        "ticks": 0,
+        "wrapper": [
+          {
+            "w": 0,
+            "h": 144
+          }
+        ],
+        "root": "<div class=\"report-chart h-36\" x-file-name=\"ReportCharts\" x-line-number=\"7\" x-column=\"4\" x-component=\"div\" x-id=\"ReportCharts_7_4\" x-dynamic=\"true\" x-source-type=\"computed\" x-source-editable=\"false\"><div class=\"recharts-responsive-container\" style=\"width: 100%; height: 100%; min-width: 0px;\"><div style=\"width: 0px; height: 0px; overflow: visible;\"><div width=\"372\" height=\"144\" class=\"recharts-wrapper\" style=\"position: relative; cursor: default; width: 372px; height: 144px;\"><div xmlns=\"http://ww"
+      },
+      {
+        "svg": 1,
+        "paths": [
+          {
+            "box": {
+              "w": 325,
+              "h": 22.704986572265625
+            },
+            "fill": "none",
+            "stroke": "rgb(42, 92, 174)"
+          }
+        ],
+        "ticks": 0,
+        "wrapper": [
+          {
+            "w": 0,
+            "h": 144
+          }
+        ],
+        "root": "<div class=\"report-chart h-36\" x-file-name=\"ReportCharts\" x-line-number=\"9\" x-column=\"204\" x-component=\"div\" x-id=\"ReportCharts_9_204\" x-dynamic=\"true\" x-source-type=\"computed\" x-source-editable=\"false\"><div class=\"recharts-responsive-container\" style=\"width: 100%; height: 100%; min-width: 0px;\"><div style=\"width: 0px; height: 0px; overflow: visible;\"><div width=\"372\" height=\"144\" class=\"recharts-wrapper\" style=\"position: relative; cursor: default; width: 372px; height: 144px;\"><div xmlns=\"http:"
+      }
+    ],
+    "report_without_maxwidth": [
+      {
+        "w": 372,
+        "h": 144
+      },
+      {
+        "w": 372,
+        "h": 144
+      }
+    ],
+    "dashboard_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "income_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "expenses_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "fuel_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "trucks_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "loads_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "telemetry_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "drivers_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "leaderboard_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "inspections_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "users_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "create-user_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "company_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "report_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "backup_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "test-data_1920_dark": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "dashboard_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "income_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "expenses_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "fuel_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "trucks_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "loads_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "telemetry_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "drivers_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "leaderboard_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "inspections_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "users_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "create-user_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "company_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "report_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "backup_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "test-data_1920_light": {
+      "width": 1920,
+      "scroll": 1920
+    },
+    "dashboard_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "income_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "expenses_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "fuel_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "trucks_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "loads_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "telemetry_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "drivers_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "leaderboard_390_dark": {
+      "width": 390,
+      "scroll": 578
+    },
+    "inspections_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "users_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "create-user_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "company_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "report_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "backup_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "test-data_390_dark": {
+      "width": 390,
+      "scroll": 390
+    },
+    "dashboard_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "income_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "expenses_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "fuel_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "trucks_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "loads_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "telemetry_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "drivers_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "leaderboard_390_light": {
+      "width": 390,
+      "scroll": 578
+    },
+    "inspections_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "users_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "create-user_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "company_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "report_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "backup_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "test-data_390_light": {
+      "width": 390,
+      "scroll": 390
+    },
+    "error_text": "",
+    "cleanup_original_restored": true
+  },
+  "page_errors": []
+}

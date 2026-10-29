@@ -1,0 +1,20 @@
+{
+  "original_records_unchanged": true,
+  "permanent_owner_password_verified": true,
+  "dispatch1_verified": true,
+  "retained_test_users": [],
+  "counts": {
+    "users": 2,
+    "company_settings": 0,
+    "categories": 8,
+    "trucks": 0,
+    "drivers": 0,
+    "loads": 0,
+    "income": 0,
+    "expenses": 0,
+    "fuel": 0,
+    "inspections": 0,
+    "telemetry_sources": 0,
+    "telemetry_events": 0
+  }
+}

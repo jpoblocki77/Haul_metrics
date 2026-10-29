@@ -1,0 +1,89 @@
+{
+  "summary": "Targeted public-preview closeout completed without product edits. Both iteration5 defects fixed: mobile winner readable and >500 telemetry complete. All19 focused browser groups passed, including every previously incomplete direct-delete/mobile flow. Explicit pytest -n0 ran36 checks: original31/31 passed, new search3/5 passed;2 failures expose one additional serialized-payload search defect, independently reproduced in API and browser. Both actual bridge entrypoints signed in to the real external API. Original records/accounts/password hashes/branding restored and compared; no retained test users or company data.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {
+        "endpoint": "GET /api/telemetry/manage-events",
+        "issue": "MEDIUM: Search operates on JSON serialization instead of decoded payload values. A visible origin Montréal is found by q=Montr but q=Montréal returns total0/items[]. Literal backslash search incorrectly returns Montréal as well as the actual backslash-containing record. Confirmed twice:501-event pytest and independent5-event API/browser reproduction. SQL percent/underscore escaping itself works."
+      }
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [
+      {
+        "flow": "Global Delete entries telemetry search",
+        "issue": "Accented city text visible in the list cannot be searched by its displayed spelling; q=Montréal displays No matching entries. Backslash search displays an unrelated accented-city record. Backend serialized-JSON search is the cause, not a frontend input/selector problem.",
+        "affected_selectors": ["delete-entries-search", "delete-entries-count", "delete-entries-empty"]
+      }
+    ],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/ui_targeted_closeout.py",
+    "/app/backend/tests/test_telemetry_management.py",
+    "/app/backend/tests/check_telemetry_search_encoding.py",
+    "/app/backend/tests/run_closeout_serial.py",
+    "/app/backend/tests/check_closeout_preservation.py",
+    "/app/test_reports/pytest/pytest_results_iter6_serial.xml",
+    "/app/test_reports/pytest_iter6_serial.log",
+    "/app/test_reports/browser_iter6/results.json",
+    "/app/test_reports/browser_iter6/search_encoding_results.json",
+    "/app/test_reports/bridge_real_startup.json",
+    "/app/test_reports/final_cleanup_iter6.json",
+    "/app/test_reports/final_test_safety.json"
+  ],
+  "action_items": [
+    "Search decoded telemetry payload values (e.g. SQLite JSON value extraction/normalized search text), while retaining literal SQL wildcard escaping and server pagination. Ensure old ASCII-escaped JSON rows and restored archives are searchable; ensure_ascii=False only on future inserts is insufficient.",
+    "Rerun the2 failing search checks and independent encoding reproduction after the fix, explicitly serial pytest -n0 with encrypted safety restoration. No remaining unexecuted runnable closeout flows.",
+    "Windows launcher/EXE and real Funbit/SCS gameplay still require validation on the user's driving PC."
+  ],
+  "critical_code_review_comments": [
+    "telemetry_engine.py:14 json.dumps(payload) defaults to ensure_ascii=True; telemetry.py:173-176 concatenates raw payload into LIKE. This makes server search differ from displayed parsed JSON: non-ASCII strings miss and serialization backslashes false-match.",
+    "Owner management access, query200 limit, limit1..100, nonnegative offsets, dispatcher event ownership and client offset correction passed. No product code modified."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_telemetry_management.py",
+    "/app/backend/tests/check_telemetry_history_limit.py",
+    "/app/backend/tests/ui_targeted_closeout.py",
+    "/app/backend/tests/run_closeout_serial.py",
+    "/app/backend/tests/check_telemetry_search_encoding.py",
+    "/app/backend/tests/check_closeout_preservation.py",
+    "/app/test_reports/iteration_6.json"
+  ],
+  "success_rate": {
+    "backend": "34/36 (94.4%); original saved31/31 pass, added3/5 pass. Both failures are the same decoded-payload search defect, not flaky/harness failures.",
+    "frontend": "19/19 requested closeout groups pass (100%); additional encoding-search diagnostic confirms1 failing integration group (19/20 overall,95%). No page errors."
+  },
+  "test_credentials": "Original owner and dispatch1 credentials read from memory/test_credentials.md and verified; exact original password hashes preserved. No new credentials retained.",
+  "seed_data_creation": "Temporary winner/profile drivers, loads with linked income, fuel, inspections, telemetry sources and501-event histories protected by0600 encrypted .mccoy snapshots. All original tables restored and compared across3 snapshots. Final users2, categories8, company_settings0(default branding), all other company/telemetry tables0. Only2 disposable test_r4_* lockout rows cleaned; real accounts/security preserved. Restore intentionally regenerates session_version and IDs continue advancing.",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Do not repeat64-route matrix. All former direct profile and telemetry delete gaps are closed.19 browser groups ran once and passed. New endpoint raw-JSON search is the sole remaining reproducible web defect. Public URL comes from frontend/.env. Repository pytest.ini defaults2workers: always explicit -n0 and foreground, no concurrent sharedDB suites. Final original-data compare is final_cleanup_iter6.json. Old diagnostic check_telemetry_history_limit.py expectation updated to501; that diagnostic was not rerun separately because reusable API/UI tests now verify501 completeness directly.",
+  "verified_coverage": [
+    "Eight populated winner cases: normal Sarah Kent and150-character unbroken name at1920x800/390x844, dark/light; actual trophy/card screenshots. Mobile name/subtitle316px wide (was12px); normal name36px tall, no horizontal overflow.",
+    "Direct profile loads/fuel/inspections: cancel preserves API row; confirm removes row without reload, tab counts1->0; load KPI/revenue zero and linked income removed; fuel6.00->empty MPG with empty trend/chart; inspection empty tab.",
+    "Direct telemetry pending, approved-load, approved-fuel and dismissed history: cancel preserves detection; confirm removes row immediately; approved saved load/income/fuel remains. Identical active snapshot after deletion suppressed; genuinely new occurrence after empty snapshot appears.",
+    "Both mobile themes: seeded income deleted through nested/global dialogs, both fully gone before navigation; dashboard KPI immediately subtracts123 without refresh; mobile menu navigation succeeds and income row absent.",
+    "501 events returned in live history; utility correct501 total/range with100/page; next/previous/all6 pages; oldest searchable; search resets offset; empty query/no-match; oldest deletion on last page automatically adjusts to401–500 with total500 and disabled Next.",
+    "Owner/dispatcher direct controls and management/delete APIs isolated. Serial saved31 tests include erase bad phrase/password/cancel preservation, accounts/branding/security, child-table cleanup, categories remain empty after init and no ID reuse.",
+    "Real downloaded and source bridge subprocesses authenticated externally and remained running for12seconds each, then deliberately terminated by harness; no launch crash. Existing latest production build log reviewed, not rebuilt; PDF unchanged/not regenerated."
+  ],
+  "screenshots": [
+    "/app/test_reports/browser_iter6/winner_normal_390_light.jpg",
+    "/app/test_reports/browser_iter6/winner_long_390_dark.jpg",
+    "/app/test_reports/browser_iter6/telemetry_last_page_501.jpg",
+    "/app/test_reports/browser_iter6/telemetry_last_page_adjusted_500.jpg",
+    "/app/test_reports/browser_iter6/direct_profile_fuel.jpg",
+    "/app/test_reports/browser_iter6/mobile_dashboard_refresh_light.jpg",
+    "/app/test_reports/browser_iter6/unicode_search_no_result.jpg",
+    "/app/test_reports/browser_iter6/backslash_search_false_positive.jpg"
+  ],
+  "coverage_gaps": {"runnable_targeted_closeout": 0, "environment_only": ["Actual Windows BAT/EXE launch", "Real game/plugin/telemetry sampling on user's PC"]},
+  "limitations": [
+    "No product API MOCKED. SCS snapshots are SIMULATED inputs to real endpoints. The saved31 API suite includes pre-existing bridge contract harness scenarios with MOCKED network/input fixtures; separate final downloaded/source bridge subprocesses use real external authentication/status, not mocks.",
+    "Two new search assertions remain genuinely failing. Test/diagnostic code reports failures as-is; no functionality patched. Actual Windows/live SCS cannot be validated from Linux."
+  ],
+  "rca of the issue": "Create a detection with sourceCity Montréal through /telemetry/ingest. /events decodes payload and displays Montréal, but persisted raw JSON contains Mon tr + a Unicode escape (Montr\\u00e9al). /manage-events q=Montréal compares the raw serialization and returns0. q=backslash matches that Unicode escape although visible city contains no backslash. The same SQL literal escaping works for percent and underscore. Use decoded JSON scalar values/search representation for BOTH total and paginated selection; preserve historical archives. Independent5-event reproduction and screenshots prove both symptoms; original data restored finally."
+}

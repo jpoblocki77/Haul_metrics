@@ -1,4 +1,5 @@
 import CrudPage from "@/components/CrudPage";
+import { Link } from "react-router-dom";
 import { Panel } from "@/components/Bits";
 import { DriverBars, short } from "@/components/Charts";
 import { useRangedFetch } from "@/hooks/useData";
@@ -21,7 +22,7 @@ export default function Drivers() {
       { name: "notes", label: "Notes", type: "textarea", full: true },
     ],
     columns: [
-      { key: "name", label: "Driver", render: (r) => <span className="font-medium text-white">{r.name}</span> },
+      { key: "name", label: "Driver", render: (r) => <Link data-testid={`driver-profile-link-${r.id}`} to={`/drivers/${r.id}`} className="font-medium text-primary underline-offset-4 hover:underline">{r.name}</Link> },
       { key: "loads", label: "Loads", right: true, render: (r) => st(r).loads ?? 0 },
       { key: "revenue", label: "Revenue", right: true, render: (r) => <span className="text-emerald-400">{money(st(r).revenue)}</span> },
       { key: "load_miles", label: "Miles", right: true, render: (r) => num(st(r).load_miles, 0) },

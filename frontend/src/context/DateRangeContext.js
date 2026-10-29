@@ -5,6 +5,7 @@ const iso = (d) => new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOSt
 
 export function presetRange(preset) {
   const now = new Date();
+  if (preset === "today") return { start: iso(now), end: iso(now) };
   if (preset === "week") {
     const s = new Date(now);
     s.setDate(now.getDate() - ((now.getDay() + 6) % 7));

@@ -1,0 +1,421 @@
+{
+  "results": [
+    {
+      "name": "auth protected invalid valid login",
+      "status": "PASS"
+    },
+    {
+      "name": "theme persists routes reload logout login",
+      "status": "PASS"
+    },
+    {
+      "name": "all fifteen sidebar routes including scroll",
+      "status": "PASS"
+    },
+    {
+      "name": "create user validation visibility duplicate success",
+      "status": "PASS"
+    },
+    {
+      "name": "dispatcher login owner-route redirects create edit no-delete",
+      "status": "PASS"
+    },
+    {
+      "name": "user editor role reset self reset logout and delete",
+      "status": "PASS"
+    },
+    {
+      "name": "trucks create edit search capacity",
+      "status": "PASS"
+    },
+    {
+      "name": "drivers create edit search",
+      "status": "PASS"
+    },
+    {
+      "name": "category add rename",
+      "status": "PASS"
+    },
+    {
+      "name": "income create edit search",
+      "status": "PASS"
+    },
+    {
+      "name": "expenses create edit search",
+      "status": "PASS"
+    },
+    {
+      "name": "fuel create edit search computed preview",
+      "status": "PASS"
+    },
+    {
+      "name": "loads create edit status linked income",
+      "status": "PASS"
+    },
+    {
+      "name": "inspections create edit fines passed clears",
+      "status": "PASS"
+    },
+    {
+      "name": "all CSV downloads custom empty ranges and presets",
+      "status": "PASS"
+    },
+    {
+      "name": "sample data add and seven dashboard charts",
+      "status": "PASS"
+    },
+    {
+      "name": "leaderboard history trophies quick month changes empty",
+      "status": "PASS"
+    },
+    {
+      "name": "driver profile links totals tabs empty invalid navigation",
+      "status": "PASS"
+    },
+    {
+      "name": "monthly report stats chart DOM actual PDF",
+      "status": "PASS"
+    },
+    {
+      "name": "report rapid month switching and empty",
+      "status": "PASS"
+    },
+    {
+      "name": "telemetry settings errors bridge approve fuel load dismiss history",
+      "status": "PASS"
+    },
+    {
+      "name": "desktop mobile all pages both themes overflow sidebar",
+      "status": "FAIL",
+      "error": "Locator expected to be visible\nActual value: None\nError: element(s) not found \nCall log:\n  - Expect \"to_be_visible\" get_by_test_id(\"dashboard-page\") with timeout 5000ms\n  - waiting for get_by_test_id(\"dashboard-page\")\n\nAria snapshot:\n- main:\n  - heading \"haul-metrics-2.preview.emergentagent.com\" [level=1]\n  - heading \"Performing security verification\" [level=2]\n  - paragraph: This website uses a security service to protect against malicious bots. This page is displayed while the website verifies you are not a bot.\n- contentinfo:\n  - text: \"Ray ID:\"\n  - code: a51defd3ca0c591f\n  - text: Performance and Security by\n  - link \"Cloudflare, opens in a new tab\":\n    - /url: https://www.cloudflare.com?utm_source=challenge&utm_campaign=l\n    - text: Cloudflare\n  - link \"Privacy, opens in a new tab\":\n    - /url: https://www.cloudflare.com/privacypolicy/\n    - text: Privacy"
+    },
+    {
+      "name": "mobile profile unbreakable long names",
+      "status": "PASS"
+    },
+    {
+      "name": "backup download preview cancel errors confirmed replace logout login",
+      "status": "PASS"
+    },
+    {
+      "name": "telemetry mobile review modal scrolling cancel",
+      "status": "PASS"
+    },
+    {
+      "name": "all CRUD delete cancel confirm category remove sample preserves manual",
+      "status": "PASS"
+    }
+  ],
+  "page_errors": [],
+  "diagnostics": {
+    "dashboard_charts": [
+      {
+        "id": "chart-income-expenses",
+        "svg": 3,
+        "bars": 12
+      },
+      {
+        "id": "chart-expense-categories",
+        "svg": 10,
+        "bars": 0
+      },
+      {
+        "id": "chart-fuel-trend",
+        "svg": 3,
+        "bars": 6
+      },
+      {
+        "id": "chart-inspections",
+        "svg": 4,
+        "bars": 0
+      },
+      {
+        "id": "chart-driver-revenue",
+        "svg": 1,
+        "bars": 7
+      },
+      {
+        "id": "chart-driver-ontime",
+        "svg": 1,
+        "bars": 7
+      },
+      {
+        "id": "chart-driver-mpg",
+        "svg": 1,
+        "bars": 7
+      }
+    ],
+    "report_chart_dom": [
+      {
+        "rect": {
+          "width": 372,
+          "height": 144
+        },
+        "container": [
+          {
+            "width": 372,
+            "height": 144,
+            "display": "block",
+            "parent": "<div class=\"report-chart h-36\" x-file-name=\"ReportCharts\" x-line-number=\"7\" x-column=\"4\" x-component=\"div\" x-id=\"ReportCharts_7_4\" x-dynamic=\"true\" x-source-type=\"computed\" x-source-editable=\"false\"><div class=\"recharts-responsive-container\" style=\"width: 100%; height: 100%; min-width: 0px;\"><div style=\"width: 0px; height: 0px; overflow: visible;\"><div width=\"372\" height=\"144\" class=\"recharts-wrapper\" style=\"position: relative; cursor: default; width: 372px; height: 144px;\"><div xmlns=\"http://www.w3.org/1999/xhtml\" tabindex=\"-1\" class=\"recharts-tooltip-wrapper\" style=\"visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;\"><div class=\"recharts-default-tooltip\" role=\"status\" aria-live=\"assertive\" style=\"margin: 0px; padding: 10px; background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204); white-space: nowrap;\"><p class=\"recharts-tooltip-label\" style=\"margin: 0px;\"></p></div></div><svg role=\"application\" tabindex=\"0\" class=\"recharts-surface\" width=\"372\" height=\"144\" viewBox=\"0 0 372 144\" style=\"width: 100%; height: 100%; display: block;\"><title></title><desc></desc><g tabindex=\"-1\"><g class=\"recharts-cartesian-grid\"><g class=\"recharts-cartesian-grid-horizontal\"><line stroke=\"var(--report-grid)\" fill=\"none\" x=\"40\" y=\"0\" width=\"327\" height=\"114\" x1=\"40\" y1=\"114\" x2=\"367\" y2=\"114\"></line><line stroke=\"var(--report-grid)\" fill=\"none\" x=\"40\" y=\"0\" width=\"327\" height=\"114\" x1=\"40\" y1=\"57\" x2=\"367\" y2=\"57\"></line><line stroke=\"var(--report-grid)\" fill=\"none\" x=\"40\" y=\"0\" width=\"327\" height=\"114\" x1=\"40\" y1=\"0\" x2=\"367\" y2=\"0\"></line></g></g></g><g tabindex=\"-1\"></g><defs><clipPath id=\"recharts111-clip\"><rect x=\"40\" y=\"0\" height=\"114\" width=\"327\"></rect></clipPath></defs><g tabindex=\"-1\"></g><g tabindex=\"-1\"></g><g tabindex=\"-1\"><g cla"
+          }
+        ],
+        "svg": 1,
+        "html": "<div class=\"report-chart h-36\" x-file-name=\"ReportCharts\" x-line-number=\"7\" x-column=\"4\" x-component=\"div\" x-id=\"ReportCharts_7_4\" x-dynamic=\"true\" x-source-type=\"computed\" x-source-editable=\"false\"><div class=\"recharts-responsive-container\" style=\"width: 100%; height: 100%; min-width: 0px;\"><div style=\"width: 0px; height: 0px; overflow: visible;\"><div width=\"372\" height=\"144\" class=\"recharts-wrapper\" style=\"position: relative; cursor: default; width: 372px; height: 144px;\"><div xmlns=\"http://www.w3.org/1999/xhtml\" tabindex=\"-1\" class=\"recharts-tooltip-wrapper\" style=\"visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;\"><div class=\"recharts-default-tooltip\" role=\"status\" aria-live=\"assertive\" style=\"margin: 0px; padding: 10px; background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204); white-space: nowrap;\"><p class=\"recharts-tooltip-label\" style=\"margin: 0px;\"></p></div></div><svg role=\"application\" tabindex=\"0\" class=\"recharts-surface\" width=\"372\" height=\"144\" viewBox=\"0 0 372 144\" style=\"width: 100%; height: 100%; display: block;\"><title></title><desc></desc><g tabindex=\"-1\"><g class=\"recharts-cartesian-grid\"><g class=\"recharts-cartesian-grid-horizontal\"><line stroke=\"var(--report-grid)\" fill=\"none\" x=\"40\" y=\"0\" width=\"327\" height=\"114\" x1=\"40\" y1=\"114\" x2=\"367\" y2=\"114\"></line><line stroke=\"var(--report-grid)\" fill=\"none\" x=\"40\" y=\"0\" width=\"327\" height=\"114\" x1=\"40\" y1=\"57\" x2=\"367\" y2=\"57\"></line><line stroke=\"var(--report-grid)\" fill=\"none\" x=\"40\" y=\"0\" width=\"327\" height=\"114\" x1=\"40\" y1=\"0\" x2=\"367\" y2=\"0\"></line></g></g></g><g tabindex=\"-1\"></g><defs><clipPath id=\"recharts111-clip\"><rect x=\"40\" y=\"0\" height=\"114\" width=\"327\"></rect></clipPath></defs><g tabindex=\"-1\"></g><g tabindex=\"-1\"></g><g tabindex=\"-1\"><g class=\"recharts-layer recharts-bar\" id=\"recharts-bar-:rc:\"><g class=\"recharts-layer recharts-bar-rectangles\"><g class=\"recharts-layer\"><g class=\"recharts-layer recharts-bar-rectangle\"><path name=\"Income\" fill=\"var(--report-blue)\" x=\"41.5571\" y=\"9.1992\" width=\"4\" height=\"104.8008\" radius=\"0\" class=\"recharts-rectangle\" d=\"M 41.5571,9.1992 h 4 v 104.8008 h -4 Z\"></path></g><g class=\"recharts-layer recharts-bar-rectangle\"></g><g class=\"recharts-layer recharts-bar-rectangle\"></g><g class=\"recharts-layer recharts-bar-rectangle\"></g><g class=\"recharts-layer recharts-bar-rectangle\"></g><g class=\"recharts-layer recharts-bar-rectangle\"><path name=\"Income\" fill=\"var(--report-blue)\" x=\"119.4143\" y=\"91.4803\" width=\"4\" height=\"22.5198\" radius=\"0\" class=\"recharts-rectangle\" d=\"M 119.4143,91.4803 h 4 v 22.5198 h -4 Z\"></path></g><g class=\"recharts-layer recharts-bar-rectangle\"><path name=\"Income\" fill=\"var(--report-blue)\" x=\"134.9857\" y=\"97.581\" width=\"4\" height=\"16.419\" radius=\"0\" class=\"recharts-rectangle\" d=\"M 134.9857,97.581 h 4 v 16.419 h -4 Z\"></path></g><g class=\"recharts-layer recharts-bar-rectangle\"></g><g class=\"recharts-layer recharts-bar-rectangle\"></g><g class=\"recharts-layer recharts-bar-rectangle\"><path name=\"Income\" fill=\"var(--report-blue)\" x=\"181.7\" y=\"40.8741\" width=\"4\" height=\"73.1259\" radius=\"0\" class=\"recharts-rectangle\" d=\"M 181.7,40.8741 h 4 v 73.1259 h -4 Z\"></path></g><g class=\"recharts-layer recharts-bar-rectangle\"><path name=\"Income\" fill=\"var(--report-blue)\" x=\"197.2714\" y=\"55.1144\" width=\"4\" height=\"58.8856\" radius=\"0\" class=\"recharts-rectangle\" d=\"M 197.2714,55.1144 h 4 v 58.8856 h -4 Z\"></path></g><g class=\"recharts-layer recharts-bar-rectangle\"></g><g class="
+      },
+      {
+        "rect": {
+          "width": 372,
+          "height": 144
+        },
+        "container": [
+          {
+            "width": 372,
+            "height": 144,
+            "display": "block",
+            "parent": "<div class=\"report-chart h-36\" x-file-name=\"ReportCharts\" x-line-number=\"9\" x-column=\"204\" x-component=\"div\" x-id=\"ReportCharts_9_204\" x-dynamic=\"true\" x-source-type=\"computed\" x-source-editable=\"false\"><div class=\"recharts-responsive-container\" style=\"width: 100%; height: 100%; min-width: 0px;\"><div style=\"width: 0px; height: 0px; overflow: visible;\"><div width=\"372\" height=\"144\" class=\"recharts-wrapper\" style=\"position: relative; cursor: default; width: 372px; height: 144px;\"><div xmlns=\"http://www.w3.org/1999/xhtml\" tabindex=\"-1\" class=\"recharts-tooltip-wrapper\" style=\"visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;\"><div class=\"recharts-default-tooltip\" role=\"status\" aria-live=\"assertive\" style=\"margin: 0px; padding: 10px; background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204); white-space: nowrap;\"><p class=\"recharts-tooltip-label\" style=\"margin: 0px;\"></p></div></div><svg role=\"application\" tabindex=\"0\" class=\"recharts-surface\" width=\"372\" height=\"144\" viewBox=\"0 0 372 144\" style=\"width: 100%; height: 100%; display: block;\"><title></title><desc></desc><g tabindex=\"-1\"><g class=\"recharts-cartesian-grid\"><g class=\"recharts-cartesian-grid-horizontal\"><line stroke=\"var(--report-grid)\" fill=\"none\" x=\"35\" y=\"0\" width=\"325\" height=\"114\" x1=\"35\" y1=\"114\" x2=\"360\" y2=\"114\"></line><line stroke=\"var(--report-grid)\" fill=\"none\" x=\"35\" y=\"0\" width=\"325\" height=\"114\" x1=\"35\" y1=\"57\" x2=\"360\" y2=\"57\"></line><line stroke=\"var(--report-grid)\" fill=\"none\" x=\"35\" y=\"0\" width=\"325\" height=\"114\" x1=\"35\" y1=\"0\" x2=\"360\" y2=\"0\"></line></g></g></g><g tabindex=\"-1\"></g><defs><clipPath id=\"recharts113-clip\"><rect x=\"35\" y=\"0\" height=\"114\" width=\"325\"></rect></clipPath></defs><g tabindex=\"-1\"></g><g tabindex=\"-1\"></g><g tabindex=\"-1\"></"
+          }
+        ],
+        "svg": 1,
+        "html": "<div class=\"report-chart h-36\" x-file-name=\"ReportCharts\" x-line-number=\"9\" x-column=\"204\" x-component=\"div\" x-id=\"ReportCharts_9_204\" x-dynamic=\"true\" x-source-type=\"computed\" x-source-editable=\"false\"><div class=\"recharts-responsive-container\" style=\"width: 100%; height: 100%; min-width: 0px;\"><div style=\"width: 0px; height: 0px; overflow: visible;\"><div width=\"372\" height=\"144\" class=\"recharts-wrapper\" style=\"position: relative; cursor: default; width: 372px; height: 144px;\"><div xmlns=\"http://www.w3.org/1999/xhtml\" tabindex=\"-1\" class=\"recharts-tooltip-wrapper\" style=\"visibility: hidden; pointer-events: none; position: absolute; top: 0px; left: 0px;\"><div class=\"recharts-default-tooltip\" role=\"status\" aria-live=\"assertive\" style=\"margin: 0px; padding: 10px; background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204); white-space: nowrap;\"><p class=\"recharts-tooltip-label\" style=\"margin: 0px;\"></p></div></div><svg role=\"application\" tabindex=\"0\" class=\"recharts-surface\" width=\"372\" height=\"144\" viewBox=\"0 0 372 144\" style=\"width: 100%; height: 100%; display: block;\"><title></title><desc></desc><g tabindex=\"-1\"><g class=\"recharts-cartesian-grid\"><g class=\"recharts-cartesian-grid-horizontal\"><line stroke=\"var(--report-grid)\" fill=\"none\" x=\"35\" y=\"0\" width=\"325\" height=\"114\" x1=\"35\" y1=\"114\" x2=\"360\" y2=\"114\"></line><line stroke=\"var(--report-grid)\" fill=\"none\" x=\"35\" y=\"0\" width=\"325\" height=\"114\" x1=\"35\" y1=\"57\" x2=\"360\" y2=\"57\"></line><line stroke=\"var(--report-grid)\" fill=\"none\" x=\"35\" y=\"0\" width=\"325\" height=\"114\" x1=\"35\" y1=\"0\" x2=\"360\" y2=\"0\"></line></g></g></g><g tabindex=\"-1\"></g><defs><clipPath id=\"recharts113-clip\"><rect x=\"35\" y=\"0\" height=\"114\" width=\"325\"></rect></clipPath></defs><g tabindex=\"-1\"></g><g tabindex=\"-1\"></g><g tabindex=\"-1\"></g><g tabindex=\"-1\"><g class=\"recharts-layer recharts-line\"><path stroke=\"var(--report-blue)\" stroke-width=\"2\" fill=\"none\" id=\"recharts-line-:re:\" height=\"114\" width=\"325\" class=\"recharts-curve recharts-line-curve\" d=\"M35,28.797L81.429,6.726L127.857,29.504L174.286,24.7L220.714,3.792L267.143,35.15L313.571,15.2L360,2.918\"></path></g></g><g tabindex=\"-1\"><g class=\"recharts-layer recharts-cartesian-axis recharts-xAxis xAxis\"><g class=\"recharts-cartesian-axis-ticks recharts-xAxis-ticks\"><g class=\"recharts-cartesian-axis-tick-lines recharts-xAxis-tick-lines\"><g class=\"recharts-layer recharts-cartesian-axis-tick\"></g><g class=\"recharts-layer recharts-cartesian-axis-tick\"></g><g class=\"recharts-layer recharts-cartesian-axis-tick\"></g><g class=\"recharts-layer recharts-cartesian-axis-tick\"></g><g class=\"recharts-layer recharts-cartesian-axis-tick\"></g><g class=\"recharts-layer recharts-cartesian-axis-tick\"></g><g class=\"recharts-layer recharts-cartesian-axis-tick\"></g><g class=\"recharts-layer recharts-cartesian-axis-tick\"></g></g></g></g><g class=\"recharts-layer recharts-cartesian-axis recharts-yAxis yAxis\"><g class=\"recharts-cartesian-axis-ticks recharts-yAxis-ticks\"><g class=\"recharts-cartesian-axis-tick-lines recharts-yAxis-tick-lines\"><g class=\"recharts-layer recharts-cartesian-axis-tick\"></g><g class=\"recharts-layer recharts-cartesian-axis-tick\"></g><g class=\"recharts-layer recharts-cartesian-axis-tick\"></g><g class=\"recharts-layer recharts-cartesian-axis-tick\"></g><g class=\"recharts-layer recharts-cartesian-axis-tick\"></g></g></g></g></g><g tabindex=\"-1\"><g class=\"recharts-layer recharts-line-dots\"><circle r=\"2\" stroke=\"var(--report-blue)\" stroke-width=\"2\" fill=\"#fff\" height=\"1"
+      }
+    ],
+    "report_pdf": {
+      "pages": 1,
+      "text": "McCoy Trucking\nMONTHLY OPERATIONS REPORT\nJuly 2026\n2026-07-01 \u2013 2026-07-31\nPROFIT & LOSS\nINCOME\n$27,422.96\nEXPENSES\n$8,276.05\nNET PROFIT\n$19,146.91\nDOT FINES\n$418.71\nDaily income vs expenses\n\u25a0  Income \u25a0  Expenses (fuel & fines included)\nDaily fleet MPG\nTotal recorded miles \u00f7 corresponding gallons\nFUEL\nFUEL SPEND\n$4,662.09\nGALLONS\n1,140.1\nAVG $/GAL\n4.089\nFLEET AVG MPG\n6.58\nLOADS & DRIVERS\nLOADS\n12\nON TIME\n9\nLATE\n3\nON-TIME RATE\n75.0%\nTop 5 of 5 active drivers\nDriver Loads On time MPG Revenue\n\u2605  Jenny Park 2 100.0% 6.81 $5,515.83\nMike \"Gearjammer\" Lopez 3 100.0% 5.90 $5,761.49\nRay Holloway 2 50.0% 6.46 $6,074.26\nSarah Kent 3 66.7% \u2014 $7,347.36\nTasha Brooks 2 50.0% 7.53 $2,724.02\nDOT INSPECTIONS\nPASSED\n1\nFINED\n0\nOUT OF SERVICE\n2\nTOTAL FINES\n$418.71\nMcCoy Trucking \u00b7 Company totals include all records for the month. US gallons / miles / USD.\nGenerated 10/29/2026, 12:06:10 AM\n03 05 06 10 11 12 14 16 17 18 20 21 22 23 24 26 27 28 29 30 31\n0\n2k\n3k\n5k\n6k\n06 10 11 17 18 21 23 30\n0\n2\n4\n6\n8"
+    },
+    "overflow_create_user_1920_dark": {
+      "width": 1920,
+      "scroll": 1920,
+      "offenders": []
+    },
+    "overflow_users_1920_dark": {
+      "width": 1920,
+      "scroll": 1920,
+      "offenders": []
+    },
+    "overflow_backup_1920_dark": {
+      "width": 1920,
+      "scroll": 1920,
+      "offenders": []
+    },
+    "overflow_telemetry_1920_dark": {
+      "width": 1920,
+      "scroll": 1920,
+      "offenders": []
+    },
+    "overflow_report_1920_dark": {
+      "width": 1920,
+      "scroll": 1920,
+      "offenders": []
+    },
+    "overflow_profile_1920_dark": {
+      "width": 1920,
+      "scroll": 1920,
+      "offenders": []
+    },
+    "overflow_income_1920_dark": {
+      "width": 1920,
+      "scroll": 1920,
+      "offenders": []
+    },
+    "overflow_expenses_1920_dark": {
+      "width": 1920,
+      "scroll": 1920,
+      "offenders": []
+    },
+    "overflow_fuel_1920_dark": {
+      "width": 1920,
+      "scroll": 1920,
+      "offenders": []
+    },
+    "overflow_trucks_1920_dark": {
+      "width": 1920,
+      "scroll": 1920,
+      "offenders": []
+    },
+    "overflow_loads_1920_dark": {
+      "width": 1920,
+      "scroll": 1920,
+      "offenders": []
+    },
+    "overflow_drivers_1920_dark": {
+      "width": 1920,
+      "scroll": 1920,
+      "offenders": []
+    },
+    "overflow_leaderboard_1920_dark": {
+      "width": 1920,
+      "scroll": 1920,
+      "offenders": []
+    },
+    "overflow_inspections_1920_dark": {
+      "width": 1920,
+      "scroll": 1920,
+      "offenders": []
+    },
+    "overflow_test-data_1920_dark": {
+      "width": 1920,
+      "scroll": 1920,
+      "offenders": []
+    },
+    "overflow_create_user_1920_light": {
+      "width": 1920,
+      "scroll": 1920,
+      "offenders": []
+    },
+    "overflow_users_1920_light": {
+      "width": 1920,
+      "scroll": 1920,
+      "offenders": []
+    },
+    "overflow_backup_1920_light": {
+      "width": 1920,
+      "scroll": 1920,
+      "offenders": []
+    },
+    "overflow_telemetry_1920_light": {
+      "width": 1920,
+      "scroll": 1920,
+      "offenders": []
+    },
+    "overflow_report_1920_light": {
+      "width": 1920,
+      "scroll": 1920,
+      "offenders": []
+    },
+    "overflow_profile_1920_light": {
+      "width": 1920,
+      "scroll": 1920,
+      "offenders": []
+    },
+    "overflow_income_1920_light": {
+      "width": 1920,
+      "scroll": 1920,
+      "offenders": []
+    },
+    "overflow_expenses_1920_light": {
+      "width": 1920,
+      "scroll": 1920,
+      "offenders": []
+    },
+    "overflow_fuel_1920_light": {
+      "width": 1920,
+      "scroll": 1920,
+      "offenders": []
+    },
+    "overflow_trucks_1920_light": {
+      "width": 1920,
+      "scroll": 1920,
+      "offenders": []
+    },
+    "overflow_loads_1920_light": {
+      "width": 1920,
+      "scroll": 1920,
+      "offenders": []
+    },
+    "overflow_drivers_1920_light": {
+      "width": 1920,
+      "scroll": 1920,
+      "offenders": []
+    },
+    "overflow_leaderboard_1920_light": {
+      "width": 1920,
+      "scroll": 1920,
+      "offenders": []
+    },
+    "overflow_inspections_1920_light": {
+      "width": 1920,
+      "scroll": 1920,
+      "offenders": []
+    },
+    "overflow_test-data_1920_light": {
+      "width": 1920,
+      "scroll": 1920,
+      "offenders": []
+    },
+    "overflow_create_user_390_dark": {
+      "width": 390,
+      "scroll": 390,
+      "offenders": []
+    },
+    "overflow_users_390_dark": {
+      "width": 390,
+      "scroll": 390,
+      "offenders": []
+    },
+    "overflow_backup_390_dark": {
+      "width": 390,
+      "scroll": 390,
+      "offenders": []
+    },
+    "overflow_telemetry_390_dark": {
+      "width": 390,
+      "scroll": 390,
+      "offenders": []
+    },
+    "overflow_report_390_dark": {
+      "width": 390,
+      "scroll": 390,
+      "offenders": []
+    },
+    "overflow_profile_390_dark": {
+      "width": 390,
+      "scroll": 390,
+      "offenders": []
+    },
+    "overflow_income_390_dark": {
+      "width": 390,
+      "scroll": 390,
+      "offenders": []
+    },
+    "overflow_expenses_390_dark": {
+      "width": 390,
+      "scroll": 390,
+      "offenders": []
+    },
+    "overflow_fuel_390_dark": {
+      "width": 390,
+      "scroll": 390,
+      "offenders": []
+    },
+    "overflow_trucks_390_dark": {
+      "width": 390,
+      "scroll": 390,
+      "offenders": []
+    },
+    "overflow_loads_390_dark": {
+      "width": 390,
+      "scroll": 390,
+      "offenders": []
+    },
+    "overflow_drivers_390_dark": {
+      "width": 390,
+      "scroll": 390,
+      "offenders": []
+    },
+    "overflow_leaderboard_390_dark": {
+      "width": 390,
+      "scroll": 390,
+      "offenders": []
+    },
+    "overflow_inspections_390_dark": {
+      "width": 390,
+      "scroll": 390,
+      "offenders": []
+    },
+    "overflow_test-data_390_dark": {
+      "width": 390,
+      "scroll": 390,
+      "offenders": []
+    },
+    "overflow_profile_long_name_mobile": {
+      "width": 390,
+      "scroll": 390,
+      "offenders": []
+    },
+    "ui_restore_success": true,
+    "final_visible_errors": "",
+    "cleanup_original_restored": true,
+    "retained_accounts": []
+  }
+}

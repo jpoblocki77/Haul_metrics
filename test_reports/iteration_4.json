@@ -1,0 +1,153 @@
+{
+  "summary": "Full public-preview regression executed: 20 pytest checks (13 passed, 7 failed), 26 broad Playwright flow checks plus follow-up branding/Today/mobile/chart/dispatcher/delete tests. Production yarn build and Python compile pass. Core CRUD, roles/account editing, telemetry review, backup roundtrip/legacy restore, date totals and CSV integrations work. Eleven confirmed functional/layout findings remain; bridge startup handling is fixed but real bridge sign-in still fails at Cloudflare. No product fixes applied.",
+  "backend_issues": {
+    "critical": [
+      {
+        "endpoint": "Downloaded /api/telemetry/bridge and source telemetry_bridge.py -> /api/auth/login",
+        "issue": "HIGH: Actual downloaded and source Python processes both fail fresh owner login with HTTP 403. Edge body is 'error code: 1010', server cloudflare. urllib's default Python-urllib/3.11 User-Agent is rejected. Real urllib with python-requests or Mozilla User-Agent returns 200, as does normal requests; requests explicitly using Python-urllib also returns 403. Startup error is now visible and pauses, but telemetry cannot start. Configure an honest application User-Agent and/or approved edge/API rule; retest real process, not only mocked transport.",
+        "priority": "HIGH"
+      },
+      {
+        "endpoint": "POST /api/auth/logout",
+        "issue": "Logout removes cookie only. Copied Bearer token still accesses /auth/me with 200 after logout, until seven-day expiry. RCA server.py logout never changes session_version or invalidates the token. Role/password changes and restore DO revoke tokens correctly.",
+        "priority": "HIGH"
+      },
+      {
+        "endpoint": "POST /api/telemetry/ingest",
+        "issue": "Odometer reset does not invalidate last_fill. Sequence full tank at odometer1000 -> odometer100 -> odometer1100 -> another full tank incorrectly prefills 62.14 miles. Full-to-full mileage must be unknown following a reset. continuous checks session/time/game/connected, but not odometer monotonicity.",
+        "priority": "HIGH"
+      }
+    ],
+    "minor": [
+      {
+        "endpoint": "GET /api/telemetry/bridge",
+        "issue": "MEDIUM: DEFAULT_APP_URL is https://haul-metrics-2.cluster-16.preview.emergentcf.cloud instead of configured user-facing https://haul-metrics-2.preview.emergentagent.com. request.base_url reflects rewritten proxy host. HTTPS itself is correct; choose configured/trusted public origin, not raw upstream Host. Separate from the verified User-Agent 403 failure."
+      },
+      {
+        "endpoint": "POST /api/backup/inspect",
+        "issue": "MEDIUM: Properly encrypted archive with created_at removed returns 500 instead of 400. Backend log confirms KeyError at backups.py:145. unpack validates tables but not envelope metadata. No company mutation occurred. Validate the full envelope/types before preview or restore."
+      },
+      {
+        "endpoint": "POST /api/telemetry/ingest",
+        "issue": "MEDIUM: start job A -> dismiss -> empty/detached snapshot -> fresh identical job A produces only one historical event. event_key hashes static job fields forever and is globally UNIQUE; distinguish job occurrences while retaining within-occurrence/reconnect dedupe."
+      },
+      {
+        "endpoint": "POST /api/telemetry/ingest",
+        "issue": "MEDIUM: Fuel100 ->150 -> paused fuel180 -> resume180 + stable snapshots queues only the pre-pause 50 litres, omitting the paused increase. stop persists across pause and resumes its stable counter. Discard incomplete fuel baseline/stop after paused sampling gaps rather than offering a misleading purchase."
+      },
+      {
+        "endpoint": "POST /api/income; date fields across manual CRUD models",
+        "issue": "MEDIUM: date='not-a-date' creates a persisted income with 200. Dates are plain strings without ISO/calendar validation; invalid values distort ranges/report groupings. Directly reproduced for income; equivalent raw date models exist for expenses/fuel/inspections/loads."
+      }
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "ReportCharts / index.css report-chart rules",
+        "issue": "HIGH: Both report charts are visibly blank on desktop/mobile despite nonzero statistics and SVG nodes. Recharts creates a zero-width overflow-visible sizing parent. .report-chart .recharts-wrapper {max-width:100%} collapses actual wrapper width to0 (inline width372, height144); SVG max-width rule clips it. Axis text count0. A TEST-ONLY browser style overriding both max-width rules to none restores visible bars/MPG line and axes immediately, proving cause. Remove or scope the conflicting rules; verify screenshot and printed PDF, not SVG existence alone. Earlier broad test falsely passed because it asserted only SVG presence. PDF has one page, but charts are blank in the unmodified product.",
+        "selector": "[data-testid=report-income-expense-chart], [data-testid=report-mpg-chart], .report-chart .recharts-wrapper",
+        "priority": "HIGH"
+      },
+      {
+        "component": "LeaderboardHistory grid / Panel",
+        "issue": "MEDIUM: Horizontal document overflow at390px in BOTH themes: scrollWidth586 (earlier run499). Auto minimum widths on grid/panel children let history/trophy content widen the screen. Use min-width:0/minmax(0,1fr) on relevant grid/panels and bounded overflow for the history table.",
+        "selector": "[data-testid=leaderboard-page], [data-testid=trophy-counts], [data-testid=leaderboard-history]",
+        "priority": "MEDIUM"
+      },
+      {
+        "component": "DriverProfile PageHeader",
+        "issue": "MEDIUM: Accepted long unbroken driver name TEST_ + VeryLongName repeated20 makes390px viewport scrollWidth4407. Notes already wrap; shared PageHeader h1 and surrounding flex item do not. Break long titles and constrain flex child min width. Company long name DOES wrap and passes.",
+        "selector": "[data-testid=driver-profile-page] h1",
+        "priority": "MEDIUM"
+      }
+    ],
+    "integration_issues": [
+      {
+        "flow": "Cloud telemetry local bridge",
+        "issue": "Download buttons work, but the actual downloaded bridge cannot authenticate due to Cloudflare1010. The 403 occurs before any SCS polling. Simulated subprocess transport tests pass startup/retry/error handling but do not prove live integration.",
+        "affected_selectors": [
+          "[data-testid=telemetry-download-bridge]"
+        ]
+      }
+    ],
+    "design_issues": [
+      {
+        "screen": "DateRangeBar, report/leaderboard month pickers",
+        "issues": [
+          "LOW: Date/month inputs use native browser pickers, not the shadcn calendar component; inconsistent appearance between browsers. Current selection behavior works."
+        ]
+      },
+      {
+        "screen": "Branding / chart colors",
+        "issues": [
+          "LOW code-review finding: FuelTrendChart and DriverBars/SimpleLine defaults retain hardcoded blue/cyan; tooltip labelStyle remains #3B82F6. Main/accent branding propagates report, company header, title, surfaces and buttons, but not all legacy chart accents."
+        ]
+      }
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_full_regression.py",
+    "/app/backend/tests/test_latest_features.py",
+    "/app/backend/tests/bridge_process_harness.py",
+    "/app/backend/tests/check_bridge_real_startup.py",
+    "/app/backend/tests/check_bridge_network.py",
+    "/app/backend/tests/ui_full_regression.py",
+    "/app/backend/tests/ui_latest_regression.py",
+    "/app/test_reports/pytest/pytest_results_iter4_full.xml",
+    "/app/test_reports/browser_iter4/ui_results.json",
+    "/app/test_reports/browser_latest/ui_results.json",
+    "/app/test_reports/bridge_real_startup.json",
+    "/app/test_reports/bridge_network.json",
+    "/app/test_reports/cleanup_iter4.json",
+    "/app/test_reports/final_cleanup_iter4.json",
+    "/app/backend/tests/check_regression_cleanup.py"
+  ],
+  "action_items": [
+    "P0 Fix real bridge HTTP403 with identified application User-Agent/edge configuration. Cloudflare1010 official documentation was researched; https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-1xxx-errors/error-1010/ . Preserve safe HTTPS and visible startup errors; verify actual real downloaded process after changes.",
+    "P0 Remove report chart max-width collapse; screenshots prove test-only override restores charts. Recheck one-page PDF with actually visible axes/bars/line and both themes/mobile.",
+    "P1 Use trusted configured public origin for bridge generation; preserve valid local desktop origins.",
+    "P1 Revoke the current token/session on logout without changing passwords.",
+    "P1 Reset fuel continuity on odometer reset and paused sampling gaps; use per-job-occurrence dedupe rather than permanent snapshot signature suppression.",
+    "P1 Validate encrypted backup envelope metadata before inspecting/restoring; missing created_at must reject gracefully.",
+    "P1 Validate real ISO calendar dates in manual CRUD and bound mobile leaderboard/profile content widths.",
+    "P2 Normalize remaining chart colors and consider consistent calendar components.",
+    "Run regression suites SERIAL (-n0), because full restore revokes sessions and replaces tables. Existing old suites may seed/remove shared data without safeguards; use the new safeguarded suites.",
+    "After web fixes, validate Windows batch/EXE and real ATS/ETS2 server on the user's driving PC; not available in this Linux preview."
+  ],
+  "critical_code_review_comments": [
+    "No product files were changed. Report fix was only temporary browser CSS used to prove the root cause.",
+    "LOW: server.py async telemetry incoming performs synchronous SQLite work directly in the event loop; move bounded ingestion to a thread/synchronous dependency or async database layer before high sample concurrency.",
+    "LOW: auth FAILED dict is process-local; lockout resets on worker restart and differs across multiple workers. Five-failure lockout works in the tested single service process.",
+    "LOW: db.get_conn used as a sqlite context commits/rolls back but does not explicitly close the connection; close deterministically instead of relying on object collection.",
+    "LOW: CSV writer emits user text verbatim. Spreadsheet formula-leading text is not escaped; review CSV injection handling before exporting untrusted dispatch data.",
+    "Account bcrypt format, cookie httpOnly/Secure/SameSite=None, explicit credentialed CORS, five-failure lockout, role/password token revocation and creation-only seeding implementation were checked. Existing owner hash was preserved across multiple test-file-triggered hot reloads."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_full_regression.py",
+    "/app/backend/tests/test_latest_features.py",
+    "/app/backend/tests/bridge_process_harness.py",
+    "/app/backend/tests/check_bridge_real_startup.py",
+    "/app/backend/tests/check_bridge_network.py",
+    "/app/backend/tests/ui_full_regression.py",
+    "/app/backend/tests/ui_latest_regression.py",
+    "/app/backend/tests/check_regression_cleanup.py",
+    "/app/test_reports/iteration_4.json"
+  ],
+  "success_rate": {
+    "backend": "65% (13/20 pytest checks); real bridge login additionally fails outside pytest",
+    "frontend": "83% (5/6 follow-up flow groups); 2 extra mobile leaderboard/theme overflow checks fail. Broad initial run22/26; subsequent retries passed dispatcher, full theme navigation and delete checks. Long-name profile overflow remains a distinct failure."
+  },
+  "test_credentials": "Read memory/test_credentials.md first. owner / trucker123 verified repeatedly. Temporary dispatchers and owners tested creation, new login, role/password/self reset and removal; all removed. Permanent owner password never modified. dispatch1 / haul1234 also independently verified as dispatcher.",
+  "seed_data_creation": "Temporary TEST_ records/users and sample data used. Every destructive suite saved encrypted original snapshot, restored it and compared all table content (excluding intentionally regenerated session_version). Final original:2 users,8 categories,0 trucks/drivers/loads/income/expenses/fuel/inspections/telemetry sources/events; branding restored. No test accounts retained. Restore intentionally revokes sessions; SQLite autoincrement counters may advance.",
+  "retest_needed": true,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Export REACT_APP_BACKEND_URL from frontend/.env; run pytest -n0 backend/tests/test_full_regression.py backend/tests/test_latest_features.py --junitxml=test_reports/pytest/pytest_results_iter4_full.xml. Run Python UI files in foreground, never concurrently with API restore suites. Existing raw UI failures include timing artifacts: wait for dialog close+400ms before forced delete; force login click and wait after auth redirects. Report SVG-only check is insufficient. browser_latest/ui_results.json captures complete16-route desktop1920x800/mobile390x844 dark/light matrix. Generated bridge has rewritten host and Cloudflare rejects default urllib UA even at correct public URL. Browser clock2026-10-28. Actual Windows/SCS unavailable. Safety .mccoy passphrase TEST_regression_backup_2026!; those files contain encrypted account hashes, treat as sensitive.",
+  "limitations": [
+    "No application API was MOCKED. Funbit snapshots are SIMULATED test fixtures. Bridge process contract tests MOCK stdlib transport/input only; separate actual bridge subprocess/network tests exposed the live403 failure.",
+    "Windows batch inspected for Python/file checks and pause but cannot execute in Linux; actual simulator, Windows EXE/pywebview and installer not tested.",
+    "Service-restart detector rate/state persistence was not directly verified with an intentional server restart. Snapshot reconnect/dedup/session reset behavior and SQLite-backed state were covered.",
+    "Global rapid-date/month changes were exercised and totals match API; arbitrary adversarial delayed-response ordering was not injected.",
+    "Printable PDF is one page for seeded normal-name data; current unmodified charts are blank. Long-name branding print pagination was not asserted."
+  ]
+}

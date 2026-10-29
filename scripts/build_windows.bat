@@ -9,6 +9,7 @@ cd ..\backend
 python -m pip install -r requirements-desktop.txt pyinstaller || exit /b 1
 python -m PyInstaller --noconfirm --onefile --windowed --name McCoyTrucking ^
   --add-data "..\frontend\build;frontend_build" ^
+  --add-data "telemetry_bridge.py;." ^
   --hidden-import uvicorn.logging --hidden-import uvicorn.loops.auto --hidden-import uvicorn.protocols.http.auto ^
   --hidden-import uvicorn.protocols.websockets.auto --hidden-import uvicorn.lifespan.on ^
   desktop.py || exit /b 1

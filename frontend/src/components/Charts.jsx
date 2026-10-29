@@ -3,12 +3,12 @@ import {
 } from "recharts";
 import { money, num } from "@/lib/api";
 
-export const COLORS = ["#3B82F6", "#EF4444", "#93C5FD", "#FCA5A5", "#1D4ED8", "#B91C1C", "#38BDF8", "#E879F9", "#94A3B8"];
-const axis = { stroke: "#475569", fontSize: 11, fontFamily: "JetBrains Mono, monospace", tickLine: false, axisLine: false };
+export const COLORS = ["var(--brand-primary)", "var(--brand-accent)", "#93C5FD", "#FCA5A5", "#1D4ED8", "#B91C1C", "#38BDF8", "#E879F9", "#94A3B8"];
+const axis = { stroke: "var(--chart-axis)", fontSize: 11, fontFamily: "JetBrains Mono, monospace", tickLine: false, axisLine: false };
 const tip = {
-  contentStyle: { background: "#0B0F17", border: "1px solid #334155", borderRadius: 6, fontSize: 12 },
-  labelStyle: { color: "#3B82F6", fontFamily: "JetBrains Mono, monospace" },
-  itemStyle: { color: "#E2E8F0" },
+  contentStyle: { background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 6, fontSize: 12 },
+  labelStyle: { color: "var(--brand-ink)", fontFamily: "JetBrains Mono, monospace" },
+  itemStyle: { color: "hsl(var(--foreground))" },
   cursor: { fill: "rgba(148,163,184,0.06)" },
 };
 export const short = (v) => (Math.abs(v) >= 1000 ? `$${(v / 1000).toFixed(0)}k` : `$${Math.round(v)}`);
@@ -22,13 +22,13 @@ export function IncomeExpenseChart({ data }) {
   return (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart data={data} barGap={4}>
-        <CartesianGrid stroke="#1F2937" vertical={false} />
+        <CartesianGrid stroke="var(--chart-grid)" vertical={false} />
         <XAxis dataKey="m" {...axis} />
         <YAxis {...axis} tickFormatter={short} width={50} />
         <Tooltip {...tip} formatter={(v) => money(v)} />
         <Legend wrapperStyle={{ fontSize: 12 }} />
-        <Bar dataKey="income" name="Income" fill="#3B82F6" radius={[3, 3, 0, 0]} />
-        <Bar dataKey="expenses" name="Expenses" fill="#EF4444" radius={[3, 3, 0, 0]} />
+        <Bar dataKey="income" name="Income" fill="var(--brand-primary)" radius={[3, 3, 0, 0]} />
+        <Bar dataKey="expenses" name="Expenses" fill="var(--brand-accent)" radius={[3, 3, 0, 0]} />
       </BarChart>
     </ResponsiveContainer>
   );
@@ -54,27 +54,27 @@ export function FuelTrendChart({ data }) {
   return (
     <ResponsiveContainer width="100%" height="100%">
       <ComposedChart data={data}>
-        <CartesianGrid stroke="#1F2937" vertical={false} />
+        <CartesianGrid stroke="var(--chart-grid)" vertical={false} />
         <XAxis dataKey="m" {...axis} />
         <YAxis yAxisId="l" {...axis} tickFormatter={short} width={50} />
         <YAxis yAxisId="r" orientation="right" {...axis} domain={["auto", "auto"]} width={36} />
         <Tooltip {...tip} formatter={(v, n) => (n === "Fuel cost" ? money(v) : num(v, 2))} />
         <Legend wrapperStyle={{ fontSize: 12 }} />
-        <Bar yAxisId="l" dataKey="cost" name="Fuel cost" fill="#3B82F6" fillOpacity={0.7} radius={[3, 3, 0, 0]} />
-        <Line yAxisId="r" dataKey="avg_mpg" name="Avg MPG" stroke="#06B6D4" strokeWidth={2} dot={{ r: 3 }} />
+        <Bar yAxisId="l" dataKey="cost" name="Fuel cost" fill="var(--brand-primary)" fillOpacity={0.7} radius={[3, 3, 0, 0]} />
+        <Line yAxisId="r" dataKey="avg_mpg" name="Avg MPG" stroke="var(--brand-accent)" strokeWidth={2} dot={{ r: 3 }} />
       </ComposedChart>
     </ResponsiveContainer>
   );
 }
 
-export function DriverBars({ data, dataKey, name, color = "#3B82F6", fmt = (v) => v, tickFmt }) {
+export function DriverBars({ data, dataKey, name, color = "var(--brand-primary)", fmt = (v) => v, tickFmt }) {
   if (!data?.length) return <Empty />;
   return (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart data={data} layout="vertical" margin={{ left: 10, right: 24 }}>
-        <CartesianGrid stroke="#1F2937" horizontal={false} />
+        <CartesianGrid stroke="var(--chart-grid)" horizontal={false} />
         <XAxis type="number" {...axis} tickFormatter={tickFmt || fmt} tickCount={5} />
-        <YAxis type="category" dataKey="name" {...axis} width={130} tick={{ fill: "#CBD5E1", fontSize: 11 }} />
+        <YAxis type="category" dataKey="name" {...axis} width={130} tick={{ fill: "var(--chart-label)", fontSize: 11 }} />
         <Tooltip {...tip} formatter={(v) => fmt(v)} />
         <Bar dataKey={dataKey} name={name} fill={color} radius={[0, 3, 3, 0]} />
       </BarChart>
@@ -82,12 +82,12 @@ export function DriverBars({ data, dataKey, name, color = "#3B82F6", fmt = (v) =
   );
 }
 
-export function SimpleLine({ data, x, y, name, color = "#06B6D4", fmt = (v) => v }) {
+export function SimpleLine({ data, x, y, name, color = "var(--brand-primary)", fmt = (v) => v }) {
   if (!data?.length) return <Empty />;
   return (
     <ResponsiveContainer width="100%" height="100%">
       <LineChart data={data}>
-        <CartesianGrid stroke="#1F2937" vertical={false} />
+        <CartesianGrid stroke="var(--chart-grid)" vertical={false} />
         <XAxis dataKey={x} {...axis} />
         <YAxis {...axis} domain={["auto", "auto"]} width={45} tickFormatter={fmt} />
         <Tooltip {...tip} formatter={(v) => fmt(v)} />

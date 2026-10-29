@@ -1,0 +1,25 @@
+{
+  "command": "pytest -n0 /app/backend/tests/test_telemetry_management.py -v --tb=short --junitxml=/app/test_reports/pytest/pytest_results_iter7_search.xml",
+  "pytest_exit": 0,
+  "api_browser_diagnostic_exit": 0,
+  "suites_restored_original": true,
+  "original_data_restored": true,
+  "accounts_password_hashes_and_branding_unchanged": true,
+  "prior_three_snapshots_match": true,
+  "credentials_verified": true,
+  "retained_test_accounts": [],
+  "counts": {
+    "users": 2,
+    "company_settings": 0,
+    "categories": 8,
+    "trucks": 0,
+    "drivers": 0,
+    "loads": 0,
+    "income": 0,
+    "expenses": 0,
+    "fuel": 0,
+    "inspections": 0,
+    "telemetry_sources": 0,
+    "telemetry_events": 0
+  }
+}

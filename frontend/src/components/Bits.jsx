@@ -1,11 +1,11 @@
 export function PageHeader({ kicker, title, children }) {
   return (
-    <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between animate-rise">
-      <div>
+    <div className="mb-8 flex min-w-0 flex-col gap-4 sm:flex-row sm:items-end sm:justify-between animate-rise">
+      <div className="min-w-0">
         <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-red-500">{kicker}</div>
-        <h1 className="font-heading text-3xl font-black tracking-tight text-white sm:text-4xl">{title}</h1>
+        <h1 className="break-words font-heading text-3xl font-black text-foreground sm:text-4xl" style={{ overflowWrap: "anywhere" }}>{title}</h1>
       </div>
-      <div className="flex flex-wrap gap-2">{children}</div>
+      <div className="flex shrink-0 flex-wrap gap-2">{children}</div>
     </div>
   );
 }
@@ -30,7 +30,7 @@ export function Kpi({ label, value, sub, tone = "slate", testId, delay = 0 }) {
 
 export function Panel({ title, children, className = "", testId, action }) {
   return (
-    <section data-testid={testId} className={`animate-rise rounded-lg border border-slate-800 bg-[#111827] p-5 ${className}`}>
+    <section data-testid={testId} className={`animate-rise min-w-0 rounded-lg border border-slate-800 bg-[#111827] p-5 ${className}`}>
       {title && (
         <div className="mb-4 flex items-center justify-between">
           <h3 className="font-heading text-sm font-bold uppercase tracking-wider text-slate-300">{title}</h3>

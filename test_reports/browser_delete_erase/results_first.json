@@ -1,0 +1,41 @@
+{
+  "results": [
+    {
+      "name": "global utility every page both sizes themes no overflow",
+      "status": "FAIL",
+      "error": "TimeoutError('Locator.wait_for: Timeout 10000ms exceeded.\\nCall log:\\n  - waiting for get_by_test_id(\"company-page\") to be visible\\n')"
+    },
+    {
+      "name": "ten global types all dates nested cancel confirm safe self account",
+      "status": "PASS"
+    },
+    {
+      "name": "first hundred count search finds entries beyond display limit",
+      "status": "PASS"
+    },
+    {
+      "name": "global delete refreshes current dashboard and mobile income without reload",
+      "status": "FAIL",
+      "error": "AssertionError('Locator expected to have text \\'$105.00\\'\\nActual value: $0.00 \\nCall log:\\n  - Expect \"to_have_text\" get_by_test_id(\"kpi-income-value\") with timeout 5000ms\\n  - waiting for get_by_test_id(\"kpi-income-value\")\\n    14 \u00d7 locator resolved to <div x-column=\"6\" x-id=\"Bits_25_6\" x-dynamic=\"true\" x-component=\"div\" x-file-name=\"Bits\" x-line-number=\"25\" x-source-type=\"prop\" x-source-var=\"value\" x-source-editable=\"false\" data-testid=\"kpi-income-value\" class=\"mt-2 font-mono text-2xl font-semibold tabular-nums text-emerald-400\">$0.00</div>\\n       - unexpected value \"$0.00\"\\n\\nAria snapshot:\\n- text: $0.00')"
+    },
+    {
+      "name": "direct profile three tables and telemetry pending history deletion",
+      "status": "FAIL",
+      "error": "TimeoutError('Locator.click: Timeout 10000ms exceeded.\\nCall log:\\n  - waiting for get_by_test_id(\"profile-delete-loads-2017\")\\n')"
+    },
+    {
+      "name": "dispatcher no delete controls protected owner failure stays visible",
+      "status": "PASS"
+    },
+    {
+      "name": "erase dialogs both themes sizes cancel invalid reauth success signed in zero recreate",
+      "status": "PASS"
+    }
+  ],
+  "diagnostics": {
+    "erased_accounts_and_branding_preserved": true,
+    "error_text": "",
+    "original_restored": true
+  },
+  "page_errors": []
+}

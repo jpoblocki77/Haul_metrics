@@ -16,6 +16,13 @@ import TestData from "@/pages/TestData";
 import Leaderboard from "@/pages/Leaderboard";
 import Users from "@/pages/Users";
 import Report from "@/pages/Report";
+import DriverProfile from "@/pages/DriverProfile";
+import Telemetry from "@/pages/Telemetry";
+import Backup from "@/pages/Backup";
+import CreateUser from "@/pages/CreateUser";
+import { ThemeProvider, useTheme } from "@/context/ThemeContext";
+import { CompanyProvider } from "@/context/CompanyContext";
+import CompanySettings from "@/pages/CompanySettings";
 import { DateRangeProvider } from "@/context/DateRangeContext";
 
 function Protected() {
@@ -34,7 +41,8 @@ function OwnerOnly({ children }) {
   return isOwner ? children : <Navigate to="/" replace />;
 }
 
-function App() {
+function AppContent() {
+  const { theme } = useTheme();
   return (
     <AuthProvider>
       <BrowserRouter>
@@ -48,18 +56,23 @@ function App() {
             <Route path="/trucks" element={<Trucks />} />
             <Route path="/loads" element={<Loads />} />
             <Route path="/drivers" element={<Drivers />} />
+            <Route path="/drivers/:id" element={<DriverProfile />} />
+            <Route path="/telemetry" element={<Telemetry />} />
+            <Route path="/backup" element={<OwnerOnly><Backup /></OwnerOnly>} />
             <Route path="/inspections" element={<Inspections />} />
             <Route path="/test-data" element={<OwnerOnly><TestData /></OwnerOnly>} />
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/users" element={<OwnerOnly><Users /></OwnerOnly>} />
+            <Route path="/users/new" element={<OwnerOnly><CreateUser /></OwnerOnly>} />
+            <Route path="/company" element={<OwnerOnly><CompanySettings /></OwnerOnly>} />
             <Route path="/report" element={<Report />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
-      <Toaster theme="dark" position="bottom-right" />
+      <Toaster theme={theme} position="bottom-right" />
     </AuthProvider>
   );
 }
 
-export default App;
+export default function App() { return <ThemeProvider><CompanyProvider><AppContent /></CompanyProvider></ThemeProvider>; }

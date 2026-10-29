@@ -1,0 +1,97 @@
+{
+  "summary": "Independent final public-preview regression: 31/31 serial pytest checks passed; actual downloaded and source bridge subprocesses authenticated to the real external API. Production build and Python compile passed. Original 11 functional fixes verified, report charts visually visible in both sizes/themes and rasterized one-page PDF. Global deletion of all 10 types and bulk erase UI/API safety passed. Two remaining findings: mobile top-driver card becomes a vertical letter column, and telemetry search omits history older than the newest 500 detections. Some direct-delete browser coverage remains incomplete due to test setup/navigation timing, not proven product failures. No product code modified.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {
+        "endpoint": "GET /api/telemetry/events",
+        "issue": "MEDIUM: LIMIT 500 silently truncates the dataset used by global Delete entries. Reproduced with 501 persisted detections: record-counts and backup contain 501; events returns 500 and omits oldest ID127. Search cannot find the omitted old record and displayed count is not the true total. Provide paginated/server-side search with total count or an owner management endpoint."
+      }
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "Leaderboard top-driver-card",
+        "issue": "At390px in both themes, ordinary winner name Sarah Kent has width12px and height324px; each letter stacks vertically and the subtitle wraps into a narrow column. Overflow is fixed but layout remains unusable. flex-wrap plus flex-1/min-w-0 leaves the name between the64px trophy and metrics; give the name a mobile full-width basis or stack card sections.",
+        "selector": "[data-testid=top-driver-card], [data-testid=top-driver-name]",
+        "priority": "MEDIUM"
+      }
+    ],
+    "integration_issues": [
+      {
+        "flow": "Global telemetry deletion search",
+        "issue": "Only newest500 events reach ManageEntries; searching older detections cannot return them despite all dates copy. Other tested record types search beyond the first100 display limit correctly.",
+        "affected_selectors": ["delete-entries-type", "delete-entries-search", "delete-entries-count"]
+      }
+    ],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_full_regression.py",
+    "/app/backend/tests/test_latest_features.py",
+    "/app/backend/tests/test_final_verification.py",
+    "/app/backend/tests/test_isolated_persistence.py",
+    "/app/backend/tests/test_delete_erase_regression.py",
+    "/app/backend/tests/isolated_erase_worker.py",
+    "/app/backend/tests/check_bridge_real_startup.py",
+    "/app/backend/tests/bridge_process_harness.py",
+    "/app/backend/tests/check_telemetry_history_limit.py",
+    "/app/backend/tests/ui_final_regression.py",
+    "/app/backend/tests/ui_final_matrix.py",
+    "/app/backend/tests/ui_final_focused.py",
+    "/app/backend/tests/ui_delete_erase_regression.py",
+    "/app/test_reports/pytest/pytest_results_final_serial.xml",
+    "/app/test_reports/pytest/pytest_results_final_delete_erase.xml",
+    "/app/test_reports/bridge_real_startup.json",
+    "/app/test_reports/telemetry_history_limit.json",
+    "/app/test_reports/browser_iter5_full/ui_results.json",
+    "/app/test_reports/browser_iter5_matrix/ui_results.json",
+    "/app/test_reports/browser_iter5_focused/results.json",
+    "/app/test_reports/browser_delete_erase/results.json",
+    "/app/test_reports/browser_delete_erase/results_first.json",
+    "/app/test_reports/browser_delete_erase/results_second.json",
+    "/app/test_reports/final_cleanup_iter5.json",
+    "/app/test_reports/recovered_parallel_safety.json",
+    "/app/test_reports/final_test_safety.json"
+  ],
+  "action_items": [
+    "Fix mobile top-driver card basis/stacking; verify readable normal and long winner names in both themes at390x844, not only document overflow.",
+    "Add complete owner telemetry search/pagination and true total count; verify oldest detection searchable/deletable after501+ events.",
+    "Finish new direct profile fuel/inspection and telemetry pending/history delete browser flows. Current utility suite stopped after3 runs under loop prevention: wrong company test ID fixed; external fixture updates needed initial reload; final run then hit closing-modal/mobile navigation timing. Direct profile LOAD cancel/confirm and linked-income removal passed in second run. All new telemetry-delete APIs and all10 global UI types passed independently.",
+    "Recheck mobile global deletion list refresh after waiting for nested/global modal exit before opening mobile menu. Current desktop dashboard updated105 to104 without reload successfully; mobile continuation interrupted by script timing.",
+    "Verify actual Windows .bat/EXE and real SCS gameplay on the driving PC; Linux preview cannot validate those environments.",
+    "Always explicitly use pytest -n0: repository pytest configuration defaults to2workers, unsuitable for shared backup/restore tests."
+  ],
+  "critical_code_review_comments": [
+    "Telemetry.py events line167 LIMIT500 conflicts with ManageEntries client-only all-dates search and count.",
+    "Leaderboard.jsx lines63-74 allow winner title flex item to shrink almost tozero on mobile; fixing document overflow alone was insufficient.",
+    "Saved ui_final_matrix axis selector .recharts-cartesian-axis-tick text is not reliable with Recharts3.6 portal text placement: it counts0 while screenshot visibly shows axes. Focused svg text plus nonzero bar/line geometry and pixel/PDF review confirms charts fixed.",
+    "No product code edits. Deterministic connection close, threaded ingestion, bcrypt hashes, explicit credentialed CORS, httpOnly cookie, persistent lockout/session revocation and creation-only owner seed were independently verified."
+  ],
+  "updated_files": [
+    "/app/backend/tests/recover_serial_safety.py",
+    "/app/backend/tests/test_delete_erase_regression.py",
+    "/app/backend/tests/isolated_erase_worker.py",
+    "/app/backend/tests/ui_delete_erase_regression.py",
+    "/app/backend/tests/check_telemetry_history_limit.py",
+    "/app/backend/tests/finalize_test_safety.py",
+    "/app/test_reports/iteration_5.json"
+  ],
+  "success_rate": {
+    "backend": "100% serial pytest31/31; separate501-event test confirms one history completeness defect",
+    "frontend": "Raw grouped scripts38/44 passes(86%): broad25/26, matrix3/6, focused5/5, new deletion5/7. Failures include external edge challenge, stale/wrong assertions and script navigation timing; two confirmed product findings reported separately. Complete16-route desktop/mobile dark/light matrix passed."
+  },
+  "test_credentials": "owner/trucker123 and dispatch1/haul1234 verified from memory/test_credentials.md. No permanent passwords changed, no test accounts retained.",
+  "seed_data_creation": "Temporary users, trucking records, sample data,105 income entries and501 telemetry candidates created only within encrypted snapshot safeguards. All original tables/settings restored and compared excluding intentional session_version regeneration. Final users2(owner,dispatch1), categories8, company_settings0(default branding), all trucking/telemetry tables0. Accounts/password hashes and effective McCoy branding preserved. Only disposable test_r4_* lockouts cleaned; safety .mccoy files restricted0600. IDs advance as intended.",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Use external URL from frontend/.env and explicit -n0. API suites and bridge real startup now pass. New API erase tests cover all populated tables, wrong/missing phrase/password no mutation, owner/dispatcher403, exact account/settings preservation, security preservation isolatedDB, categories remain empty across init/startup, no reusedIDs, zero stats/charts/profile404, ingest disabled, blank backup restore and recreate. New UI confirms64route/theme/size global modals, all10 types cancel+confirm, first100 total/search, self account hidden, protected owner error shown, erase both sizes/themes cancel+reauth+success preserving accounts/branding and category recreation. Remaining direct button UI coverage noted in action_items. Do not run more than3 attempts on same flow; wait for dialog exit before changing viewport/menu. Native date/month picker intentionally retained. .mccoy snapshots contain encrypted hashes and are sensitive.",
+  "limitations": [
+    "No product API MOCKED. Representative SCS snapshots are SIMULATED. Only bridge contract harness MOCKS network/input fixtures; separate downloaded/source subprocesses use real external authentication/status with no transport mocks.",
+    "Windows launch/build and actual game/plugin untested. Real bridge processes signed in and stayed alive polling disabled configuration; killed after12seconds by harness, not crashed.",
+    "One broad navigation encountered external Cloudflare Performing security verification and recovered on subsequent flows; separate complete route matrix passed. Matrix dispatcher rerun hit ERR_ABORTED auth navigation; independently covered successfully by broad suite and new fresh-context dispatcher test.",
+    "Initial command unintentionally inherited pytest.ini -n2. Four tests passed,16 failed plus teardown error because concurrent restore revoked sessions and snapshots raced. Stopped shared testing, restored verified2-account original snapshot and compared it, then reran explicitly serial31/31. This is a harness/configuration failure, not an app auth defect."
+  ],
+  "rca of the issue": "Remaining mobile winner issue: flex row trophy64px + metrics + gaps leaves title12px; screenshot proves normal name letter-stacking despite scrollWidth390. Remaining old telemetry omission: server ORDER BY id DESC LIMIT500 feeds client-only filtering/count;501st(oldest) row never reaches search. Prior bridge Cloudflare1010 resolved by honest McCoyTelemetry UA and configured external DEFAULT_APP_URL; both real entrypoints now sign in. Prior chart zero-width clipping resolved; current screenshot and rasterized1page PDF show bars, axes and MPG curve."
+}

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="16" skipped="0" tests="21" time="8.876" timestamp="2026-10-29T00:02:25.151218+00:00" hostname="agent-env-80a033de-384f-4757-88c9-f94131c9410c"><testcase classname="tests.test_full_regression" name="test_01_auth_cookies_cors_lockout" time="2.203" /><testcase classname="tests.test_latest_features" name="test_15_bridge_process_contract" time="1.723" /><testcase classname="tests.test_latest_features" name="test_16_company_branding_auth_validation_persistence" time="3.167" /><testcase classname="tests.test_full_regression" name="test_02_users_create_edit_revoke_permissions" time="2.748"><failure message="AssertionError: ('PATCH', '/users/124', 401, '{&quot;detail&quot;:&quot;Session revoked. Sign in again.&quot;}')&#10;assert 401 == 200&#10; +  where 401 = &lt;Response [401]&gt;.status_code">tests/test_full_regression.py:130: in test_02_users_create_edit_revoke_permissions
+    request(s,'PATCH','/users/'+str(u['id']),json={'role':'dispatcher'})
+tests/test_full_regression.py:32: in request
+    assert r.status_code == status, (method,path,r.status_code,r.text[:600])
+E   AssertionError: ('PATCH', '/users/124', 401, '{"detail":"Session revoked. Sign in again."}')
+E   assert 401 == 200
+E    +  where 401 = &lt;Response [401]&gt;.status_code</failure></testcase><testcase classname="tests.test_latest_features" name="test_17_optional_snapshots_unicode_password" time="2.347" /><testcase classname="tests.test_full_regression" name="test_03_all_crud_dispatcher_and_relationships" time="0.042"><failure message="AssertionError: ('POST', '/users', 401, '{&quot;detail&quot;:&quot;Session revoked. Sign in again.&quot;}')&#10;assert 401 == 200&#10; +  where 401 = &lt;Response [401]&gt;.status_code">tests/test_full_regression.py:139: in test_03_all_crud_dispatcher_and_relationships
+    s=ctx['owner']; a,d,t,cfg=setup_mapping(ctx)
+                              ^^^^^^^^^^^^^^^^^^
+tests/test_full_regression.py:85: in setup_mapping
+    u = request(s,'POST','/users',json={'username':name,'password':'secret123','role':role}).json()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_full_regression.py:32: in request
+    assert r.status_code == status, (method,path,r.status_code,r.text[:600])
+E   AssertionError: ('POST', '/users', 401, '{"detail":"Session revoked. Sign in again."}')
+E   assert 401 == 200
+E    +  where 401 = &lt;Response [401]&gt;.status_code</failure></testcase><testcase classname="tests.test_full_regression" name="test_04_fuel_weighted_stats_dot_and_profile" time="0.038"><failure message="AssertionError: ('POST', '/users', 401, '{&quot;detail&quot;:&quot;Session revoked. Sign in again.&quot;}')&#10;assert 401 == 200&#10; +  where 401 = &lt;Response [401]&gt;.status_code">tests/test_full_regression.py:163: in test_04_fuel_weighted_stats_dot_and_profile
+    a,d,t,cfg=setup_mapping(ctx); s=ctx['owner']
+              ^^^^^^^^^^^^^^^^^^
+tests/test_full_regression.py:85: in setup_mapping
+    u = request(s,'POST','/users',json={'username':name,'password':'secret123','role':role}).json()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_full_regression.py:32: in request
+    assert r.status_code == status, (method,path,r.status_code,r.text[:600])
+E   AssertionError: ('POST', '/users', 401, '{"detail":"Session revoked. Sign in again."}')
+E   assert 401 == 200
+E    +  where 401 = &lt;Response [401]&gt;.status_code</failure></testcase><testcase classname="tests.test_full_regression" name="test_05_dashboard_report_charts_csv_ranges" time="0.089"><failure message="AssertionError: ('GET', '/income', 401, '{&quot;detail&quot;:&quot;Session revoked. Sign in again.&quot;}')&#10;assert 401 == 200&#10; +  where 401 = &lt;Response [401]&gt;.status_code">tests/test_full_regression.py:181: in test_05_dashboard_report_charts_csv_ranges
+    s=ctx['owner']; tables={t:request(s,'GET','/'+t).json() for t in ['income','expenses','fuel','loads','inspections']}
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_full_regression.py:181: in &lt;dictcomp&gt;
+    s=ctx['owner']; tables={t:request(s,'GET','/'+t).json() for t in ['income','expenses','fuel','loads','inspections']}
+                              ^^^^^^^^^^^^^^^^^^^^^^
+tests/test_full_regression.py:32: in request
+    assert r.status_code == status, (method,path,r.status_code,r.text[:600])
+E   AssertionError: ('GET', '/income', 401, '{"detail":"Session revoked. Sign in again."}')
+E   assert 401 == 200
+E    +  where 401 = &lt;Response [401]&gt;.status_code</failure></testcase><testcase classname="tests.test_full_regression" name="test_06_telemetry_load_dedup_review_isolation" time="0.069"><failure message="AssertionError: ('POST', '/users', 401, '{&quot;detail&quot;:&quot;Session revoked. Sign in again.&quot;}')&#10;assert 401 == 200&#10; +  where 401 = &lt;Response [401]&gt;.status_code">tests/test_full_regression.py:208: in test_06_telemetry_load_dedup_review_isolation
+    a,d,t,cfg=setup_mapping(ctx); s=ctx['owner']; job={'sourceCity':'TEST_Origin','destinationCity':'TEST_Destination','sourceCompany':'A','destinationCompany':'B','income':1000,'deadlineTime':'2026-08-04T12:00:00Z'}
+              ^^^^^^^^^^^^^^^^^^
+tests/test_full_regression.py:85: in setup_mapping
+    u = request(s,'POST','/users',json={'username':name,'password':'secret123','role':role}).json()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_full_regression.py:32: in request
+    assert r.status_code == status, (method,path,r.status_code,r.text[:600])
+E   AssertionError: ('POST', '/users', 401, '{"detail":"Session revoked. Sign in again."}')
+E   assert 401 == 200
+E    +  where 401 = &lt;Response [401]&gt;.status_code</failure></testcase><testcase classname="tests.test_full_regression" name="test_07_telemetry_fuel_conversion_full_tanks_and_review" time="0.044"><failure message="AssertionError: ('POST', '/users', 401, '{&quot;detail&quot;:&quot;Session revoked. Sign in again.&quot;}')&#10;assert 401 == 200&#10; +  where 401 = &lt;Response [401]&gt;.status_code">tests/test_full_regression.py:234: in test_07_telemetry_fuel_conversion_full_tanks_and_review
+    a,d,t,cfg=setup_mapping(ctx); seq=0
+              ^^^^^^^^^^^^^^^^^^
+tests/test_full_regression.py:85: in setup_mapping
+    u = request(s,'POST','/users',json={'username':name,'password':'secret123','role':role}).json()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_full_regression.py:32: in request
+    assert r.status_code == status, (method,path,r.status_code,r.text[:600])
+E   AssertionError: ('POST', '/users', 401, '{"detail":"Session revoked. Sign in again."}')
+E   assert 401 == 200
+E    +  where 401 = &lt;Response [401]&gt;.status_code</failure></testcase><testcase classname="tests.test_full_regression" name="test_08_telemetry_validation_disabled_paused_gaps_bridge" time="0.047"><failure message="AssertionError: ('POST', '/users', 401, '{&quot;detail&quot;:&quot;Session revoked. Sign in again.&quot;}')&#10;assert 401 == 200&#10; +  where 401 = &lt;Response [401]&gt;.status_code">tests/test_full_regression.py:258: in test_08_telemetry_validation_disabled_paused_gaps_bridge
+    a,d,t,cfg=setup_mapping(ctx)
+              ^^^^^^^^^^^^^^^^^^
+tests/test_full_regression.py:85: in setup_mapping
+    u = request(s,'POST','/users',json={'username':name,'password':'secret123','role':role}).json()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_full_regression.py:32: in request
+    assert r.status_code == status, (method,path,r.status_code,r.text[:600])
+E   AssertionError: ('POST', '/users', 401, '{"detail":"Session revoked. Sign in again."}')
+E   assert 401 == 200
+E    +  where 401 = &lt;Response [401]&gt;.status_code</failure></testcase><testcase classname="tests.test_full_regression" name="test_09_backup_inspect_invalid_atomic" time="0.046"><failure message="AssertionError: ('POST', '/backup/export', 401, '{&quot;detail&quot;:&quot;Session revoked. Sign in again.&quot;}')&#10;assert 401 == 200&#10; +  where 401 = &lt;Response [401]&gt;.status_code">tests/test_full_regression.py:274: in test_09_backup_inspect_invalid_atomic
+    s=ctx['owner']; blob=archive(s); original=decrypt(blob)
+                         ^^^^^^^^^^
+tests/test_full_regression.py:46: in archive
+    return request(s,'POST','/backup/export',json={'passphrase':PASS}).content
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_full_regression.py:32: in request
+    assert r.status_code == status, (method,path,r.status_code,r.text[:600])
+E   AssertionError: ('POST', '/backup/export', 401, '{"detail":"Session revoked. Sign in again."}')
+E   assert 401 == 200
+E    +  where 401 = &lt;Response [401]&gt;.status_code</failure></testcase><testcase classname="tests.test_full_regression" name="test_10_backup_full_roundtrip_revoke_sessions" time="0.093"><failure message="AssertionError: ('POST', '/users', 401, '{&quot;detail&quot;:&quot;Session revoked. Sign in again.&quot;}')&#10;assert 401 == 200&#10; +  where 401 = &lt;Response [401]&gt;.status_code">tests/test_full_regression.py:301: in test_10_backup_full_roundtrip_revoke_sessions
+    s=ctx['owner']; a,d,t,cfg=setup_mapping(ctx); blob=archive(s); data=decrypt(blob)
+                              ^^^^^^^^^^^^^^^^^^
+tests/test_full_regression.py:85: in setup_mapping
+    u = request(s,'POST','/users',json={'username':name,'password':'secret123','role':role}).json()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_full_regression.py:32: in request
+    assert r.status_code == status, (method,path,r.status_code,r.text[:600])
+E   AssertionError: ('POST', '/users', 401, '{"detail":"Session revoked. Sign in again."}')
+E   assert 401 == 200
+E    +  where 401 = &lt;Response [401]&gt;.status_code</failure></testcase><testcase classname="tests.test_full_regression" name="test_11_testdata_preserves_non_test_and_restores" time="0.105"><failure message="AssertionError: ('POST', '/backup/export', 401, '{&quot;detail&quot;:&quot;Session revoked. Sign in again.&quot;}')&#10;assert 401 == 200&#10; +  where 401 = &lt;Response [401]&gt;.status_code">tests/test_full_regression.py:312: in test_11_testdata_preserves_non_test_and_restores
+    s=ctx['owner']; blob=archive(s); before=decrypt(blob)
+                         ^^^^^^^^^^
+tests/test_full_regression.py:46: in archive
+    return request(s,'POST','/backup/export',json={'passphrase':PASS}).content
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_full_regression.py:32: in request
+    assert r.status_code == status, (method,path,r.status_code,r.text[:600])
+E   AssertionError: ('POST', '/backup/export', 401, '{"detail":"Session revoked. Sign in again."}')
+E   assert 401 == 200
+E    +  where 401 = &lt;Response [401]&gt;.status_code</failure></testcase><testcase classname="tests.test_full_regression" name="test_12_logout_revokes_bearer" time="0.087"><failure message="AssertionError: ('POST', '/users', 401, '{&quot;detail&quot;:&quot;Session revoked. Sign in again.&quot;}')&#10;assert 401 == 200&#10; +  where 401 = &lt;Response [401]&gt;.status_code">tests/test_full_regression.py:328: in test_12_logout_revokes_bearer
+    a,d,t,cfg=setup_mapping(ctx)
+              ^^^^^^^^^^^^^^^^^^
+tests/test_full_regression.py:85: in setup_mapping
+    u = request(s,'POST','/users',json={'username':name,'password':'secret123','role':role}).json()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_full_regression.py:32: in request
+    assert r.status_code == status, (method,path,r.status_code,r.text[:600])
+E   AssertionError: ('POST', '/users', 401, '{"detail":"Session revoked. Sign in again."}')
+E   assert 401 == 200
+E    +  where 401 = &lt;Response [401]&gt;.status_code</failure></testcase><testcase classname="tests.test_full_regression" name="test_13_manual_invalid_date_rejected" time="0.040"><failure message="AssertionError: ('POST', '/income', 401, '{&quot;detail&quot;:&quot;Session revoked. Sign in again.&quot;}')&#10;assert 401 == 422&#10; +  where 401 = &lt;Response [401]&gt;.status_code">tests/test_full_regression.py:334: in test_13_manual_invalid_date_rejected
+    request(ctx['owner'],'POST','/income',422,json={'date':'not-a-date','amount':10,'source':'TEST_invalid_date'})
+tests/test_full_regression.py:32: in request
+    assert r.status_code == status, (method,path,r.status_code,r.text[:600])
+E   AssertionError: ('POST', '/income', 401, '{"detail":"Session revoked. Sign in again."}')
+E   assert 401 == 422
+E    +  where 401 = &lt;Response [401]&gt;.status_code</failure></testcase><testcase classname="tests.test_full_regression" name="test_14_telemetry_repeat_legitimate_identical_job" time="0.043"><failure message="AssertionError: ('POST', '/users', 401, '{&quot;detail&quot;:&quot;Session revoked. Sign in again.&quot;}')&#10;assert 401 == 200&#10; +  where 401 = &lt;Response [401]&gt;.status_code">tests/test_full_regression.py:337: in test_14_telemetry_repeat_legitimate_identical_job
+    a,d,t,cfg=setup_mapping(ctx); job={'sourceCity':'TEST_SameOrigin','destinationCity':'TEST_SameDestination','income':100}
+              ^^^^^^^^^^^^^^^^^^
+tests/test_full_regression.py:85: in setup_mapping
+    u = request(s,'POST','/users',json={'username':name,'password':'secret123','role':role}).json()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_full_regression.py:32: in request
+    assert r.status_code == status, (method,path,r.status_code,r.text[:600])
+E   AssertionError: ('POST', '/users', 401, '{"detail":"Session revoked. Sign in again."}')
+E   assert 401 == 200
+E    +  where 401 = &lt;Response [401]&gt;.status_code</failure></testcase><testcase classname="tests.test_full_regression" name="test_14_telemetry_repeat_legitimate_identical_job" time="1.115"><error message="failed on teardown with &quot;AssertionError: INITIAL COMPANY STATE NOT RESTORED&#10;assert {'users': [{'...cks': [], ...} == {'users': [{'...cks': [], ...}&#10;  &#10;  Omitting 11 identical items, use -vv to show&#10;  Differing items:&#10;  {'users': [{'id': 1, 'username': 'owner', 'password_hash': '$2b$12$p/6HQvUMHb3fHs1E/dSBzeVGaHFV/h0Ka0tfpPB7j5iSaWGWg2....word_hash': '$2b$12$jEd6.9Y2.JzJwWrHjFd7A.t/OoDl1D6B3nYAKJVIYn2TmNHABPj26', 'created_at': '2026-10-29 00:02:32', ...}]} != {'users': [{'id': 1, 'username': 'owner', 'password_hash': '$2b$12$p/6HQvUMHb3fHs1E/dSBzeVGaHFV/h0Ka0tfpPB7j5iSaWGWg2....word_hash': '$2b$12$QrH1JtsAsruqO90DWNyW0uhC2FJzUKqm1fiS/U26T/El5RXhgiogu', 'created_at': '2026-10-26 18:25:20', ...}]}&#10;  &#10;  Full diff:&#10;    {...&#10;  &#10;  ...Full output truncated (76 lines hidden), use '-vv' to show&quot;">tests/test_full_regression.py:72: in ctx
+    assert normalize(final) == normalize(data), 'INITIAL COMPANY STATE NOT RESTORED'
+E   AssertionError: INITIAL COMPANY STATE NOT RESTORED
+E   assert {'users': [{'...cks': [], ...} == {'users': [{'...cks': [], ...}
+E     
+E     Omitting 11 identical items, use -vv to show
+E     Differing items:
+E     {'users': [{'id': 1, 'username': 'owner', 'password_hash': '$2b$12$p/6HQvUMHb3fHs1E/dSBzeVGaHFV/h0Ka0tfpPB7j5iSaWGWg2....word_hash': '$2b$12$jEd6.9Y2.JzJwWrHjFd7A.t/OoDl1D6B3nYAKJVIYn2TmNHABPj26', 'created_at': '2026-10-29 00:02:32', ...}]} != {'users': [{'id': 1, 'username': 'owner', 'password_hash': '$2b$12$p/6HQvUMHb3fHs1E/dSBzeVGaHFV/h0Ka0tfpPB7j5iSaWGWg2....word_hash': '$2b$12$QrH1JtsAsruqO90DWNyW0uhC2FJzUKqm1fiS/U26T/El5RXhgiogu', 'created_at': '2026-10-26 18:25:20', ...}]}
+E     
+E     Full diff:
+E       {...
+E     
+E     ...Full output truncated (76 lines hidden), use '-vv' to show</error></testcase><testcase classname="tests.test_latest_features" name="test_18_backup_metadata_invalid_not_500" time="0.046"><failure message="AssertionError: ('POST', '/backup/export', 401, '{&quot;detail&quot;:&quot;Session revoked. Sign in again.&quot;}')&#10;assert 401 == 200&#10; +  where 401 = &lt;Response [401]&gt;.status_code">tests/test_latest_features.py:63: in test_18_backup_metadata_invalid_not_500
+    s=ctx['owner'];data=decrypt(archive(s));data.pop('created_at')
+                                ^^^^^^^^^^
+tests/test_full_regression.py:46: in archive
+    return request(s,'POST','/backup/export',json={'passphrase':PASS}).content
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_full_regression.py:32: in request
+    assert r.status_code == status, (method,path,r.status_code,r.text[:600])
+E   AssertionError: ('POST', '/backup/export', 401, '{"detail":"Session revoked. Sign in again."}')
+E   assert 401 == 200
+E    +  where 401 = &lt;Response [401]&gt;.status_code</failure></testcase><testcase classname="tests.test_latest_features" name="test_19_telemetry_reset_mileage_continuity" time="0.044"><failure message="AssertionError: ('POST', '/users', 401, '{&quot;detail&quot;:&quot;Session revoked. Sign in again.&quot;}')&#10;assert 401 == 200&#10; +  where 401 = &lt;Response [401]&gt;.status_code">tests/test_latest_features.py:67: in test_19_telemetry_reset_mileage_continuity
+    a,d,t,cfg=setup_mapping(ctx);seq=0
+              ^^^^^^^^^^^^^^^^^^
+tests/test_full_regression.py:85: in setup_mapping
+    u = request(s,'POST','/users',json={'username':name,'password':'secret123','role':role}).json()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_full_regression.py:32: in request
+    assert r.status_code == status, (method,path,r.status_code,r.text[:600])
+E   AssertionError: ('POST', '/users', 401, '{"detail":"Session revoked. Sign in again."}')
+E   assert 401 == 200
+E    +  where 401 = &lt;Response [401]&gt;.status_code</failure></testcase><testcase classname="tests.test_latest_features" name="test_20_telemetry_paused_stop_discard" time="1.046"><failure message="AssertionError: ('POST', '/users', 401, '{&quot;detail&quot;:&quot;Session revoked. Sign in again.&quot;}')&#10;assert 401 == 200&#10; +  where 401 = &lt;Response [401]&gt;.status_code">tests/test_latest_features.py:78: in test_20_telemetry_paused_stop_discard
+    a,d,t,cfg=setup_mapping(ctx)
+              ^^^^^^^^^^^^^^^^^^
+tests/test_full_regression.py:85: in setup_mapping
+    u = request(s,'POST','/users',json={'username':name,'password':'secret123','role':role}).json()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_full_regression.py:32: in request
+    assert r.status_code == status, (method,path,r.status_code,r.text[:600])
+E   AssertionError: ('POST', '/users', 401, '{"detail":"Session revoked. Sign in again."}')
+E   assert 401 == 200
+E    +  where 401 = &lt;Response [401]&gt;.status_code</failure></testcase></testsuite></testsuites>

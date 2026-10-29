@@ -1,0 +1,2 @@
+due_date,delivered_date,origin,destination,cargo,driver_name,truck_number,miles,pay,status
+2026-10-12,2026-10-12,TEST_UI_ORIGIN,TEST_UI_DEST,TEST_boxes,TEST_UI_DRIVER,TEST_UI_TRUCK,500.0,1000.0,Late
