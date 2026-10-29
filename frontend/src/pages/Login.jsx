@@ -8,7 +8,7 @@ import { errMsg } from "@/lib/api";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { CompanyName } from "@/components/CompanyName";
 
-const HERO = "https://images.unsplash.com/photo-1592805144716-feeccccef5ac?crop=entropy&cs=srgb&fm=jpg&q=85&w=1600";
+const HERO = `${process.env.PUBLIC_URL}/images/trucking/highway.webp`;
 
 export default function Login() {
   const { user, login } = useAuth();
@@ -36,7 +36,7 @@ export default function Login() {
     <div className="relative grid min-h-screen bg-background lg:grid-cols-[1.2fr_1fr]">
       <div className="absolute right-4 top-4 z-10"><ThemeToggle testId="login-theme-toggle" /></div>
       <div className="relative hidden overflow-hidden lg:block">
-        <img src={HERO} alt="Semi truck on highway at sunset" className="absolute inset-0 h-full w-full object-cover" />
+        <img data-testid="login-trucking-photo" src={HERO} alt="Freight trucks on an open highway" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0B0F17]/30 to-[#0B0F17]" />
         <div className="absolute bottom-12 left-12 max-w-md">
           <div className="font-mono text-xs uppercase tracking-[0.3em] text-red-500">Dispatch · Books · Safety</div>

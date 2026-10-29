@@ -10,21 +10,33 @@ import csv
 import sqlite3
 import logging
 import uuid
+import math
 from typing import Optional, Literal, Annotated
 from datetime import date
 
 from fastapi import FastAPI, APIRouter, Depends, HTTPException, Response, Request
-from starlette.middleware.cors import CORSMiddleware
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field, AfterValidator
 
 from db import get_conn, rows, one, init_db
-from auth import hash_password, verify_password, create_token, get_current_user, seed_owner, require_owner, revoke_token
+from auth import hash_password, verify_password, create_token, get_current_user, seed_owner, require_owner, revoke_token, get_token
+from browser_security import AppCORSMiddleware, BrowserSecurityMiddleware, configured_app_origin, csrf_for_token, secure_cookie
 from seed import seed_test_data, clear_test_data, test_data_status
 
 app = FastAPI()
 api = APIRouter(prefix="/api")
 secure = APIRouter(prefix="/api", dependencies=[Depends(get_current_user)])
 logger = logging.getLogger(__name__)
+
+
+@app.exception_handler(RequestValidationError)
+async def input_validation_error(request: Request, exc: RequestValidationError):
+    # Do not echo secrets or non-JSON NaN/Infinity values back in validation errors.
+    return JSONResponse(status_code=422, content={"detail": [
+        {"loc": error["loc"], "msg": error["msg"], "type": error["type"]}
+        for error in exc.errors()
+    ]})
 
 
 # ---------- Models ----------
@@ -38,6 +50,9 @@ def validate_calendar_date(value):
 
 
 ISODate = Annotated[str, AfterValidator(validate_calendar_date)]
+SafeNumber = Annotated[float, Field(allow_inf_nan=False, ge=-1e15, le=1e15)]
+PositiveNumber = Annotated[float, Field(allow_inf_nan=False, ge=0.000001, le=1e15)]
+NonNegativeNumber = Annotated[float, Field(allow_inf_nan=False, ge=0, le=1e15)]
 
 
 class LoginIn(BaseModel):
@@ -51,7 +66,7 @@ class CategoryIn(BaseModel):
 
 class TruckIn(BaseModel):
     truck_number: str = Field(min_length=1)
-    tank_gallons: float = Field(gt=0)
+    tank_gallons: PositiveNumber
     make_model: Optional[str] = None
 
 
@@ -62,7 +77,7 @@ class DriverIn(BaseModel):
 
 class IncomeIn(BaseModel):
     date: ISODate
-    amount: float
+    amount: SafeNumber
     source: str = Field(min_length=1)
     driver_id: Optional[int] = None
     truck_id: Optional[int] = None
@@ -71,7 +86,7 @@ class IncomeIn(BaseModel):
 
 class ExpenseIn(BaseModel):
     date: ISODate
-    amount: float
+    amount: SafeNumber
     category_id: Optional[int] = None
     driver_id: Optional[int] = None
     truck_id: Optional[int] = None
@@ -82,9 +97,9 @@ class FuelIn(BaseModel):
     date: ISODate
     truck_id: int
     driver_id: Optional[int] = None
-    gallons: Optional[float] = Field(default=None, gt=0)
-    price_per_gallon: float = Field(gt=0)
-    miles: Optional[float] = Field(default=None, ge=0)
+    gallons: Optional[PositiveNumber] = None
+    price_per_gallon: PositiveNumber
+    miles: Optional[NonNegativeNumber] = None
     location: Optional[str] = None
 
 
@@ -94,8 +109,8 @@ class LoadIn(BaseModel):
     cargo: Optional[str] = None
     driver_id: Optional[int] = None
     truck_id: Optional[int] = None
-    pay: float = 0
-    miles: Optional[float] = None
+    pay: SafeNumber = 0
+    miles: Optional[NonNegativeNumber] = None
     due_date: Optional[ISODate] = None
     delivered_date: Optional[ISODate] = None
     status: Literal["On Time", "Late"] = "On Time"
@@ -107,7 +122,7 @@ class InspectionIn(BaseModel):
     truck_id: Optional[int] = None
     location: Optional[str] = None
     result: Literal["Passed", "Fined", "Out of Service"]
-    fine_amount: Optional[float] = None
+    fine_amount: Optional[SafeNumber] = None
     fine_reason: Optional[str] = None
     notes: Optional[str] = None
 
@@ -140,7 +155,13 @@ def get_row(conn, table, rid):
     return r[0]
 
 
+def validate_numeric_values(data):
+    if any(isinstance(value, float) and not math.isfinite(value) for value in data.values()):
+        raise HTTPException(422, "Numeric values must be finite")
+
+
 def insert(conn, table, data):
+    validate_numeric_values(data)
     keys = list(data.keys())
     cur = conn.execute(f"INSERT INTO {table} ({','.join(keys)}) VALUES ({','.join('?' * len(keys))})",
                        [data[k] for k in keys])
@@ -148,6 +169,7 @@ def insert(conn, table, data):
 
 
 def update(conn, table, rid, data):
+    validate_numeric_values(data)
     one_or_404(conn, table, rid)
     conn.execute(f"UPDATE {table} SET {', '.join(f'{k} = ?' for k in data)} WHERE id = ?", [*data.values(), rid])
 
@@ -207,8 +229,12 @@ def prep_fuel(conn, data, rid=None):
     truck = one(conn, "SELECT tank_gallons FROM trucks WHERE id = ?", (data["truck_id"],))
     if not truck:
         raise HTTPException(400, "Truck not found")
-    if not data.get("gallons"):
+    if data.get("gallons") is None:
         data["gallons"] = truck["tank_gallons"]
+    for field in ("gallons", "price_per_gallon"):
+        value = data[field]
+        if not isinstance(value, (int, float)) or not math.isfinite(value) or not 0.000001 <= value <= 1e15:
+            raise HTTPException(422, "Fuel quantity, truck tank capacity and price must be positive finite numbers (at least 0.000001)")
     data["total"] = round(data["gallons"] * data["price_per_gallon"], 2)
     data["mpg"] = round(data["miles"] / data["gallons"], 2) if data.get("miles") else None
     return data
@@ -266,20 +292,25 @@ def login(body: LoginIn, response: Response, request: Request):
     if not valid:
         raise HTTPException(401, "Wrong username or password")
     token = create_token(user["id"], user["username"], user["session_version"])
-    response.set_cookie("access_token", token, httponly=True, secure=True, samesite="none", max_age=604800, path="/")
-    return {"token": token, "user": {"id": user["id"], "username": user["username"], "role": user["role"]}}
+    response.set_cookie("access_token", token, httponly=True, secure=secure_cookie(), samesite="lax", max_age=604800, path="/")
+    return {"token": token, "csrf_token": csrf_for_token(token), "user": {"id": user["id"], "username": user["username"], "role": user["role"]}}
 
 
 @api.post("/auth/logout")
 def logout(response: Response, request: Request, user=Depends(get_current_user)):
     revoke_token(request)
-    response.delete_cookie("access_token", path="/")
+    response.delete_cookie("access_token", path="/", httponly=True, secure=secure_cookie(), samesite="lax")
     return {"ok": True}
 
 
 @api.get("/auth/me")
 def me(user=Depends(get_current_user)):
     return user
+
+
+@api.get("/auth/csrf")
+def csrf_token(request: Request, user=Depends(get_current_user)):
+    return {"csrf_token": csrf_for_token(get_token(request))}
 
 
 # ---------- Stats ----------
@@ -547,12 +578,14 @@ app.include_router(company_router)
 app.include_router(profile_router(driver_performance, leaderboard_history, list_table, period))
 app.include_router(api)
 app.include_router(secure)
+APP_ORIGIN = configured_app_origin()
+app.add_middleware(BrowserSecurityMiddleware, trusted_origin=APP_ORIGIN)
 app.add_middleware(
-    CORSMiddleware,
+    AppCORSMiddleware,
     allow_credentials=True,
-    allow_origins=os.environ["CORS_ORIGINS"].split(","),
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=[APP_ORIGIN],
+    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type", "X-CSRF-Token"],
 )
 
 

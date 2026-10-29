@@ -1,0 +1,1526 @@
+[
+  {
+    "cell": null,
+    "code": "I001",
+    "end_location": {
+      "column": 61,
+      "row": 15
+    },
+    "filename": "/app/backend/backups.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "import base64\nimport json\nimport math\nimport os\nimport re\nimport sqlite3\nimport uuid\nfrom datetime import date, datetime, timezone\n\nfrom cryptography.fernet import Fernet, InvalidToken\nfrom cryptography.hazmat.primitives.kdf.scrypt import Scrypt\nfrom fastapi import APIRouter, Depends, HTTPException, Request, Response\nfrom pydantic import BaseModel, Field, ValidationError\n\nfrom auth import require_owner, verify_password\nfrom db import SCHEMA, TELEMETRY_SCHEMA, get_conn, one, rows\n\n",
+          "end_location": {
+            "column": 1,
+            "row": 17
+          },
+          "location": {
+            "column": 1,
+            "row": 2
+          }
+        }
+      ],
+      "message": "Organize imports"
+    },
+    "location": {
+      "column": 1,
+      "row": 2
+    },
+    "message": "Import block is un-sorted or un-formatted",
+    "name": "unsorted-imports",
+    "noqa_row": 2,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unsorted-imports"
+  },
+  {
+    "cell": null,
+    "code": "TRY004",
+    "end_location": {
+      "column": 31,
+      "row": 61
+    },
+    "filename": "/app/backend/backups.py",
+    "fix": null,
+    "location": {
+      "column": 13,
+      "row": 61
+    },
+    "message": "Prefer `TypeError` exception for invalid type",
+    "name": "type-check-without-type-error",
+    "noqa_row": 61,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/type-check-without-type-error"
+  },
+  {
+    "cell": null,
+    "code": "TRY004",
+    "end_location": {
+      "column": 35,
+      "row": 83
+    },
+    "filename": "/app/backend/backups.py",
+    "fix": null,
+    "location": {
+      "column": 17,
+      "row": 83
+    },
+    "message": "Prefer `TypeError` exception for invalid type",
+    "name": "type-check-without-type-error",
+    "noqa_row": 83,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/type-check-without-type-error"
+  },
+  {
+    "cell": null,
+    "code": "SIM102",
+    "end_location": {
+      "column": 182,
+      "row": 129
+    },
+    "filename": "/app/backend/backups.py",
+    "fix": null,
+    "location": {
+      "column": 17,
+      "row": 128
+    },
+    "message": "Use a single `if` statement instead of nested `if` statements",
+    "name": "collapsible-if",
+    "noqa_row": 128,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/collapsible-if"
+  },
+  {
+    "cell": null,
+    "code": "UP017",
+    "end_location": {
+      "column": 93,
+      "row": 149
+    },
+    "filename": "/app/backend/backups.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "from datetime import datetime, timezone, date, UTC",
+          "end_location": {
+            "column": 46,
+            "row": 9
+          },
+          "location": {
+            "column": 1,
+            "row": 9
+          }
+        },
+        {
+          "content": "UTC",
+          "end_location": {
+            "column": 93,
+            "row": 149
+          },
+          "location": {
+            "column": 81,
+            "row": 149
+          }
+        }
+      ],
+      "message": "Convert to `datetime.UTC` alias"
+    },
+    "location": {
+      "column": 81,
+      "row": 149
+    },
+    "message": "Use `datetime.UTC` alias",
+    "name": "datetime-timezone-utc",
+    "noqa_row": 149,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/datetime-timezone-utc"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 57,
+      "row": 159
+    },
+    "filename": "/app/backend/backups.py",
+    "fix": null,
+    "location": {
+      "column": 37,
+      "row": 159
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 159,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 57,
+      "row": 166
+    },
+    "filename": "/app/backend/backups.py",
+    "fix": null,
+    "location": {
+      "column": 37,
+      "row": 166
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 166,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 86,
+      "row": 166
+    },
+    "filename": "/app/backend/backups.py",
+    "fix": null,
+    "location": {
+      "column": 64,
+      "row": 166
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 166,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "I001",
+    "end_location": {
+      "column": 25,
+      "row": 2
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "from pathlib import Path\n\nfrom dotenv import load_dotenv\n\n",
+          "end_location": {
+            "column": 1,
+            "row": 4
+          },
+          "location": {
+            "column": 1,
+            "row": 1
+          }
+        }
+      ],
+      "message": "Organize imports"
+    },
+    "location": {
+      "column": 1,
+      "row": 1
+    },
+    "message": "Import block is un-sorted or un-formatted",
+    "name": "unsorted-imports",
+    "noqa_row": 1,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unsorted-imports"
+  },
+  {
+    "cell": null,
+    "code": "I001",
+    "end_location": {
+      "column": 67,
+      "row": 25
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "import csv\nimport io\nimport logging\nimport math\nimport os\nimport sqlite3\nimport time\nimport uuid\nfrom datetime import date\nfrom typing import Annotated, Literal, Optional\n\nfrom fastapi import APIRouter, Depends, FastAPI, HTTPException, Request, Response\nfrom fastapi.exceptions import RequestValidationError\nfrom fastapi.responses import JSONResponse\nfrom pydantic import AfterValidator, BaseModel, Field\n\nfrom auth import (\n    create_token,\n    get_current_user,\n    get_token,\n    hash_password,\n    require_owner,\n    revoke_token,\n    seed_owner,\n    verify_password,\n)\nfrom browser_security import (\n    AppCORSMiddleware,\n    BrowserSecurityMiddleware,\n    configured_app_origin,\n    csrf_for_token,\n    secure_cookie,\n)\nfrom db import get_conn, init_db, one, rows\nfrom seed import clear_test_data, seed_test_data, test_data_status\n\n",
+          "end_location": {
+            "column": 1,
+            "row": 27
+          },
+          "location": {
+            "column": 1,
+            "row": 6
+          }
+        }
+      ],
+      "message": "Organize imports"
+    },
+    "location": {
+      "column": 1,
+      "row": 6
+    },
+    "message": "Import block is un-sorted or un-formatted",
+    "name": "unsorted-imports",
+    "noqa_row": 6,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unsorted-imports"
+  },
+  {
+    "cell": null,
+    "code": "UP045",
+    "end_location": {
+      "column": 30,
+      "row": 68
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "str | None",
+          "end_location": {
+            "column": 30,
+            "row": 68
+          },
+          "location": {
+            "column": 17,
+            "row": 68
+          }
+        }
+      ],
+      "message": "Convert to `X | None`"
+    },
+    "location": {
+      "column": 17,
+      "row": 68
+    },
+    "message": "Use `X | None` for type annotations",
+    "name": "non-pep604-annotation-optional",
+    "noqa_row": 68,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional"
+  },
+  {
+    "cell": null,
+    "code": "UP045",
+    "end_location": {
+      "column": 25,
+      "row": 73
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "str | None",
+          "end_location": {
+            "column": 25,
+            "row": 73
+          },
+          "location": {
+            "column": 12,
+            "row": 73
+          }
+        }
+      ],
+      "message": "Convert to `X | None`"
+    },
+    "location": {
+      "column": 12,
+      "row": 73
+    },
+    "message": "Use `X | None` for type annotations",
+    "name": "non-pep604-annotation-optional",
+    "noqa_row": 73,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional"
+  },
+  {
+    "cell": null,
+    "code": "UP045",
+    "end_location": {
+      "column": 29,
+      "row": 80
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "int | None",
+          "end_location": {
+            "column": 29,
+            "row": 80
+          },
+          "location": {
+            "column": 16,
+            "row": 80
+          }
+        }
+      ],
+      "message": "Convert to `X | None`"
+    },
+    "location": {
+      "column": 16,
+      "row": 80
+    },
+    "message": "Use `X | None` for type annotations",
+    "name": "non-pep604-annotation-optional",
+    "noqa_row": 80,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional"
+  },
+  {
+    "cell": null,
+    "code": "UP045",
+    "end_location": {
+      "column": 28,
+      "row": 81
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "int | None",
+          "end_location": {
+            "column": 28,
+            "row": 81
+          },
+          "location": {
+            "column": 15,
+            "row": 81
+          }
+        }
+      ],
+      "message": "Convert to `X | None`"
+    },
+    "location": {
+      "column": 15,
+      "row": 81
+    },
+    "message": "Use `X | None` for type annotations",
+    "name": "non-pep604-annotation-optional",
+    "noqa_row": 81,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional"
+  },
+  {
+    "cell": null,
+    "code": "UP045",
+    "end_location": {
+      "column": 25,
+      "row": 82
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "str | None",
+          "end_location": {
+            "column": 25,
+            "row": 82
+          },
+          "location": {
+            "column": 12,
+            "row": 82
+          }
+        }
+      ],
+      "message": "Convert to `X | None`"
+    },
+    "location": {
+      "column": 12,
+      "row": 82
+    },
+    "message": "Use `X | None` for type annotations",
+    "name": "non-pep604-annotation-optional",
+    "noqa_row": 82,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional"
+  },
+  {
+    "cell": null,
+    "code": "UP045",
+    "end_location": {
+      "column": 31,
+      "row": 88
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "int | None",
+          "end_location": {
+            "column": 31,
+            "row": 88
+          },
+          "location": {
+            "column": 18,
+            "row": 88
+          }
+        }
+      ],
+      "message": "Convert to `X | None`"
+    },
+    "location": {
+      "column": 18,
+      "row": 88
+    },
+    "message": "Use `X | None` for type annotations",
+    "name": "non-pep604-annotation-optional",
+    "noqa_row": 88,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional"
+  },
+  {
+    "cell": null,
+    "code": "UP045",
+    "end_location": {
+      "column": 29,
+      "row": 89
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "int | None",
+          "end_location": {
+            "column": 29,
+            "row": 89
+          },
+          "location": {
+            "column": 16,
+            "row": 89
+          }
+        }
+      ],
+      "message": "Convert to `X | None`"
+    },
+    "location": {
+      "column": 16,
+      "row": 89
+    },
+    "message": "Use `X | None` for type annotations",
+    "name": "non-pep604-annotation-optional",
+    "noqa_row": 89,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional"
+  },
+  {
+    "cell": null,
+    "code": "UP045",
+    "end_location": {
+      "column": 28,
+      "row": 90
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "int | None",
+          "end_location": {
+            "column": 28,
+            "row": 90
+          },
+          "location": {
+            "column": 15,
+            "row": 90
+          }
+        }
+      ],
+      "message": "Convert to `X | None`"
+    },
+    "location": {
+      "column": 15,
+      "row": 90
+    },
+    "message": "Use `X | None` for type annotations",
+    "name": "non-pep604-annotation-optional",
+    "noqa_row": 90,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional"
+  },
+  {
+    "cell": null,
+    "code": "UP045",
+    "end_location": {
+      "column": 31,
+      "row": 91
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "str | None",
+          "end_location": {
+            "column": 31,
+            "row": 91
+          },
+          "location": {
+            "column": 18,
+            "row": 91
+          }
+        }
+      ],
+      "message": "Convert to `X | None`"
+    },
+    "location": {
+      "column": 18,
+      "row": 91
+    },
+    "message": "Use `X | None` for type annotations",
+    "name": "non-pep604-annotation-optional",
+    "noqa_row": 91,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional"
+  },
+  {
+    "cell": null,
+    "code": "UP045",
+    "end_location": {
+      "column": 29,
+      "row": 97
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "int | None",
+          "end_location": {
+            "column": 29,
+            "row": 97
+          },
+          "location": {
+            "column": 16,
+            "row": 97
+          }
+        }
+      ],
+      "message": "Convert to `X | None`"
+    },
+    "location": {
+      "column": 16,
+      "row": 97
+    },
+    "message": "Use `X | None` for type annotations",
+    "name": "non-pep604-annotation-optional",
+    "noqa_row": 97,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional"
+  },
+  {
+    "cell": null,
+    "code": "UP045",
+    "end_location": {
+      "column": 34,
+      "row": 98
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "SafeNumber | None",
+          "end_location": {
+            "column": 34,
+            "row": 98
+          },
+          "location": {
+            "column": 14,
+            "row": 98
+          }
+        }
+      ],
+      "message": "Convert to `X | None`"
+    },
+    "location": {
+      "column": 14,
+      "row": 98
+    },
+    "message": "Use `X | None` for type annotations",
+    "name": "non-pep604-annotation-optional",
+    "noqa_row": 98,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional"
+  },
+  {
+    "cell": null,
+    "code": "UP045",
+    "end_location": {
+      "column": 32,
+      "row": 100
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "SafeNumber | None",
+          "end_location": {
+            "column": 32,
+            "row": 100
+          },
+          "location": {
+            "column": 12,
+            "row": 100
+          }
+        }
+      ],
+      "message": "Convert to `X | None`"
+    },
+    "location": {
+      "column": 12,
+      "row": 100
+    },
+    "message": "Use `X | None` for type annotations",
+    "name": "non-pep604-annotation-optional",
+    "noqa_row": 100,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional"
+  },
+  {
+    "cell": null,
+    "code": "UP045",
+    "end_location": {
+      "column": 28,
+      "row": 101
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "str | None",
+          "end_location": {
+            "column": 28,
+            "row": 101
+          },
+          "location": {
+            "column": 15,
+            "row": 101
+          }
+        }
+      ],
+      "message": "Convert to `X | None`"
+    },
+    "location": {
+      "column": 15,
+      "row": 101
+    },
+    "message": "Use `X | None` for type annotations",
+    "name": "non-pep604-annotation-optional",
+    "noqa_row": 101,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional"
+  },
+  {
+    "cell": null,
+    "code": "UP045",
+    "end_location": {
+      "column": 25,
+      "row": 107
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "str | None",
+          "end_location": {
+            "column": 25,
+            "row": 107
+          },
+          "location": {
+            "column": 12,
+            "row": 107
+          }
+        }
+      ],
+      "message": "Convert to `X | None`"
+    },
+    "location": {
+      "column": 12,
+      "row": 107
+    },
+    "message": "Use `X | None` for type annotations",
+    "name": "non-pep604-annotation-optional",
+    "noqa_row": 107,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional"
+  },
+  {
+    "cell": null,
+    "code": "UP045",
+    "end_location": {
+      "column": 29,
+      "row": 108
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "int | None",
+          "end_location": {
+            "column": 29,
+            "row": 108
+          },
+          "location": {
+            "column": 16,
+            "row": 108
+          }
+        }
+      ],
+      "message": "Convert to `X | None`"
+    },
+    "location": {
+      "column": 16,
+      "row": 108
+    },
+    "message": "Use `X | None` for type annotations",
+    "name": "non-pep604-annotation-optional",
+    "noqa_row": 108,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional"
+  },
+  {
+    "cell": null,
+    "code": "UP045",
+    "end_location": {
+      "column": 28,
+      "row": 109
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "int | None",
+          "end_location": {
+            "column": 28,
+            "row": 109
+          },
+          "location": {
+            "column": 15,
+            "row": 109
+          }
+        }
+      ],
+      "message": "Convert to `X | None`"
+    },
+    "location": {
+      "column": 15,
+      "row": 109
+    },
+    "message": "Use `X | None` for type annotations",
+    "name": "non-pep604-annotation-optional",
+    "noqa_row": 109,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional"
+  },
+  {
+    "cell": null,
+    "code": "UP045",
+    "end_location": {
+      "column": 32,
+      "row": 111
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "SafeNumber | None",
+          "end_location": {
+            "column": 32,
+            "row": 111
+          },
+          "location": {
+            "column": 12,
+            "row": 111
+          }
+        }
+      ],
+      "message": "Convert to `X | None`"
+    },
+    "location": {
+      "column": 12,
+      "row": 111
+    },
+    "message": "Use `X | None` for type annotations",
+    "name": "non-pep604-annotation-optional",
+    "noqa_row": 111,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional"
+  },
+  {
+    "cell": null,
+    "code": "UP045",
+    "end_location": {
+      "column": 32,
+      "row": 112
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "ISODate | None",
+          "end_location": {
+            "column": 32,
+            "row": 112
+          },
+          "location": {
+            "column": 15,
+            "row": 112
+          }
+        }
+      ],
+      "message": "Convert to `X | None`"
+    },
+    "location": {
+      "column": 15,
+      "row": 112
+    },
+    "message": "Use `X | None` for type annotations",
+    "name": "non-pep604-annotation-optional",
+    "noqa_row": 112,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional"
+  },
+  {
+    "cell": null,
+    "code": "UP045",
+    "end_location": {
+      "column": 38,
+      "row": 113
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "ISODate | None",
+          "end_location": {
+            "column": 38,
+            "row": 113
+          },
+          "location": {
+            "column": 21,
+            "row": 113
+          }
+        }
+      ],
+      "message": "Convert to `X | None`"
+    },
+    "location": {
+      "column": 21,
+      "row": 113
+    },
+    "message": "Use `X | None` for type annotations",
+    "name": "non-pep604-annotation-optional",
+    "noqa_row": 113,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional"
+  },
+  {
+    "cell": null,
+    "code": "UP045",
+    "end_location": {
+      "column": 29,
+      "row": 119
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "int | None",
+          "end_location": {
+            "column": 29,
+            "row": 119
+          },
+          "location": {
+            "column": 16,
+            "row": 119
+          }
+        }
+      ],
+      "message": "Convert to `X | None`"
+    },
+    "location": {
+      "column": 16,
+      "row": 119
+    },
+    "message": "Use `X | None` for type annotations",
+    "name": "non-pep604-annotation-optional",
+    "noqa_row": 119,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional"
+  },
+  {
+    "cell": null,
+    "code": "UP045",
+    "end_location": {
+      "column": 28,
+      "row": 120
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "int | None",
+          "end_location": {
+            "column": 28,
+            "row": 120
+          },
+          "location": {
+            "column": 15,
+            "row": 120
+          }
+        }
+      ],
+      "message": "Convert to `X | None`"
+    },
+    "location": {
+      "column": 15,
+      "row": 120
+    },
+    "message": "Use `X | None` for type annotations",
+    "name": "non-pep604-annotation-optional",
+    "noqa_row": 120,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional"
+  },
+  {
+    "cell": null,
+    "code": "UP045",
+    "end_location": {
+      "column": 28,
+      "row": 121
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "str | None",
+          "end_location": {
+            "column": 28,
+            "row": 121
+          },
+          "location": {
+            "column": 15,
+            "row": 121
+          }
+        }
+      ],
+      "message": "Convert to `X | None`"
+    },
+    "location": {
+      "column": 15,
+      "row": 121
+    },
+    "message": "Use `X | None` for type annotations",
+    "name": "non-pep604-annotation-optional",
+    "noqa_row": 121,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional"
+  },
+  {
+    "cell": null,
+    "code": "UP045",
+    "end_location": {
+      "column": 38,
+      "row": 123
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "SafeNumber | None",
+          "end_location": {
+            "column": 38,
+            "row": 123
+          },
+          "location": {
+            "column": 18,
+            "row": 123
+          }
+        }
+      ],
+      "message": "Convert to `X | None`"
+    },
+    "location": {
+      "column": 18,
+      "row": 123
+    },
+    "message": "Use `X | None` for type annotations",
+    "name": "non-pep604-annotation-optional",
+    "noqa_row": 123,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional"
+  },
+  {
+    "cell": null,
+    "code": "UP045",
+    "end_location": {
+      "column": 31,
+      "row": 124
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "str | None",
+          "end_location": {
+            "column": 31,
+            "row": 124
+          },
+          "location": {
+            "column": 18,
+            "row": 124
+          }
+        }
+      ],
+      "message": "Convert to `X | None`"
+    },
+    "location": {
+      "column": 18,
+      "row": 124
+    },
+    "message": "Use `X | None` for type annotations",
+    "name": "non-pep604-annotation-optional",
+    "noqa_row": 124,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional"
+  },
+  {
+    "cell": null,
+    "code": "UP045",
+    "end_location": {
+      "column": 25,
+      "row": 125
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "str | None",
+          "end_location": {
+            "column": 25,
+            "row": 125
+          },
+          "location": {
+            "column": 12,
+            "row": 125
+          }
+        }
+      ],
+      "message": "Convert to `X | None`"
+    },
+    "location": {
+      "column": 12,
+      "row": 125
+    },
+    "message": "Use `X | None` for type annotations",
+    "name": "non-pep604-annotation-optional",
+    "noqa_row": 125,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 80,
+      "row": 294
+    },
+    "filename": "/app/backend/server.py",
+    "fix": null,
+    "location": {
+      "column": 55,
+      "row": 294
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 294,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 38,
+      "row": 301
+    },
+    "filename": "/app/backend/server.py",
+    "fix": null,
+    "location": {
+      "column": 13,
+      "row": 301
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 301,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 64,
+      "row": 306
+    },
+    "filename": "/app/backend/server.py",
+    "fix": null,
+    "location": {
+      "column": 39,
+      "row": 306
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 306,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "UP045",
+    "end_location": {
+      "column": 32,
+      "row": 336
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "str | None",
+          "end_location": {
+            "column": 32,
+            "row": 336
+          },
+          "location": {
+            "column": 19,
+            "row": 336
+          }
+        }
+      ],
+      "message": "Convert to `X | None`"
+    },
+    "location": {
+      "column": 19,
+      "row": 336
+    },
+    "message": "Use `X | None` for type annotations",
+    "name": "non-pep604-annotation-optional",
+    "noqa_row": 336,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional"
+  },
+  {
+    "cell": null,
+    "code": "UP045",
+    "end_location": {
+      "column": 59,
+      "row": 336
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "str | None",
+          "end_location": {
+            "column": 59,
+            "row": 336
+          },
+          "location": {
+            "column": 46,
+            "row": 336
+          }
+        }
+      ],
+      "message": "Convert to `X | None`"
+    },
+    "location": {
+      "column": 46,
+      "row": 336
+    },
+    "message": "Use `X | None` for type annotations",
+    "name": "non-pep604-annotation-optional",
+    "noqa_row": 336,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 36,
+      "row": 341
+    },
+    "filename": "/app/backend/server.py",
+    "fix": null,
+    "location": {
+      "column": 21,
+      "row": 341
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 341,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 35,
+      "row": 347
+    },
+    "filename": "/app/backend/server.py",
+    "fix": null,
+    "location": {
+      "column": 20,
+      "row": 347
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 347,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 33,
+      "row": 376
+    },
+    "filename": "/app/backend/server.py",
+    "fix": null,
+    "location": {
+      "column": 18,
+      "row": 376
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 376,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 40,
+      "row": 382
+    },
+    "filename": "/app/backend/server.py",
+    "fix": null,
+    "location": {
+      "column": 25,
+      "row": 382
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 382,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 38,
+      "row": 388
+    },
+    "filename": "/app/backend/server.py",
+    "fix": null,
+    "location": {
+      "column": 23,
+      "row": 388
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 388,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 45,
+      "row": 465
+    },
+    "filename": "/app/backend/server.py",
+    "fix": null,
+    "location": {
+      "column": 30,
+      "row": 465
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 465,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "UP045",
+    "end_location": {
+      "column": 51,
+      "row": 488
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "Literal[\"owner\", \"dispatcher\"] | None",
+          "end_location": {
+            "column": 51,
+            "row": 488
+          },
+          "location": {
+            "column": 11,
+            "row": 488
+          }
+        }
+      ],
+      "message": "Convert to `X | None`"
+    },
+    "location": {
+      "column": 11,
+      "row": 488
+    },
+    "message": "Use `X | None` for type annotations",
+    "name": "non-pep604-annotation-optional",
+    "noqa_row": 488,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional"
+  },
+  {
+    "cell": null,
+    "code": "UP045",
+    "end_location": {
+      "column": 28,
+      "row": 489
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "str | None",
+          "end_location": {
+            "column": 28,
+            "row": 489
+          },
+          "location": {
+            "column": 15,
+            "row": 489
+          }
+        }
+      ],
+      "message": "Convert to `X | None`"
+    },
+    "location": {
+      "column": 15,
+      "row": 489
+    },
+    "message": "Use `X | None` for type annotations",
+    "name": "non-pep604-annotation-optional",
+    "noqa_row": 489,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-pep604-annotation-optional"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 68,
+      "row": 493
+    },
+    "filename": "/app/backend/server.py",
+    "fix": null,
+    "location": {
+      "column": 46,
+      "row": 493
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 493,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 54,
+      "row": 533
+    },
+    "filename": "/app/backend/server.py",
+    "fix": null,
+    "location": {
+      "column": 32,
+      "row": 533
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 533,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "I001",
+    "end_location": {
+      "column": 45,
+      "row": 567
+    },
+    "filename": "/app/backend/server.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "from backups import router as backup_router\nfrom company import router as company_router\nfrom profiles import build_router as profile_router\nfrom telemetry import build_router as telemetry_router\n\n",
+          "end_location": {
+            "column": 1,
+            "row": 569
+          },
+          "location": {
+            "column": 1,
+            "row": 564
+          }
+        }
+      ],
+      "message": "Organize imports"
+    },
+    "location": {
+      "column": 1,
+      "row": 564
+    },
+    "message": "Import block is un-sorted or un-formatted",
+    "name": "unsorted-imports",
+    "noqa_row": 564,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/unsorted-imports"
+  }
+]

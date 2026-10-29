@@ -3,6 +3,7 @@ import { Kpi, PageHeader, Panel } from "@/components/Bits";
 import { IncomeExpenseChart, CategoryPie, FuelTrendChart, DriverBars, SimplePie, short } from "@/components/Charts";
 import { useRangedFetch } from "@/hooks/useData";
 import { money, num, pct } from "@/lib/api";
+import { TruckingGallery } from "@/components/TruckingGallery";
 
 export const RESULT_COLORS = { Passed: "#10B981", Fined: "#3B82F6", "Out of Service": "#F43F5E" };
 
@@ -18,6 +19,7 @@ export default function Dashboard() {
   return (
     <div data-testid="dashboard-page">
       <PageHeader kicker="Company overview" title="Dashboard" />
+      <TruckingGallery />
       {empty && (
         <div data-testid="dashboard-empty-hint" className="mb-6 rounded-lg border border-cyan-500/30 bg-cyan-500/5 p-4 text-sm text-cyan-300">
           No records yet. Start by adding trucks and drivers, or <Link to="/test-data" className="underline">load sample data</Link> to explore.

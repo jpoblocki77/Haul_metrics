@@ -92,11 +92,19 @@ def validate_records(tables):
                         continue
                     if dtype == "INTEGER" and (type(value) is not int or (key.endswith("id") and value < 1)):
                         raise ValueError()
-                    if dtype == "REAL" and (type(value) not in (int, float) or not math.isfinite(value)):
+                    if dtype == "REAL" and (type(value) not in (int, float) or not math.isfinite(value) or abs(value) > 1e30):
                         raise ValueError()
                     if dtype == "TEXT" and (not isinstance(value, str) or len(value) > 200000):
                         raise ValueError()
                 if record.get("is_test", 0) not in (0, 1):
+                    raise ValueError()
+                input_numbers = {
+                    "income": ("amount",), "expenses": ("amount",),
+                    "loads": ("pay", "miles"), "inspections": ("fine_amount",),
+                    "fuel": ("gallons", "price_per_gallon", "miles"),
+                    "trucks": ("tank_gallons",),
+                }
+                if any(record.get(key) is not None and abs(record[key]) > 1e15 for key in input_numbers.get(table, ())):
                     raise ValueError()
                 for field in ("date", "due_date", "delivered_date"):
                     if record.get(field) is not None and date.fromisoformat(record[field]).isoformat() != record[field]:
@@ -113,9 +121,9 @@ def validate_records(tables):
                     raise ValueError()
                 if table == "inspections" and record["result"] not in ("Passed", "Fined", "Out of Service"):
                     raise ValueError()
-                if table == "trucks" and record["tank_gallons"] <= 0:
+                if table == "trucks" and record["tank_gallons"] < 0.000001:
                     raise ValueError()
-                if table == "fuel" and (record["gallons"] <= 0 or record["price_per_gallon"] <= 0):
+                if table == "fuel" and (record["gallons"] < 0.000001 or record["price_per_gallon"] < 0.000001):
                     raise ValueError()
                 if table == "telemetry_events":
                     if record["kind"] not in ("load", "fuel") or record["status"] not in ("pending", "approved", "dismissed") or not isinstance(json.loads(record["payload"]), dict):

@@ -1,0 +1,14 @@
+{
+  "downloaded": {
+    "signed_in": true,
+    "stdout": "McCoy Trucking \u2014 SCS telemetry bridge\nKeep this window open while driving.\nConnecting to https://haul-metrics-2.preview.emergentagent.com\nMcCoy username: Signed in. Ctrl+C stops the bridge.\nOpen Live Telemetry in McCoy, select your driver/truck, enable detection, and save.\n",
+    "stderr": "/usr/local/lib/python3.11/getpass.py:91: GetPassWarning: Can not control echo on the terminal.\n  passwd = fallback_getpass(prompt, stream)\nWarning: Password input may be echoed.\nMcCoy password: \n",
+    "exit": -9
+  },
+  "source_public_url": {
+    "signed_in": true,
+    "stdout": "McCoy Trucking \u2014 SCS telemetry bridge\nKeep this window open while driving.\nMcCoy app URL: Connecting to https://haul-metrics-2.preview.emergentagent.com\nMcCoy username: Signed in. Ctrl+C stops the bridge.\nOpen Live Telemetry in McCoy, select your driver/truck, enable detection, and save.\n",
+    "stderr": "/usr/local/lib/python3.11/getpass.py:91: GetPassWarning: Can not control echo on the terminal.\n  passwd = fallback_getpass(prompt, stream)\nWarning: Password input may be echoed.\nMcCoy password: \n",
+    "exit": -9
+  }
+}

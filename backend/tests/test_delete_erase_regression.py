@@ -5,6 +5,7 @@ import subprocess
 import sys
 from pathlib import Path
 from test_full_regression import login, request, archive, decrypt, body, normalize, setup_mapping, sample, events, create
+from regression_safety import table_snapshot
 
 def test_delete_telemetry_pending_suppression_and_new_occurrence(ctx):
     a,d,t,cfg=setup_mapping(ctx);s=ctx['owner']
@@ -49,29 +50,44 @@ def test_erase_atomic_zero_counts_sessions_portable_backup_and_recreate(ctx):
     s=ctx['owner'];a,d,t,cfg=setup_mapping(ctx)
     request(s,'POST','/test-data')
     create(ctx,'categories',{'name':'TEST_erase_category'})
+    request(s,'PUT',f"/drivers/{d['id']}",json={'name':d['name'],'notes':'TEST exact preserved notes 🚚'})
     request(a,'POST','/telemetry/ingest',json=sample(1,job={'sourceCity':'TEST_erase','destinationCity':'TEST_end','income':99},attached=True))
     before=decrypt(archive(s));counts=request(s,'GET','/company/record-counts').json()
+    preserved_names=['users','company_settings','categories','drivers','trucks','telemetry_sources']
+    exact_before={k:v for k,v in table_snapshot().items() if k in preserved_names}
+    assert set(counts)=={'telemetry_events','income','expenses','fuel','inspections','loads'}
     assert all(count>0 for count in counts.values()),counts
     brand=request(s,'GET','/company/branding').json()
     result=request(s,'POST','/company/erase-records',json={'confirmation':'ERASE ALL RECORDS','owner_password':'trucker123'}).json()
     assert result['ok'] and result['removed']==counts
     assert all(n==0 for n in request(s,'GET','/company/record-counts').json().values())
     after=decrypt(archive(s))
+    assert {k:v for k,v in table_snapshot().items() if k in preserved_names}==exact_before
     assert after['tables']['users']==before['tables']['users']
     assert after['tables']['company_settings']==before['tables']['company_settings']
     assert request(s,'GET','/company/branding').json()==brand
     assert request(s,'GET','/auth/me').json()['role']=='owner'
     assert request(a,'GET','/auth/me').json()['username']==a.user['username']
-    assert request(a,'POST','/telemetry/ingest',json=sample(2)).json()['accepted'] is False
-    assert request(a,'GET','/telemetry/status').json()['source'] is None
-    assert request(s,'GET',f"/drivers/{d['id']}/profile",404).json()['detail']=='Driver not found'
+    source=request(a,'GET','/telemetry/status').json()['source']
+    assert source['enabled'] and source['driver_id']==d['id'] and source['truck_id']==t['id']
+    assert request(s,'GET',f"/drivers/{d['id']}/profile").json()['loads']==[]
+    job={'sourceCity':'TEST_erase','destinationCity':'TEST_end','income':99}
+    assert request(a,'POST','/telemetry/ingest',json=sample(2,job=job,attached=True)).json()['accepted']
+    assert events(a)==[], 'Erased active job must not immediately resurrect'
     stats=request(s,'GET','/stats/dashboard').json()
     assert [stats[k] for k in ['income','expenses','profit','loads_total']]==[0,0,0,0]
-    assert stats['monthly']==[] and stats['fuel_trend']==[] and stats['drivers']==[]
+    assert stats['monthly']==[] and stats['fuel_trend']==[] and all(x['loads']==0 for x in stats['drivers'])
     assert request(s,'GET','/stats/report-charts').json()=={'cash':[],'fuel':[]}
     assert request(s,'GET','/stats/leaderboard-history').json()=={'history':[],'trophies':[]}
     blank=archive(s);preview=request(s,'POST','/backup/inspect',json=body(blank)).json()
     assert all(preview['counts'][k]==0 for k in counts)
+    request(a,'POST','/telemetry/ingest',json=sample(3))
+    request(a,'POST','/telemetry/ingest',json=sample(4,job=job,attached=True))
+    assert len(events(a))==1
+    for seq,fuel in enumerate([100,150,150,150,150],5):request(a,'POST','/telemetry/ingest',json=sample(seq,fuel=fuel))
+    assert any(x['kind']=='fuel' for x in events(a))
+    reused=create(ctx,'fuel',{'date':'2026-10-28','driver_id':d['id'],'truck_id':t['id'],'price_per_gallon':2,'miles':600})
+    assert reused['gallons']==t['tank_gallons'] and reused['mpg']==6
     for table,payload in [('drivers',{'name':'TEST_after_erase'}),('trucks',{'truck_number':'TEST_after_erase','tank_gallons':100}),('categories',{'name':'TEST_after_erase'})]:
         row=create(ctx,table,payload);assert row['id']>max(x['id'] for x in before['tables'][table])
     truck=request(s,'GET','/trucks').json()[0];driver=request(s,'GET','/drivers').json()[0];category=request(s,'GET','/categories').json()[0]

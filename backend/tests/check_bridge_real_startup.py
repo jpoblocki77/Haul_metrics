@@ -18,4 +18,5 @@ with tempfile.TemporaryDirectory() as tmp:
         p.kill();out,err=p.communicate()
     print(out);print(err)
     results['source_public_url']={'signed_in':'Signed in.' in out,'stdout':out,'stderr':err,'exit':p.returncode}
-    Path('/app/test_reports/bridge_real_startup.json').write_text(json.dumps(results,indent=2))
+    Path(os.environ.get('BRIDGE_STARTUP_REPORT','/app/test_reports/bridge_real_startup.json')).write_text(json.dumps(results,indent=2))
+    assert all(result['signed_in'] for result in results.values()), 'Actual bridge authentication failed'

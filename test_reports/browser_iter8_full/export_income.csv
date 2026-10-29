@@ -1,0 +1,4 @@
+date,source,amount,driver_name,truck_number,notes
+2026-10-12,Load: TEST_UI_ORIGIN → TEST_UI_DEST,1000.0,TEST_UI_DRIVER,TEST_UI_TRUCK,
+2026-10-12,TEST_UI_BONUS,125.0,TEST_UI_DRIVER,TEST_UI_TRUCK,
+2026-10-12,TEST_dispatcher,80.0,,,

@@ -1,0 +1,43 @@
+{
+  "results": [
+    {
+      "name": "real browser sign-in and dashboard",
+      "status": "PASS"
+    },
+    {
+      "name": "user-paced SPA navigation no429",
+      "status": "PASS"
+    },
+    {
+      "name": "visible populated charts actual one-page PDF",
+      "status": "PASS"
+    },
+    {
+      "name": "real logout and no browser errors",
+      "status": "PASS"
+    }
+  ],
+  "diagnostics": {
+    "month": "2026-10",
+    "responses_429": [],
+    "page_errors": [],
+    "charts": [
+      {
+        "width": 372,
+        "height": 144,
+        "svg": 1,
+        "bars": 34,
+        "paths": 0
+      },
+      {
+        "width": 372,
+        "height": 144,
+        "svg": 1,
+        "bars": 0,
+        "paths": 1
+      }
+    ],
+    "pdf_pages": 1,
+    "final_visible_errors": ""
+  }
+}

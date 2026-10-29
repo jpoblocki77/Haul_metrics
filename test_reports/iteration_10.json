@@ -1,0 +1,74 @@
+{
+  "summary": "Independent final preview rerun closes the iteration9 positive-minimum/default-fuel500/backup blockers: fresh serial guarded pytest93/93 (numeric30, minimum diagnostic1, functional36, public security19, strict isolated7). Targeted report4/4, erase-to-normal-fuel4/4 and public login smoke1/1 pass. Exact populated15-table baseline restored; read-only numeric audit0 invalid/nonfinite. Build and critical checks pass. No product source edits or production clearance.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "Public preview /api/auth/login and hostile-origin responses", "issue": "Fresh boundary diagnostic confirms ingress changes source Lax to None+Partitioned and adds ACAO:* on denied403 without ACAC. Hostile requests/preflights and CSRF attacks still blocked; actual production configuration verification remains outstanding."},
+      {"endpoint": "/api/auth/login", "issue": "Known source-reviewed SEC-002 unknown-user timing difference and account-wide temporary lockout denial-of-service risk remain; default desktop credential hardening also outstanding. Not newly stress-tested or claimed resolved."}
+    ]
+  },
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": []},
+  "test_report_links": [
+    "/app/test_reports/REGRESSION_SECURITY_ITER10.md",
+    "/app/backend/tests/test_numeric_closeout.py",
+    "/app/backend/tests/test_numeric_minimum_diagnostic.py",
+    "/app/backend/tests/check_numeric_originals_final.py",
+    "/app/backend/tests/check_final_execution_counts.py",
+    "/app/backend/tests/ui_report_closeout.py",
+    "/app/backend/tests/ui_fuel_after_erase_closeout.py",
+    "/app/test_reports/pytest/pytest_results_iter10_numeric.xml",
+    "/app/test_reports/pytest/pytest_results_iter10_functional.xml",
+    "/app/test_reports/pytest/pytest_results_iter10_security.xml",
+    "/app/test_reports/numeric_minimum_rca_iter10.json",
+    "/app/test_reports/browser_iter10_report/results.json",
+    "/app/test_reports/browser_iter10_fuel/results.json",
+    "/app/test_reports/original_audit_iter10.json",
+    "/app/test_reports/closeout_iter10.json",
+    "/app/test_reports/preservation_iter10.json",
+    "/app/test_reports/security_boundary_iter10.json",
+    "/app/test_reports/execution_counts_iter10.json",
+    "/app/test_reports/build_iter10.log",
+    "/app/test_reports/critical_checks_iter10.log"
+  ],
+  "action_items": [
+    "Numeric blockers are independently verified closed; no further product numeric fix requested.",
+    "Main agent must complete actual production origin/ingress/cookie/TLS/secrets verification and formal security_audit_agent review before security/deployment clearance.",
+    "Retain known SEC-002 timing/lockout and default desktop credential risks for the security audit; keep strict source origin/CSRF protections unchanged.",
+    "Preserve historical iteration8 rapid429 and iteration9 numeric failures; do not count older UI or bridge runs as new passes.",
+    "Track advisory legacy Ruff findings separately from security failures; real Windows launch/live SCS gameplay remain unverified."
+  ],
+  "critical_code_review_comments": [
+    "Required tank/price now use one PositiveNumber bound; independently verified schema minima1e-6 and reject422/no mutation across create/update. Signed money remains allowed.",
+    "prep_fuel rejects invalid stored/default capacities before division: six disposable legacy zero/negative/tiny/huge/±Infinity cases422, none500. Original DB was never poisoned or repaired.",
+    "Public attack resistance19/19 and strict isolated source7/7 remain separate policies; preview proxy rewriting is not proof of a source CORS/CSRF bypass or production security approval.",
+    "All15 tables/all columns restored exactly including hashes/session versions/source raw state/security metadata/sqlite_sequence. Sanitized archive-only restore would not suffice.",
+    "Compileall and product Ruff critical selectors E9,F63,F7,F82,F811 pass; no broad advisory Ruff-clean claim."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_numeric_minimum_diagnostic.py",
+    "/app/backend/tests/ui_report_closeout.py",
+    "/app/backend/tests/check_numeric_originals_final.py",
+    "/app/backend/tests/check_final_execution_counts.py",
+    "/app/backend/tests/ui_fuel_after_erase_closeout.py",
+    "/app/test_reports/REGRESSION_SECURITY_ITER10.md",
+    "/app/test_reports/iteration_10.json"
+  ],
+  "success_rate": {
+    "backend": "100% fresh pytest93/93; numeric30/30 + diagnostic1/1 + functional36/36 + public security19/19 + strict isolated7/7. No skips/retries or historical passes merged.",
+    "frontend": "100% executed fresh groups9/9: report4/4, erase-to-normal-fuel4/4, public load1/1. No full unchanged UI matrix rerun."
+  },
+  "test_credentials": "Read memory/test_credentials.md and auth_testing.md before authentication. Original account hashes/roles/session versions restored exactly; all original hashes have bcrypt2b format. No credentials exposed or changed permanently.",
+  "seed_data_creation": "Temporary TEST_ records/accounts and SIMULATED telemetry only, all removed via exact guard. Populated original baseline/final: users2/categories8/drivers6/trucks6/loads60/income68/expenses40/fuel70/inspections20/settings0/sources0/events0/attempts3/revocations35/sqlite_sequence10. No original concurrent source. Full15-table fingerprint matches;13 REAL columns0 nonfinite/invalid. Private snapshots ephemeral0700/0600 and removed; safety archives encrypted0600. No original auto-repair and no retained test records.",
+  "retest_needed": true,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Numeric fix is closed, not blocked. All mutating commands freshly executed foreground through run_guarded_regression with explicit pytest-n0, one at a time. See REGRESSION_SECURITY_ITER10.md and XML counts. Minimum diagnostic enhanced inside its existing1 case with schema assertions/no-mutation/six disposable legacy fallback checks and configurable output to avoid overwriting iteration9. Report script only gains configurable artifact directory. Final baseline audit and artifact checker are read-only; no product source edits. Remaining retest flag is for production/security-policy follow-up, not numeric or UI failures. Maintain exact safeguards and coordinate concurrent writes before any future restore.",
+  "rca of the issue": "Prior conflicting SafeNumber/Field lower bounds allowed invalid tank/price, leading to zero-default division500 and self-export rejection400. Separate PositiveNumber and pre-division validation now independently pass all failing regressions. Residual public header drift is confirmed after app middleware: strict source Lax/no hostile ACAO versus preview None+Partitioned/hostile403 wildcard without credentials. No authenticated cross-origin mutation/read bypass observed.",
+  "coverage_gaps": [
+    "Actual production configuration/deployment/TLS/secrets and formal security_audit_agent review remain pending; PREVIEW only, no production security clearance.",
+    "Real Windows BAT/EXE launch and live SCS gameplay unavailable; actual bridge startup2/2 is historical iteration9, not freshly rerun.",
+    "Full unchanged browser routes/themes/mobile/photos/logout/CSRF matrices rely on historical results and are not included in fresh totals.",
+    "Historical iteration8 rapid-navigation429 retained; both newly paced browser runs had no429, not proof recurrence is impossible.",
+    "Full Ruff advisory findings not rerun or fixed; iteration9 documented51 legacy/style findings separately. No exhaustive penetration-test claim."
+  ],
+  "mocking_disclosure": "No new product API or targeted browser flow MOCKED. Disposable TestClient calls execute the real app. Existing functional bridge contract harness uses MOCKED input/network; telemetry/game samples SIMULATED. No Windows/live-gameplay claims."
+}

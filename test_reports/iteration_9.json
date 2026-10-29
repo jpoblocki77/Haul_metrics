@@ -1,0 +1,86 @@
+{
+  "summary": "Post-fix closeout remains BLOCKED: nonfinite protection works, but required tank/fuel-price positive minima regress to -1e15. Latest guarded serial pytest84/93: functional32/36, numeric26/30, public security19/19, strict isolated security7/7, minimum RCA0/1. Paced report4/4, login smoke1/1, actual bridge2/2. All original rows/security metadata exactly restored; original REAL audit0 nonfinite. No product edits.",
+  "backend_issues": {
+    "critical": [
+      {"endpoint": "POST /api/trucks; PUT /api/trucks/{id}; POST /api/fuel; PUT /api/fuel/{id}", "issue": "Required tank_gallons and price_per_gallon accept1e-320 instead of422 on create/update. Diagnostic creates also accept0 and-1. Runtime schema minimum is-1e15: SafeNumber Annotated lower bound overrides required-field Field(ge=1e-6).", "priority": "HIGH"},
+      {"endpoint": "POST /api/fuel", "issue": "Disposable zero-capacity truck accepted by API; subsequent fuel with omitted gallons, price4 and miles60 returns500. prep_fuel defaults zero gallons and divides before numeric-write validation.", "priority": "HIGH"},
+      {"endpoint": "POST /api/backup/inspect; POST /api/backup/restore", "issue": "Export succeeds for API-accepted zero/tiny/negative tank or price rows but the same archive is rejected400. Full functional test03 creates a zero tank; test09 inspect, test10 roundtrip and test11 cleanup then fail400. Clean finite disposable roundtrip passes; malicious backups reject safely.", "priority": "HIGH"}
+    ],
+    "minor": [
+      {"endpoint": "Public preview login/untrusted-origin responses", "issue": "External ingress still changes source Lax to None+Partitioned and adds ACAO:* on denied403 without ACAC. Public attacks remain denied without writes; strict isolated source passes. External policy difference remains, not production clearance."},
+      {"endpoint": "/api/auth/login", "issue": "Source-reviewed known SEC-002 timing enumeration and account-wide temporary lockout denial of service remain; documented default desktop credentials still need hardening. Not newly stress-tested."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/test_reports/REGRESSION_SECURITY_ITER9.md",
+    "/app/backend/tests/test_numeric_closeout.py",
+    "/app/backend/tests/test_numeric_minimum_diagnostic.py",
+    "/app/backend/tests/ui_report_closeout.py",
+    "/app/test_reports/pytest/pytest_results_iter9_numeric.xml",
+    "/app/test_reports/pytest/pytest_results_iter9_numeric_final.xml",
+    "/app/test_reports/pytest/pytest_results_iter9_functional.xml",
+    "/app/test_reports/pytest/pytest_results_iter9_security.xml",
+    "/app/test_reports/pytest/pytest_results_iter9_isolated_security.xml",
+    "/app/test_reports/numeric_minimum_rca_iter9.json",
+    "/app/test_reports/original_audit_iter9.json",
+    "/app/test_reports/closeout_iter9.json",
+    "/app/test_reports/preservation_iter9.json",
+    "/app/test_reports/security_boundary_iter9.json",
+    "/app/test_reports/browser_iter9_report/results.json",
+    "/app/test_reports/bridge_real_startup_iter9.json",
+    "/app/test_reports/build_iter9.log",
+    "/app/test_reports/ruff_iter9.log",
+    "/app/test_reports/ruff_product_iter9.json",
+    "/app/test_reports/ruff_product_statistics_iter9.log"
+  ],
+  "action_items": [
+    "Fix required tank/price positive bounds with an unambiguous finite bounded positive type; assert model schema minimum1e-6. Do not weaken backup validation or negative monetary adjustment policy.",
+    "Validate default tank gallons before fuel division; zero-capacity fallback must not500.",
+    "Rerun failing numeric tests, diagnostic and all36 functional tests under exact SQLite safeguards; preserve raw iteration8/9 failures.",
+    "Complete separate read-only production ingress/origin/TLS/secrets checks and address known timing/default-credential risks; no production security clearance yet.",
+    "Ruff server.py/backups.py remains51 findings; compile/build passed and F811 passed. Review lint configuration/legacy findings without unnecessary product changes."
+  ],
+  "critical_code_review_comments": [
+    "Observed Pydantic required-field metadata merging changes tank/price minimum to-1e15 despite Field(ge=1e-6). Optional gallons/miles minima work. Explicit positive type avoids competing lower bounds.",
+    "prep_fuel division occurs before insert/update finite guards; API-accepted zero tank causes500 and API-vs-backup validation mismatch.",
+    "Public assertions now measure attack resistance separately from source header contract. Strict source Lax/no hostile ACAO/ACAC and complete no-side-effect snapshots remain enforced.",
+    "Full ruff on changed product files is not clean:51 findings. No F811 fixture shadowing; no product edits by tester."
+  ],
+  "updated_files": [
+    "/app/backend/tests/regression_safety.py",
+    "/app/backend/tests/test_full_regression.py",
+    "/app/backend/tests/test_browser_security_regression.py",
+    "/app/backend/tests/test_isolated_browser_security.py",
+    "/app/backend/tests/check_security_boundary.py",
+    "/app/backend/tests/check_bridge_real_startup.py",
+    "/app/backend/tests/test_numeric_closeout.py",
+    "/app/backend/tests/test_numeric_minimum_diagnostic.py",
+    "/app/backend/tests/check_numeric_originals.py",
+    "/app/backend/tests/ui_report_closeout.py",
+    "/app/test_reports/iteration_9.json",
+    "/app/test_reports/REGRESSION_SECURITY_ITER9.md"
+  ],
+  "success_rate": {
+    "backend": "Latest pytest84/93 (90.3%): functional32/36, numeric26/30, public security19/19, strict isolated7/7, separate RCA0/1. Actual bridge2/2 separate. Initial numeric25/30 retained, not added.",
+    "frontend": "New focused report4/4 and public load1/1 (100% executed checks). Historical focused16/16, erase7/7 and route matrices not rerun/counting as new passes."
+  },
+  "test_credentials": "Read memory/test_credentials.md before auth. Both existing owner/dispatcher authenticate; original hashes/roles/IDs/session versions exactly preserved. Secrets omitted; no retained test accounts.",
+  "seed_data_creation": "Temporary TEST_ records/accounts and SIMULATED telemetry only. Original DB already populated: users2/categories8/drivers6/trucks6/loads60/income68/expenses40/fuel70/inspections20/settings0/sources0/events0/attempts3/revocations35/sqlite_sequence10. Exact15-table snapshots and final complete-row fingerprint match baseline. No original rows repaired/deleted; audit13 REAL columns found0 nonfinite. Private SQLite snapshots removed; encrypted recovery archives0600. All nonfinite/extreme payloads and fuel500 RCA isolated; existing live zero-tank rejection case unexpectedly persisted only inside guard and was restored away.",
+  "retest_needed": true,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "See REGRESSION_SECURITY_ITER9.md. Run one foreground guard command at a time, pytest -n0, REGRESSION_PRESERVATION_REPORT set to new artifact. ctx via conftest, never import fixture into tests. Numeric fixture now per-case disposable DB, unique truck create names; do not relax positive-minimum assertions. Three functional backup failures cascade from zero tank accepted in test03. Prior iteration8 raw429/security failures intact. Current paced report no429 and one-page populated PDF passed; no full UI matrices rerun. Exact SQLite restore mandatory over archive-only restore; maintenance coordination required for concurrent company writes.",
+  "rca of the issue": "SafeNumber Annotated ge=-1e15 merges after required-field Field(ge=1e-6) in installed Pydantic; JSON schema proves tank/price minimum-1e15. Zero/tiny/negative quantities persist, fuel default zero tank yields division by zero500, and stricter backup schema rejects API-exported accepted records400. Nonfinite strings/raw literals now controlled422 without mutation or secret echo. Explicit positive type plus pre-division stored/default validation recommended; no product fix applied.",
+  "coverage_gaps": [
+    "Actual production deployment, TLS/secrets and origin/ingress settings not inspected; no production clearance.",
+    "Real Windows launch/SCS gameplay unavailable; actual source/downloaded bridge authentication only.",
+    "Earlier rapid-navigation429 remains historical; one normal-paced SPA retest passed, not proof recurrence is impossible.",
+    "Unchanged full browser route/theme/size, multitab/error injection/iframe/mobile telemetry suites relied on historical iteration8 results, not newly executed.",
+    "Not an exhaustive penetration test; known account timing/lockout and default credential risks remain."
+  ],
+  "mocking_disclosure": "New product API/browser/bridge requests are real; isolated private DB fixtures are not mocked APIs. Existing functional bridge_process_harness input/network is MOCKED. Telemetry/game snapshots SIMULATED. No live gameplay or Windows claims."
+}

@@ -1,0 +1,188 @@
+{
+  "results": [
+    {
+      "name": "local highway signin photograph desktop",
+      "status": "PASS"
+    },
+    {
+      "name": "cookie login reload HttpOnly no persistent bearer",
+      "status": "PASS"
+    },
+    {
+      "name": "owner sixteen routes header logout photos no overflow 1920 dark",
+      "status": "PASS"
+    },
+    {
+      "name": "owner sixteen routes header logout photos no overflow 1920 light",
+      "status": "PASS"
+    },
+    {
+      "name": "owner sixteen routes header logout photos no overflow 390 dark",
+      "status": "PASS"
+    },
+    {
+      "name": "owner sixteen routes header logout photos no overflow 390 light",
+      "status": "PASS"
+    },
+    {
+      "name": "actual middleware csrf403 one retry one business write after reload",
+      "status": "PASS"
+    },
+    {
+      "name": "MOCKED logout server503 and network failure busy error remain signed in retry",
+      "status": "PASS"
+    },
+    {
+      "name": "header logout revocation sibling tabs separate browser bridge unaffected",
+      "status": "PASS"
+    },
+    {
+      "name": "already revoked401 logout signs out safely",
+      "status": "PASS"
+    },
+    {
+      "name": "late me response cannot resurrect logout legacy bearer removed",
+      "status": "PASS"
+    },
+    {
+      "name": "UI cookieCSRF erase exact all setup source rows next job fuel manual fleet reusable",
+      "status": "PASS"
+    },
+    {
+      "name": "logout-btn visible sidebar logout",
+      "status": "PASS"
+    },
+    {
+      "name": "mobile-logout-btn visible sidebar logout",
+      "status": "PASS"
+    },
+    {
+      "name": "dispatcher eleven routes desktop mobile both themes no owner delete controls",
+      "status": "PASS"
+    },
+    {
+      "name": "external parent MOCKED document real child iframe login reload",
+      "status": "PASS"
+    }
+  ],
+  "diagnostics": {
+    "browser_cookie_flags": {
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    "real_csrf_retry": {
+      "requests": 2,
+      "persisted_rows": 1,
+      "statuses": [
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        200,
+        403,
+        200,
+        200
+      ]
+    },
+    "UI_erase_exact_preservation_and_continuity": true,
+    "iframe": "Real child login/reload works under synthetic external parent; top-level cookie is separately partitioned by preview ingress.",
+    "error_text": ""
+  },
+  "page_errors": [],
+  "http_errors": [
+    {
+      "path": "auth/me",
+      "status": 401
+    },
+    {
+      "path": "auth/me",
+      "status": 401
+    },
+    {
+      "path": "auth/me",
+      "status": 401
+    },
+    {
+      "path": "auth/me",
+      "status": 401
+    },
+    {
+      "path": "income",
+      "status": 403
+    },
+    {
+      "path": "auth/logout",
+      "status": 503
+    },
+    {
+      "path": "auth/me",
+      "status": 401
+    },
+    {
+      "path": "auth/me",
+      "status": 401
+    },
+    {
+      "path": "auth/logout",
+      "status": 401
+    },
+    {
+      "path": "auth/me",
+      "status": 401
+    },
+    {
+      "path": "auth/me",
+      "status": 401
+    },
+    {
+      "path": "auth/me",
+      "status": 401
+    },
+    {
+      "path": "auth/me",
+      "status": 401
+    },
+    {
+      "path": "auth/me",
+      "status": 401
+    },
+    {
+      "path": "auth/me",
+      "status": 401
+    },
+    {
+      "path": "company/erase-records",
+      "status": 403
+    },
+    {
+      "path": "auth/me",
+      "status": 401
+    },
+    {
+      "path": "auth/me",
+      "status": 401
+    },
+    {
+      "path": "auth/me",
+      "status": 401
+    },
+    {
+      "path": "auth/me",
+      "status": 401
+    },
+    {
+      "path": "auth/me",
+      "status": 401
+    },
+    {
+      "path": "auth/me",
+      "status": 401
+    }
+  ]
+}

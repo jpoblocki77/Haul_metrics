@@ -16,7 +16,7 @@
 - Telemetry: **Review before saving**. Detected loads/fuel stops are candidates, not automatically booked.
 - User creation: owner manually enters password, with confirmation; default role Dispatcher.
 - Company colors: main, accent, separate dark/light backgrounds. Settings owner-only, company-wide.
-- Erase all records: **Keep accounts and company settings**. Never erase users or branding in that action.
+- Erase all records: **Keep all drivers, trucks, categories, accounts, company settings and telemetry connections** (latest user revisions, 2026-10-29). Reset only income/expenses/fuel/loads/inspections and telemetry event history. Telemetry source rows, assignments, enabled flag, state and last_seen are not changed by erase; new signals may naturally update them. Individual owner-only deletion remains available separately.
 
 ## Completed functionality
 ### Core (prior iterations)
@@ -36,7 +36,7 @@
 - `/backup`: encrypted portable .mccoy (scrypt/Fernet), preview counts, current-owner password and typed RESTORE MCCOY confirmation, schema/date/FK/envelope validation, atomic restore. Includes account hashes, all company data, branding, telemetry history. Device baselines/connections reset; no signing secret included. Backup files downloaded directly; no external object storage.
 - Global **Delete entries** utility on every protected page, owner-only, all ten record types incl accounts/telemetry, search, separate cancel/confirmation per entry. Direct delete controls in profiles and telemetry, existing CRUD row deletes retained. All affected displays refresh without manual reload.
 - Telemetry management has server-side pagination/search/true total; full live history no longer silently capped at 500. Searches decoded historical/restored JSON scalar values with Unicode casefold and literal `%`, `_`, backslash handling. Verified 501-event pagination/oldest deletion.
-- **Backup & Restore → Erase company records**: exact ERASE ALL RECORDS phrase + current owner password, atomic clearing of company records, categories and telemetry history/connections. Accounts, branding and security metadata preserved. IDs not reused. Categories seed only on first installation and do not return after intentional erasure.
+- **Backup & Restore → Erase company records**: exact ERASE ALL RECORDS phrase + current owner password, atomic clearing of income/expenses/fuel/loads/inspections and telemetry event history only. All drivers, trucks, categories, accounts, branding, telemetry connections and security metadata preserved. IDs not reused. Categories seed only on first installation and do not return after intentional individual deletion. Backup restore intentionally resets device connections; erase does not.
 - Extra reliability fixes: manual ISO calendar-date validation, malformed backup metadata returns controlled errors, CSV formula-leading strings escaped, DB connections closed deterministically, SQLite telemetry work kept off async event loop.
 
 ## Key endpoints
@@ -47,20 +47,26 @@
 - `/api/backup/export`, `/inspect`, `/restore` owner-only.
 
 ## Verification and data safety
-- Production frontend build and Python compile passed. Reports iteration_4 through iteration_7 document findings/fixes.
+- Production frontend build and Python compile passed. Reports iteration_4 through iteration_10 document findings/fixes; latest fresh verification is iteration_10.
 - Original 31 serial API regression tests passed in iterations 5/6. Five extra telemetry management tests initially uncovered two related encoding failures; iteration 7 verified all **5/5**, closing both.
 - Final pre-completion check flagged only fixture-import lint conflicts in generated tests. Moved shared fixture discovery to backend/tests/conftest.py without changing product behavior. Ruff F811 check passed; **all 36 API tests then ran together with explicit pytest -n0 and passed** (103.51s). Final JUnit: `/app/test_reports/pytest/pytest_results_final_complete.xml`. Safeguarded suite teardowns restored and compared original company data.
 - Full route/theme/mobile matrix, all CRUD/user/backup/erase flows, ten global delete types, 19 focused winner/pagination/direct-delete/mobile-refresh groups passed.
 - Report charts visibly rendered at desktop/mobile and in a rasterized one-page printed PDF.
 - Actual downloaded and source bridge subprocesses authenticated to the real external API and remained polling until intentionally stopped by test harness.
-- Final Unicode/casefold/literal-symbol search confirmed by independent API/browser checks before and after encrypted restore. Latest report: `/app/test_reports/iteration_7.json`, no remaining runnable defect reported.
-- Original company records, account password hashes and branding safeguarded/restored/compared repeatedly. No retained temporary accounts/data. Existing accounts/credentials unchanged; test restore intentionally revokes sessions and IDs may advance.
+- Unicode/casefold/literal-symbol search confirmed before/after encrypted restore. Latest independent run: **93/93** fresh tests (36 functional, 30 numeric, 1 minimum/fallback, 19 public security, 7 strict source security), plus **9/9** targeted browser groups. `/app/test_reports/iteration_10.json`; no remaining functional/numeric blocker.
+- Original records, account hashes and branding safeguarded/restored/compared repeatedly. Latest guarded run restored **all15 SQLite tables and all columns exactly**, including telemetry state, sessions/security metadata and sequences. No temporary accounts/data retained and no original numerical repairs performed. Earlier archive-only test restores could revoke sessions; current exact SQLite guard avoids that loss.
 - IMPORTANT tests share a live preview database: **always explicit `pytest -n0`**, foreground, one safeguarded suite at a time. Default repository pytest configuration is parallel and must not be used for these suites. Never run unsafeguarded destructive tests on original data.
 - Product APIs are real, not mocked. SCS inputs in automated tests are SIMULATED. Pre-existing bridge contract tests mock input/network fixtures, separately from real bridge authentication verification.
 
-## Limitations and roadmap
-- **Functional P0: none known** after final search verification; all runnable requested flows covered. Functional test success is not security clearance.
-- **Security audit (2026-10-29): ACTION REQUIRED.** Read-only audit found HIGH SEC-001: workspace CORS_ORIGINS=* + credentialed CORS + SameSite=None cookie can permit cross-site authenticated access. Production values not verified. LOW SEC-002: login timing enumeration/targeted account lockout. Additional hardening: default desktop owner credential and browser JWT localStorage. No security remediation applied yet; user requested audit only. See `/app/memory/SECURITY_AUDIT.md`. Prioritize CORS/CSRF remediation and regression tests before treating app as security-cleared.
+## Latest completed work and remaining risks
+- Erase-all preservation verified end-to-end: all drivers/trucks/categories/accounts/branding/telemetry source rows untouched, activity removed, enabled telemetry continues detecting new activity, preserved fleet/categories reusable. Only six recorded-activity tables are erased.
+- Truck photos locally bundled on Dashboard/sign-in; visible header and sidebar/mobile Log out. Logout server confirmation, expiry/network handling, cross-tab updates and independent bridge sessions tested. Fresh targeted UI9/9 and prior full route/theme/photo/logout matrix results remain distinct.
+- CORS/CSRF remediation verified by independent tests and formal security audit: exact configured app origin (or exact desktop loopback), origin/Fetch-Metadata guards, JSON login, session-bound CSRF, no-store, HttpOnly/Secure/Lax application cookie, memory-only browser CSRF and no persistent bearer. Python bearer bridge preserved.
+- Numeric defects discovered by evaluation are fixed and independently verified: separate finite signed/positive/nonnegative types, consistent minima, safe stored tank fallback, sanitized422 errors and bounded backup values. Invalid inputs no longer persist Infinity or produce division/serialization500. Original DB scan found0 invalid/nonfinite values.
+- Preview proxy changes cookies to None;Partitioned and adds wildcard ACAO on denied403 WITHOUT credentials. Cross-origin/CSRF attacks remain blocked. Do not weaken application guards. Historical fast-navigation429 retained; fresh paced UI had none.
+- **Functional P0: none known. Security: ACTION REQUIRED.** HIGH: documented default owner password remains accepted on public preview. Recommend changing it and implementing forced first-run setup; no credentials were silently rotated during evaluation. LOW: username timing enumeration/targeted temporary lockout. See SECURITY_AUDIT.md.
+- Interim audit claim that JWT_SECRET was committed is **withdrawn**: backend/.env is untracked and absent from available Git history. No source-exposed signing-secret/token-forgery evidence found.
+- Actual read-only production inspection completed with result **no production deployment exists for this job**. No live URL/build/runtime configuration was available; production cookies/origins/TLS/secrets cannot be assessed. No deployment or production mutation performed. See PRODUCTION_VERIFICATION.md.
 - **P1: user-PC verification** of actual Windows BAT/EXE launch and real SCS/Funbit game capture. Linux preview cannot verify these. Installer workflow is configured, but no Windows executable built or run here.
 - SCS snapshots do not provide reliable delivered/cancelled events or fuel prices. Those remain explicit review fields. Simulator deadlines are not real dates; ETS2 currency is not automatically converted to USD. Connection gaps may miss partial fuel stops; use manual entry where necessary.
 - Cloud usage requires freshly downloaded McCoyTelemetry.py + StartMcCoyTelemetry.bat together on driving PC with Python 3.10+ and Funbit server/plugin running. Never expose telemetry port publicly.

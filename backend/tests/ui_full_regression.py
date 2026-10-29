@@ -12,7 +12,7 @@ from pypdf import PdfReader
 spec=importlib.util.spec_from_file_location('regression',Path(__file__).with_name('test_full_regression.py'))
 api=importlib.util.module_from_spec(spec);spec.loader.exec_module(api)
 BASE=os.environ['REACT_APP_BACKEND_URL'].rstrip('/')
-OUT=Path('/app/test_reports/browser_iter4');OUT.mkdir(exist_ok=True)
+OUT=Path('/app/test_reports/browser_iter8_full');OUT.mkdir(exist_ok=True)
 results=[]; errors=[]; diagnostics={}
 
 def save():
@@ -35,6 +35,7 @@ async def main():
                 await page.screenshot(path=str(OUT/(name.replace(' ','_').replace('/','_')+'_failure.jpg')),quality=40,full_page=False)
             save()
         async def ui_login(username='owner',password='trucker123'):
+            await page.wait_for_timeout(500)
             await page.goto(BASE+'/login');await page.get_by_test_id('login-username-input').fill(username)
             await page.get_by_test_id('login-password-input').fill(password)
             await page.get_by_test_id('login-submit-btn').click()
@@ -44,7 +45,8 @@ async def main():
         async def get(path):
             r=await page.request.get(BASE+'/api'+path);assert r.ok,(path,r.status,await r.text());return await r.json()
         async def post(path,data,method='post'):
-            r=await getattr(page.request,method)(BASE+'/api'+path,data=data);assert r.ok,(path,r.status,await r.text());return await r.json()
+            csrf=await get('/auth/csrf')
+            r=await getattr(page.request,method)(BASE+'/api'+path,data=data,headers={'X-CSRF-Token':csrf['csrf_token']});assert r.ok,(path,r.status,await r.text());return await r.json()
         async def field(name,value,select=False):
             tid='input-'+name.replace('_','-')
             if select:

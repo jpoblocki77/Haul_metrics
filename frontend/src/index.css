@@ -160,6 +160,14 @@ input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(0.7); }
 :root[data-theme] [class~="hover:bg-blue-500"]:hover { background-color: color-mix(in srgb, var(--brand-primary) 85%, black); color: var(--brand-primary-text); }
 :root[data-theme] nav a[aria-current="page"] { color: var(--brand-ink); box-shadow: inset 3px 0 0 var(--brand-primary); }
 .company-name { overflow-wrap: anywhere; }
+.trucking-gallery { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 12px; aspect-ratio: 6 / 1; margin-bottom: 28px; }
+.trucking-photo { position: relative; min-width: 0; overflow: hidden; border-radius: 6px; margin: 0; background: hsl(var(--card)); }
+.trucking-photo img { display: block; width: 100%; height: 100%; position: absolute; inset: 0; object-fit: cover; }
+@media (max-width: 639px) {
+  .trucking-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); aspect-ratio: auto; gap: 8px; margin-bottom: 24px; }
+  .trucking-photo { aspect-ratio: 1.8 / 1; }
+  .trucking-photo-main { grid-column: 1 / -1; aspect-ratio: 2.5 / 1; }
+}
 :root[data-theme] .text-primary { color: var(--brand-ink); }
 .report-sheet { --report-blue: var(--brand-print-primary); --report-red: var(--brand-print-accent); }
 @media (max-width: 480px) { .report-driver-row { font-size: 8px; gap: 3px; } }

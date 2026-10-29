@@ -1,0 +1,2 @@
+date,result,driver_name,truck_number,location,fine_amount,fine_reason,notes
+2026-10-12,Passed,TEST_UI_DRIVER,TEST_UI_TRUCK,TEST_UI_DOT,,,

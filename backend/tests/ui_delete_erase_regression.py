@@ -1,12 +1,13 @@
 # Public UI: all global deletion types, direct deletes, confirmation safety, bulk erase, and safeguards.
-import asyncio, json, os, uuid
+import asyncio, json, os, uuid, traceback
 from pathlib import Path
 from playwright.async_api import async_playwright, expect
 from pypdf import PdfReader
+from regression_safety import table_snapshot
 import test_full_regression as api
 
 BASE=os.environ['REACT_APP_BACKEND_URL'].rstrip('/')
-OUT=Path('/app/test_reports/browser_delete_erase');OUT.mkdir(exist_ok=True)
+OUT=Path('/app/test_reports/browser_iter8_delete');OUT.mkdir(exist_ok=True)
 results=[];diagnostics={};errors=[]
 
 async def main():
@@ -32,12 +33,15 @@ async def main():
         async def step(name,fn):
             try:await fn();results.append({'name':name,'status':'PASS'});print('PASS',name,flush=True)
             except Exception as e:
-                results.append({'name':name,'status':'FAIL','error':repr(e)});print('FAIL',name,repr(e),flush=True);await shot(name.replace(' ','_')+'_failure')
+                results.append({'name':name,'status':'FAIL','error':traceback.format_exc()});print('FAIL',name,traceback.format_exc(),flush=True);await shot(name.replace(' ','_')+'_failure')
         async def login(page,user='owner',password='trucker123'):
             await page.goto(BASE+'/login');await page.get_by_test_id('login-username-input').fill(user);await page.get_by_test_id('login-password-input').fill(password);await page.get_by_test_id('login-submit-btn').click(force=True);await expect(page.get_by_test_id('dashboard-page')).to_be_visible();await page.wait_for_timeout(400)
         async def nav(slug):
+            await page.wait_for_timeout(300)
             if page.viewport_size['width']==390:await page.get_by_test_id('mobile-menu-btn').click(force=True)
-            await page.get_by_test_id('nav-'+slug).last.click(force=True)
+            link=page.locator('[data-testid="nav-'+slug+'"]:visible').first
+            await expect(link).to_be_visible()
+            await link.click(force=True)
             await page.get_by_test_id('company-settings-page' if slug=='company' else slug+'-page').wait_for(state='visible')
         async def theme(mode):
             if await page.evaluate('document.documentElement.dataset.theme')!=mode:
@@ -97,6 +101,7 @@ async def main():
                 await page.set_viewport_size({'width':1920,'height':800})
             await step('global delete refreshes current dashboard and mobile income without reload',refresh)
             async def direct_profile():
+                await page.set_viewport_size({'width':1920,'height':800})
                 d2=api.request(s,'POST','/drivers',json={'name':prefix+'_profile'}).json();t2=api.request(s,'POST','/trucks',json={'truck_number':prefix+'_profile','tank_gallons':100}).json()
                 for table in ['loads','fuel','inspections']:
                     payload={**payloads[table],'driver_id':d2['id'],'truck_id':t2['id']};row=api.request(s,'POST','/'+table,json=payload).json()
@@ -109,7 +114,7 @@ async def main():
                 for i,status in enumerate(['pending','approved'],1):
                     api.request(s,'POST','/telemetry/ingest',json=api.sample(i,session='direct_'+prefix,job={'sourceCity':prefix+status,'destinationCity':'TEST_end','income':45},attached=True));e=api.events(s)[0]
                     if status=='approved':
-                        saved=api.request(s,'POST',f"/telemetry/events/{e['id']}/review",json={'action':'approve','record':{**payloads['loads'],'driver_id':d2['id'],'truck_id':t2['id']}}).json()['record_id'];await page.get_by_test_id('telemetry-tab-history').click(force=True)
+                        saved=api.request(s,'POST',f"/telemetry/events/{e['id']}/review",json={'action':'approve','record':{**payloads['loads'],'driver_id':d2['id'],'truck_id':t2['id'],'status':'On Time'}}).json()['record_id'];await page.get_by_test_id('telemetry-tab-history').click(force=True)
                     await page.get_by_test_id('telemetry-refresh').click(force=True);await expect(page.get_by_test_id('telemetry-delete-'+str(e['id']))).to_be_visible();await delete_button('telemetry-delete-'+str(e['id']));await expect(page.get_by_test_id('telemetry-event-'+str(e['id']))).to_have_count(0)
                     if status=='approved':assert any(x['id']==saved for x in api.request(s,'GET','/loads').json())
             await step('direct profile three tables and telemetry pending history deletion',direct_profile)
@@ -125,6 +130,8 @@ async def main():
             await step('dispatcher no delete controls protected owner failure stays visible',role_and_failure)
             async def erase_dialogs():
                 await nav('backup');before=api.normalize(api.decrypt(api.archive(s)));preserved=api.decrypt(api.archive(s))['tables']
+                preserved_names=['users','company_settings','categories','drivers','trucks','telemetry_sources']
+                exact={k:v for k,v in table_snapshot().items() if k in preserved_names}
                 for size in [{'width':1920,'height':800},{'width':390,'height':844}]:
                     await page.set_viewport_size(size)
                     for mode in ['dark','light']:
@@ -137,10 +144,11 @@ async def main():
                 await page.get_by_test_id('erase-owner-password').fill('trucker123');await page.get_by_test_id('erase-records-confirm').click(force=True);await expect(page.get_by_test_id('erase-records-dialog')).to_have_count(0)
                 assert all(x==0 for x in api.request(s,'GET','/company/record-counts').json().values())
                 after=api.decrypt(api.archive(s));assert after['tables']['users']==preserved['users'];assert after['tables']['company_settings']==preserved['company_settings']
+                assert {k:v for k,v in table_snapshot().items() if k in preserved_names}==exact
                 diagnostics['erased_accounts_and_branding_preserved']=True
                 await nav('dashboard');await expect(page.get_by_test_id('kpi-income-value')).to_have_text('$0.00');await expect(page.get_by_test_id('kpi-profit-value')).to_have_text('$0.00')
-                await nav('telemetry');await expect(page.get_by_test_id('telemetry-connection-status')).to_have_text('Disabled')
-                await nav('expenses');assert await page.locator('[data-testid^="category-delete-"]').count()==0
+                await nav('telemetry');assert api.request(s,'GET','/telemetry/status').json()['source']['enabled']
+                await nav('expenses');await expect(page.locator('[data-testid^="category-delete-"]')).to_have_count(len(preserved['categories']))
                 await page.get_by_test_id('new-category-input').fill(prefix+'_after');await page.get_by_test_id('add-category-btn').click(force=True);await expect(page.get_by_test_id('new-category-input')).to_have_value('')
                 assert any(x['name']==prefix+'_after' for x in api.request(s,'GET','/categories').json())
             await step('erase dialogs both themes sizes cancel invalid reauth success signed in zero recreate',erase_dialogs)

@@ -1,0 +1,37 @@
+{
+  "pytest": {
+    "numeric": {
+      "total": 31,
+      "passed": 31,
+      "failed": 0,
+      "skipped": 0
+    },
+    "functional": {
+      "total": 36,
+      "passed": 36,
+      "failed": 0,
+      "skipped": 0
+    },
+    "security": {
+      "total": 26,
+      "passed": 26,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "pytest_total": 93,
+  "pytest_passed": 93,
+  "browser": {
+    "report": {
+      "total": 4,
+      "passed": 4
+    },
+    "fuel": {
+      "total": 4,
+      "passed": 4
+    }
+  },
+  "all_original_tables_exactly_preserved": true,
+  "nonfinite_original_values": 0,
+  "invalid_original_values": 0
+}

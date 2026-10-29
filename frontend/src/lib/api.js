@@ -2,16 +2,35 @@ import axios from "axios";
 
 export const api = axios.create({ baseURL: `${process.env.REACT_APP_BACKEND_URL}/api`, withCredentials: true });
 
-api.interceptors.request.use((cfg) => {
-  const t = localStorage.getItem("vtc_token");
-  if (t) cfg.headers.Authorization = `Bearer ${t}`;
+let csrfToken = null;
+let csrfRequest = null;
+export const setCsrfToken = (value) => { csrfToken = value || null; };
+const fetchCsrf = async () => {
+  if (!csrfRequest) {
+    csrfRequest = axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/auth/csrf`, { withCredentials: true, timeout: 10000 })
+      .then(({ data }) => { csrfToken = data.csrf_token; return csrfToken; })
+      .finally(() => { csrfRequest = null; });
+  }
+  return csrfRequest;
+};
+
+api.interceptors.request.use(async (cfg) => {
+  if (["post", "put", "patch", "delete"].includes(cfg.method?.toLowerCase()) && cfg.url !== "/auth/login") {
+    cfg.headers["X-CSRF-Token"] = csrfToken || await fetchCsrf();
+  }
   return cfg;
 });
 
 api.interceptors.response.use(
   (r) => r,
-  (err) => {
+  async (err) => {
+    if (err.response?.status === 403 && err.response.data?.code === "csrf_failed" && !err.config._csrfRetried) {
+      err.config._csrfRetried = true;
+      csrfToken = null;
+      try { await fetchCsrf(); return api.request(err.config); } catch (refreshError) { return Promise.reject(refreshError); }
+    }
     if (err.response?.status === 401 && !err.config.url.includes("/auth/")) {
+      csrfToken = null;
       localStorage.removeItem("vtc_token");
       window.location.href = "/login";
     }

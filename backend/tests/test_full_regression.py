@@ -10,6 +10,7 @@ from pathlib import Path
 import uuid
 import pytest
 import requests
+from regression_safety import safeguard
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
 
@@ -55,22 +56,28 @@ def normalize(data):
 
 @pytest.fixture(scope='module')
 def ctx():
+    guard = safeguard('shared API fixture')
+    guard.__enter__()
     ROOT.mkdir(exist_ok=True)
     s = login()
     original = archive(s)
-    (ROOT/'initial_state_iter4.mccoy').write_bytes(original)
+    snapshot_path = ROOT/('api_safety_'+uuid.uuid4().hex+'.mccoy')
+    snapshot_path.touch(mode=0o600)
+    snapshot_path.write_bytes(original)
     data = decrypt(original)
     c = {'owner':s,'initial':original,'initial_data':data,'prefix':'test_r4_'+uuid.uuid4().hex[:8], 'created':[]}
     try:
         yield c
     finally:
-        s = login()
-        r = request(s,'POST','/backup/restore',json={**body(original),'confirm':'RESTORE MCCOY','owner_password':'trucker123'})
-        assert r.json()['sign_in_required'] is True
-        s = login()
-        final = decrypt(archive(s))
-        assert normalize(final) == normalize(data), 'INITIAL COMPANY STATE NOT RESTORED'
-        (ROOT/'cleanup_iter4.json').write_text(json.dumps({'restored_original':True,'counts':{t:len(v) for t,v in final['tables'].items()},'retained_test_accounts':[]},indent=2))
+        try:
+            s = login()
+            r = request(s,'POST','/backup/restore',json={**body(original),'confirm':'RESTORE MCCOY','owner_password':'trucker123'})
+            assert r.json()['sign_in_required'] is True
+            s = login()
+            final = decrypt(archive(s))
+            assert normalize(final) == normalize(data), 'INITIAL COMPANY STATE NOT RESTORED'
+        finally:
+            guard.__exit__(None,None,None)
 
 def create(c, table, payload, s=None):
     s = s or c['owner']
@@ -100,7 +107,9 @@ def test_01_auth_cookies_cors_lockout(ctx):
     assert request(s,'GET','/auth/me').json()['role']=='owner'
     r=request(requests.Session(),'POST','/auth/login',json={'username':'owner','password':'trucker123'})
     cookie=r.headers['set-cookie'].lower()
-    assert all(v in cookie for v in ['httponly','secure','samesite=none'])
+    assert all(v in cookie for v in ['httponly','secure'])
+    # Public attack resistance is distinct from strict source Lax policy (isolated suite).
+    assert 'samesite=lax' in cookie or ('samesite=none' in cookie and 'partitioned' in cookie)
     for ep in ['/trucks','/users','/stats/dashboard']:
         assert request(requests.Session(),'GET',ep,401).json()['detail']=='Not authenticated'
     uname=ctx['prefix']+'_lock'

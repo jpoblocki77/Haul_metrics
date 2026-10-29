@@ -1,0 +1,24 @@
+[
+  {
+    "label": "outer foreground command",
+    "exact_all_tables_restored": true,
+    "counts": {
+      "categories": 8,
+      "company_settings": 0,
+      "drivers": 6,
+      "expenses": 40,
+      "fuel": 70,
+      "income": 68,
+      "inspections": 20,
+      "loads": 60,
+      "login_attempts": 3,
+      "session_revocations": 35,
+      "sqlite_sequence": 10,
+      "telemetry_events": 0,
+      "telemetry_sources": 0,
+      "trucks": 6,
+      "users": 2
+    },
+    "private_sqlite_snapshot_deleted_on_exit": true
+  }
+]

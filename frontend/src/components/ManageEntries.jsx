@@ -40,7 +40,7 @@ export const ManageEntries = () => {
   const [table, setTable] = useState("income");
   if (!isOwner) return null;
   const show = () => { const current = pathname.split("/")[1]; setTable(TABLES[current] ? current : current === "telemetry" ? "telemetry/events" : "income"); setOpen(true); };
-  return <div className="no-print mb-4 flex justify-end"><Button variant="outline" data-testid="open-delete-entries" onClick={show}><Trash2 size={16} className="mr-2" />Delete entries</Button>
+  return <div className="no-print flex justify-end"><Button variant="outline" data-testid="open-delete-entries" onClick={show}><Trash2 size={16} className="mr-2" />Delete entries</Button>
     <Dialog open={open} onOpenChange={setOpen}><DialogContent data-testid="delete-entries-dialog" className="max-h-[90vh] overflow-y-auto bg-card sm:max-w-2xl"><DialogHeader><DialogTitle>Delete entries</DialogTitle><DialogDescription>Choose a record type. Each deletion needs a separate confirmation.</DialogDescription></DialogHeader>
       <div><Label htmlFor="delete-entry-type">Record type</Label><select id="delete-entry-type" data-testid="delete-entries-type" className="form-select mt-2" value={table} onChange={(e) => setTable(e.target.value)}>{Object.entries(TABLES).map(([key, label]) => <option key={key} value={key}>{label}</option>)}</select></div>
       {open && <EntryList key={table} table={table} />}

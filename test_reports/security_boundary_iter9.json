@@ -1,0 +1,320 @@
+{
+  "public_login": {
+    "status": 200,
+    "headers": {
+      "Access-Control-Allow-Origin": "https://haul-metrics-2.preview.emergentagent.com",
+      "Cache-Control": "no-store, no-cache, must-revalidate",
+      "Server": "cloudflare",
+      "Via": "1.1 google",
+      "access-control-allow-credentials": "true",
+      "set-cookie-flags": " HttpOnly; Max-Age=604800; Path=/; Secure; SameSite=None; Partitioned"
+    }
+  },
+  "public_get": {
+    "status": 200,
+    "headers": {
+      "Access-Control-Allow-Origin": "https://haul-metrics-2.preview.emergentagent.com",
+      "Cache-Control": "no-store, no-cache, must-revalidate",
+      "Server": "cloudflare",
+      "Via": "1.1 google",
+      "access-control-allow-credentials": "true"
+    }
+  },
+  "origins": [
+    {
+      "origin": "null",
+      "actual": {
+        "status": 403,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+          "Server": "cloudflare",
+          "Via": "1.1 google",
+          "Access-Control-Allow-Headers": "*",
+          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS, HEAD, PATCH"
+        }
+      },
+      "preflight": {
+        "status": 400,
+        "headers": {
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+          "Server": "cloudflare",
+          "Via": "1.1 google",
+          "access-control-allow-headers": "Accept, Accept-Language, Authorization, Content-Language, Content-Type, X-CSRF-Token",
+          "access-control-allow-methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",
+          "set-cookie-flags": " HttpOnly; SameSite=None; Secure; Path=/; Domain=preview.emergentagent.com; Expires=Thu"
+        }
+      }
+    },
+    {
+      "origin": "https://attacker.example",
+      "actual": {
+        "status": 403,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+          "Server": "cloudflare",
+          "Via": "1.1 google",
+          "Access-Control-Allow-Headers": "*",
+          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS, HEAD, PATCH"
+        }
+      },
+      "preflight": {
+        "status": 400,
+        "headers": {
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+          "Server": "cloudflare",
+          "Via": "1.1 google",
+          "access-control-allow-headers": "Accept, Accept-Language, Authorization, Content-Language, Content-Type, X-CSRF-Token",
+          "access-control-allow-methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",
+          "set-cookie-flags": " HttpOnly; SameSite=None; Secure; Path=/; Domain=preview.emergentagent.com; Expires=Thu"
+        }
+      }
+    },
+    {
+      "origin": "https://sibling.preview.emergentagent.com",
+      "actual": {
+        "status": 403,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+          "Server": "cloudflare",
+          "Via": "1.1 google",
+          "Access-Control-Allow-Headers": "*",
+          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS, HEAD, PATCH"
+        }
+      },
+      "preflight": {
+        "status": 400,
+        "headers": {
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+          "Server": "cloudflare",
+          "Via": "1.1 google",
+          "access-control-allow-headers": "Accept, Accept-Language, Authorization, Content-Language, Content-Type, X-CSRF-Token",
+          "access-control-allow-methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",
+          "set-cookie-flags": " HttpOnly; SameSite=None; Secure; Path=/; Domain=preview.emergentagent.com; Expires=Thu"
+        }
+      }
+    },
+    {
+      "origin": "https://haul-metrics-2.preview.emergentagent.com.attacker.example",
+      "actual": {
+        "status": 403,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+          "Server": "cloudflare",
+          "Via": "1.1 google",
+          "Access-Control-Allow-Headers": "*",
+          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS, HEAD, PATCH"
+        }
+      },
+      "preflight": {
+        "status": 400,
+        "headers": {
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+          "Server": "cloudflare",
+          "Via": "1.1 google",
+          "access-control-allow-headers": "Accept, Accept-Language, Authorization, Content-Language, Content-Type, X-CSRF-Token",
+          "access-control-allow-methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",
+          "set-cookie-flags": " HttpOnly; SameSite=None; Secure; Path=/; Domain=preview.emergentagent.com; Expires=Thu"
+        }
+      }
+    },
+    {
+      "origin": "http://haul-metrics-2.preview.emergentagent.com",
+      "actual": {
+        "status": 403,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+          "Server": "cloudflare",
+          "Via": "1.1 google",
+          "Access-Control-Allow-Headers": "*",
+          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS, HEAD, PATCH"
+        }
+      },
+      "preflight": {
+        "status": 400,
+        "headers": {
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+          "Server": "cloudflare",
+          "Via": "1.1 google",
+          "access-control-allow-headers": "Accept, Accept-Language, Authorization, Content-Language, Content-Type, X-CSRF-Token",
+          "access-control-allow-methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",
+          "set-cookie-flags": " HttpOnly; SameSite=None; Secure; Path=/; Domain=preview.emergentagent.com; Expires=Thu"
+        }
+      }
+    },
+    {
+      "origin": "https://haul-metrics-2.preview.emergentagent.com:444",
+      "actual": {
+        "status": 403,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+          "Server": "cloudflare",
+          "Via": "1.1 google",
+          "Access-Control-Allow-Headers": "*",
+          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS, HEAD, PATCH"
+        }
+      },
+      "preflight": {
+        "status": 400,
+        "headers": {
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+          "Server": "cloudflare",
+          "Via": "1.1 google",
+          "access-control-allow-headers": "Accept, Accept-Language, Authorization, Content-Language, Content-Type, X-CSRF-Token",
+          "access-control-allow-methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",
+          "set-cookie-flags": " HttpOnly; SameSite=None; Secure; Path=/; Domain=preview.emergentagent.com; Expires=Thu"
+        }
+      }
+    },
+    {
+      "origin": "not-an-origin",
+      "actual": {
+        "status": 403,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+          "Server": "cloudflare",
+          "Via": "1.1 google",
+          "Access-Control-Allow-Headers": "*",
+          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS, HEAD, PATCH"
+        }
+      },
+      "preflight": {
+        "status": 400,
+        "headers": {
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+          "Server": "cloudflare",
+          "Via": "1.1 google",
+          "access-control-allow-headers": "Accept, Accept-Language, Authorization, Content-Language, Content-Type, X-CSRF-Token",
+          "access-control-allow-methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",
+          "set-cookie-flags": " HttpOnly; SameSite=None; Secure; Path=/; Domain=preview.emergentagent.com; Expires=Thu"
+        }
+      }
+    },
+    {
+      "origin": "https://haul-metrics-2.preview.emergentagent.com/evil",
+      "actual": {
+        "status": 403,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+          "Server": "cloudflare",
+          "Via": "1.1 google",
+          "Access-Control-Allow-Headers": "*",
+          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS, HEAD, PATCH"
+        }
+      },
+      "preflight": {
+        "status": 400,
+        "headers": {
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+          "Server": "cloudflare",
+          "Via": "1.1 google",
+          "access-control-allow-headers": "Accept, Accept-Language, Authorization, Content-Language, Content-Type, X-CSRF-Token",
+          "access-control-allow-methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",
+          "set-cookie-flags": " HttpOnly; SameSite=None; Secure; Path=/; Domain=preview.emergentagent.com; Expires=Thu"
+        }
+      }
+    },
+    {
+      "origin": "https://[broken",
+      "actual": {
+        "status": 403,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+          "Server": "cloudflare",
+          "Via": "1.1 google",
+          "Access-Control-Allow-Headers": "*",
+          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS, HEAD, PATCH"
+        }
+      },
+      "preflight": {
+        "status": 400,
+        "headers": {
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+          "Server": "cloudflare",
+          "Via": "1.1 google",
+          "access-control-allow-headers": "Accept, Accept-Language, Authorization, Content-Language, Content-Type, X-CSRF-Token",
+          "access-control-allow-methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",
+          "set-cookie-flags": " HttpOnly; SameSite=None; Secure; Path=/; Domain=preview.emergentagent.com; Expires=Thu"
+        }
+      }
+    },
+    {
+      "origin": "https://evil.example@haul-metrics-2.preview.emergentagent.com",
+      "actual": {
+        "status": 403,
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+          "Server": "cloudflare",
+          "Via": "1.1 google",
+          "Access-Control-Allow-Headers": "*",
+          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS, HEAD, PATCH"
+        }
+      },
+      "preflight": {
+        "status": 400,
+        "headers": {
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+          "Server": "cloudflare",
+          "Via": "1.1 google",
+          "access-control-allow-headers": "Accept, Accept-Language, Authorization, Content-Language, Content-Type, X-CSRF-Token",
+          "access-control-allow-methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",
+          "set-cookie-flags": " HttpOnly; SameSite=None; Secure; Path=/; Domain=preview.emergentagent.com; Expires=Thu"
+        }
+      }
+    }
+  ],
+  "public_logout": {
+    "status": 200,
+    "headers": {
+      "Access-Control-Allow-Origin": "https://haul-metrics-2.preview.emergentagent.com",
+      "Cache-Control": "no-store, no-cache, must-revalidate",
+      "Server": "cloudflare",
+      "Via": "1.1 google",
+      "access-control-allow-credentials": "true",
+      "set-cookie-flags": " expires=Thu"
+    }
+  },
+  "isolated_app": {
+    "login": {
+      "status": 200,
+      "headers": {
+        "cache-control": "no-store",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-origin": "https://haul-metrics-2.preview.emergentagent.com",
+        "set-cookie-flags": " HttpOnly; Max-Age=604800; Path=/; SameSite=lax; Secure"
+      }
+    },
+    "untrusted": {
+      "status": 403,
+      "headers": {
+        "cache-control": "no-store"
+      }
+    },
+    "bad_preflight": {
+      "status": 400,
+      "headers": {
+        "access-control-allow-methods": "GET, POST, PUT, PATCH, DELETE, OPTIONS",
+        "access-control-allow-headers": "Accept, Accept-Language, Authorization, Content-Language, Content-Type, X-CSRF-Token"
+      }
+    },
+    "logout": {
+      "status": 200,
+      "headers": {
+        "cache-control": "no-store",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-origin": "https://haul-metrics-2.preview.emergentagent.com",
+        "set-cookie-flags": " expires=Thu"
+      }
+    },
+    "origin_config": "https://haul-metrics-2.preview.emergentagent.com"
+  }
+}

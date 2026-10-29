@@ -5,7 +5,7 @@ from playwright.async_api import async_playwright, expect
 import test_full_regression as api
 
 BASE=os.environ['REACT_APP_BACKEND_URL'].rstrip('/')
-OUT=Path('/app/test_reports/browser_iter5_matrix');OUT.mkdir(exist_ok=True)
+OUT=Path('/app/test_reports/browser_iter8_matrix');OUT.mkdir(exist_ok=True)
 results=[];diagnostics={};errors=[]
 
 async def main():

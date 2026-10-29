@@ -1,0 +1,101 @@
+{
+  "summary": "Independent full preview regression with explicit foreground serial pytest -n0 and exact SQLite safeguards. Existing functional APIs: 35/36 passed; cookie contract fails at preview ingress. Public security suite initially 7/19 passed, 12 failed; one overly strict cache assertion corrected and its isolated rerun passed. Disposable security suite: 4/7 passed, uncovering persisted Infinity causing API 500s. Browser suites: full 24/26, delete/erase 7/7, focused security/preservation 16/16, independent mobile review 2/2, mobile sign-in visual 1/1. Original rows, users, passwords, branding, source state and security metadata restored exactly; no product code edits or production checks.",
+  "backend_issues": {
+    "critical": [
+      {"endpoint": "POST /api/income; GET /api/income; GET /api/stats/dashboard", "issue": "On a disposable database, amount strings Infinity and -Infinity pass Pydantic coercion, commit an infinite REAL, then POST serialization returns 500. Subsequent income list and dashboard also return 500. Authenticated input can persistently poison financial data. Never injected into live preview DB.", "priority": "HIGH"}
+    ],
+    "minor": [
+      {"endpoint": "POST /api/income", "issue": "NaN is rejected as 400 Invalid reference to another record instead of meaningful numeric validation/422; no row persists."},
+      {"endpoint": "POST /api/auth/login; POST /api/auth/logout", "issue": "Public preview ingress rewrites application SameSite=Lax cookies to SameSite=None and adds Partitioned on login; HttpOnly and Secure remain. Isolated application emits correct Lax flags. Runtime does not satisfy advertised hosted cookie contract."},
+      {"endpoint": "Untrusted-Origin actual /api requests", "issue": "All 10 hostile-origin actual requests return 403, but preview ingress adds Access-Control-Allow-Origin:* and wildcard methods/headers. No Allow-Credentials is emitted for hostile origins; preflights return400 without ACAO/ACAC. No authenticated cross-origin read/write bypass observed, but public headers differ from strict application policy."},
+      {"endpoint": "Report data requests during rapid browser route navigation", "issue": "A preview 429 prevented one full matrix report assertion. Source has no report rate limiter; ingress/client-edge throttling is probable, not conclusively traced. Slower independent SPA route matrix completed without429."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [
+      {"flow": "Rapid full-page navigation to report", "issue": "Report showed Request failed with status code429 and disabled printing in full browser run. Other report/chart/PDF checks passed; slower independent matrix passed. Keep this transient preview issue visible rather than claiming every run passed.", "affected_selectors": ["report-income", "print-report-btn"]}
+    ],
+    "design_issues": [
+      {"screen": "Mobile sign-in", "issues": ["Highway photograph loads locally with naturalWidth1800 but is deliberately hidden below lg. Dashboard photos frame trucks clearly at390; if the requirement includes a visible mobile sign-in photo, that part is unmet."]}
+    ]
+  },
+  "test_report_links": [
+    "/app/test_reports/REGRESSION_SECURITY_ITER8.md",
+    "/app/backend/tests/test_full_regression.py",
+    "/app/backend/tests/test_delete_erase_regression.py",
+    "/app/backend/tests/test_browser_security_regression.py",
+    "/app/backend/tests/test_isolated_browser_security.py",
+    "/app/backend/tests/regression_safety.py",
+    "/app/backend/tests/run_guarded_regression.py",
+    "/app/backend/tests/ui_full_regression.py",
+    "/app/backend/tests/ui_delete_erase_regression.py",
+    "/app/backend/tests/ui_security_preservation.py",
+    "/app/backend/tests/check_mobile_telemetry_dialog.py",
+    "/app/backend/tests/check_security_boundary.py",
+    "/app/test_reports/pytest/pytest_results_iter8_functional.xml",
+    "/app/test_reports/pytest/pytest_results_iter8_security.xml",
+    "/app/test_reports/pytest/pytest_results_iter8_isolated_security.xml",
+    "/app/test_reports/pytest/pytest_results_iter8_isolated_security_final.xml",
+    "/app/test_reports/browser_iter8_full/ui_results.json",
+    "/app/test_reports/browser_iter8_delete/results.json",
+    "/app/test_reports/browser_iter8_security/results.json",
+    "/app/test_reports/browser_iter8_mobile_review/results.json",
+    "/app/test_reports/security_boundary_iter8.json",
+    "/app/test_reports/bridge_real_startup.json",
+    "/app/test_reports/closeout_iter8.json",
+    "/app/test_reports/preservation_iter8.json",
+    "/app/test_reports/build_iter8.log"
+  ],
+  "action_items": [
+    "Reject non-finite numeric values before DB writes across all manual financial/fleet models; audit existing non-finite rows safely and retest on disposable DB.",
+    "Investigate preview ingress cookie/CORS header rewriting; retain app origin/CSRF guards. Do not certify actual production configuration: production read-only verification remains a separate next step.",
+    "Investigate/retry preview429 under rapid route changes; retain clear UI retry/error states.",
+    "Address known SEC-002 timing enumeration/account lockout denial-of-service and default desktop credential hardening in the separate security audit.",
+    "Clarify whether sign-in photographs must also be visible on mobile; currently hidden intentionally.",
+    "Retest security contracts after fixes; preserve all six setup tables and active telemetry state. Continue explicit foreground pytest -n0 only."
+  ],
+  "critical_code_review_comments": [
+    "server.py IncomeIn/ExpenseIn and other plain float models lack allow_inf_nan=False; run() commits before JSON response serialization. Disposable Infinity reproduction demonstrates persistent data poisoning, not just an error-status mismatch.",
+    "browser_security.py uses configured origin, not Host/forwarded headers. Isolated Host spoofing and fail-closed configuration tests pass. Preview proxy modifies final response headers/cookies after application middleware; resolve at the actual boundary, not by disabling security guards.",
+    "auth.py still skips bcrypt for nonexistent usernames and account-wide five-failure lockout allows targeted denial of access. Existing documented LOW SEC-002 remains unresolved; no new production compromise claimed.",
+    "API archives deliberately sanitize telemetry_sources; using archive-only cleanup would lose live enabled/state/last_seen. Added private online SQLite backup/restore guards to restore every table, including sessions and sqlite_sequence, exactly. Physical SQLite bytes can change even when every logical row matches."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_full_regression.py",
+    "/app/backend/tests/test_delete_erase_regression.py",
+    "/app/backend/tests/isolated_erase_worker.py",
+    "/app/backend/tests/ui_full_regression.py",
+    "/app/backend/tests/ui_delete_erase_regression.py",
+    "/app/backend/tests/ui_final_matrix.py",
+    "/app/backend/tests/regression_safety.py",
+    "/app/backend/tests/run_guarded_regression.py",
+    "/app/backend/tests/test_browser_security_regression.py",
+    "/app/backend/tests/test_isolated_browser_security.py",
+    "/app/backend/tests/check_security_boundary.py",
+    "/app/backend/tests/ui_security_preservation.py",
+    "/app/backend/tests/check_mobile_telemetry_dialog.py",
+    "/app/backend/tests/check_iter8_closeout.py",
+    "/app/test_reports/iteration_8.json",
+    "/app/test_reports/REGRESSION_SECURITY_ITER8.md"
+  ],
+  "success_rate": {
+    "backend": "Functional35/36 (97.2%). Public security initial7/19 (36.8%), corrected cache assertion retest1/1; isolated security4/7 (57.1%). Do not merge repeats or count contract failures as passes.",
+    "frontend": "Latest browser suites49/51 groups (96.1%):24/26 full,7/7 deletion,16/16 focused,2/2 mobile review; separate mobile visual1/1. Two full-suite failures remain in raw report:429 and old mobile candidate setup; independent mobile review closes the latter coverage gap."
+  },
+  "test_credentials": "Read memory/test_credentials.md before authentication. Both original accounts verified; password hashes/roles/IDs/session versions restored exactly. No permanent credentials changed, created or removed. Secrets omitted from reports.",
+  "seed_data_creation": "Temporary TEST_ fleet/account/activity/501-event history and SIMULATED telemetry samples only. Safeguards snapshot actual current SQLite, not assumed-empty archives. Initial/final original users2/categories8/settings0 (default branding); other fleet/activity/source tables0. Login attempts3/revocations35 and exact sqlite_sequence also restored. Seeded enabled sources with populated raw state/last_seen preserved exactly across bearer/API and cookie/UI erase; genuinely new job/fuel detected afterward. No retained test records. Plaintext SQLite snapshots ephemeral0700 directories/0600 files; encrypted recovery archives0600 retained privately.",
+  "retest_needed": true,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Run repeatable commands in REGRESSION_SECURITY_ITER8.md through run_guarded_regression.py, foreground, explicit -n0. Shared ctx discovered via conftest, never imported by tests. Public security header tests fail at proxy drift, not origin-handler bypass; one Cache-Control equality false positive corrected to directive membership and singly retested. Do not overwrite old snapshots or restore only .mccoy sources. UI harness races corrected with visible nav and modal settling waits; strict backend erase tests now preserve all setup/source rows rather than obsolete deletion expectations. UI final_matrix output path updated but script was NOT run this iteration. Product changes visible in git predate this testing run; tester changed tests/reports only.",
+  "rca of the issue": "Non-finite values are coerced by plain Pydantic float fields; SQLite stores infinities and commits before Starlette JSON encoding rejects them, leaving persistent poison rows. NaN becomes SQLite NULL and hits a NOT NULL integrity error misleadingly translated as reference error. Cookie/CORS differences arise after app middleware: isolated app Lax/no hostile ACAO vs public None+Partitioned/wildcard403 responses. Hostile actual requests still403 before business writes, all hostile preflights400, no credential grant. Rapid UI429 likely external rate limit; exact responsible edge layer unverified.",
+  "coverage_gaps": [
+    "Actual production configuration, TLS/secrets and deployment not checked or changed.",
+    "Actual Windows BAT/EXE launch and real SCS gameplay not available; real source/downloaded bridge preview authentication passed2/2, snapshot protocol inputs SIMULATED.",
+    "Security suite stopped broad reruns after >50% header-contract failures; focused boundary diagnostics and separate disposable suite provide RCA, not a blanket passing clearance.",
+    "External iframe parent HTML MOCKED; child login/reload and API real. Preview Partitioned/None cookies support it here; true Lax production third-party session behavior is not proven.",
+    "One full browser rapid-navigation report group failed429; slower owner/dispatcher route matrices and one-page populated PDF passed independently.",
+    "No claim of exhaustive penetration test or production security clearance. Existing timing/default-credential findings remain."
+  ],
+  "mocking_disclosure": "No product API MOCKED except deliberate browser logout503/network fault injection. External iframe parent document MOCKED, real child unchanged. Existing bridge_process_harness uses MOCKED input/network contracts, separately from2/2 real public bridge startup. SCS protocol snapshots SIMULATED."
+}

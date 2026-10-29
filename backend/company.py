@@ -56,8 +56,8 @@ def save_branding(body: CompanyIn):
     return payload
 
 
-# Child records first; accounts, branding, and security/session records are preserved.
-RECORD_TABLES = ("telemetry_events", "telemetry_sources", "income", "expenses", "fuel", "inspections", "loads", "drivers", "trucks", "categories")
+# Reset recorded activity only; preserve fleet setup, active connections and accounts.
+RECORD_TABLES = ("telemetry_events", "income", "expenses", "fuel", "inspections", "loads")
 
 
 class EraseIn(BaseModel):
@@ -83,4 +83,4 @@ def erase_records(body: EraseIn, user=Depends(require_owner)):
         removed = {table: one(conn, f"SELECT COUNT(*) AS n FROM {table}")["n"] for table in RECORD_TABLES}
         for table in RECORD_TABLES:
             conn.execute(f"DELETE FROM {table}")
-    return {"ok": True, "removed": removed, "preserved": ["user accounts", "company branding"]}
+    return {"ok": True, "removed": removed, "preserved": ["user accounts", "company branding", "expense categories", "drivers", "trucks", "telemetry connections"]}

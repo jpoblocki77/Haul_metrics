@@ -22,6 +22,7 @@ def _secret():
 
 PORT = 8765
 os.environ["MCCOY_DESKTOP"] = "1"
+os.environ["DESKTOP_APP_ORIGIN"] = f"http://127.0.0.1:{PORT}"
 os.environ.setdefault("SQLITE_DB_FILE", str(DATA_DIR / "fleet.db"))
 os.environ.setdefault("JWT_SECRET", _secret())
 os.environ.setdefault("OWNER_USERNAME", "owner")

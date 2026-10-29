@@ -4,9 +4,10 @@ import { TelemetryRunner } from "@/components/TelemetryRunner";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { CompanyName } from "@/components/CompanyName";
 import { ManageEntries } from "@/components/ManageEntries";
+import { LogoutButton } from "@/components/LogoutButton";
 import { useState } from "react";
 import {
-  LayoutDashboard, TrendingUp, Receipt, Fuel, Truck, PackageCheck, Users, ShieldAlert, Database, LogOut, Menu, X, Trophy, UserCog, FileText, Radio, HardDriveDownload, UserPlus, Palette,
+  LayoutDashboard, TrendingUp, Receipt, Fuel, Truck, PackageCheck, Users, ShieldAlert, Database, Menu, X, Trophy, UserCog, FileText, Radio, HardDriveDownload, UserPlus, Palette,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 
@@ -30,7 +31,7 @@ const NAV = [
 ];
 
 function Sidebar({ onNavigate, mobile = false }) {
-  const { user, logout, isOwner } = useAuth();
+  const { user, isOwner } = useAuth();
   return (
     <div className="flex h-full flex-col">
       <div className="px-6 pb-8 pt-7">
@@ -62,13 +63,7 @@ function Sidebar({ onNavigate, mobile = false }) {
           Signed in as <span className="text-slate-300" data-testid="current-username">{user?.username}</span>
           <span data-testid="current-role" className="ml-2 rounded bg-red-500/10 px-1.5 py-0.5 text-[10px] uppercase text-red-400">{user?.role}</span>
         </div>
-        <button
-          data-testid="logout-btn"
-          onClick={logout}
-          className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-slate-400 transition-colors hover:bg-rose-500/10 hover:text-rose-400"
-        >
-          <LogOut className="h-4 w-4" /> Log out
-        </button>
+        <LogoutButton testId={mobile ? "mobile-logout-btn" : "logout-btn"} sidebar />
       </div>
     </div>
   );
@@ -100,7 +95,7 @@ export default function Layout() {
       )}
       <main className="lg:pl-64">
         <div className="mx-auto max-w-[1500px] px-4 py-8 sm:px-8 lg:px-12 lg:py-10">
-          <ManageEntries />
+          <div className="no-print mb-5 flex flex-wrap items-center justify-end gap-2" data-testid="page-account-actions"><ManageEntries /><LogoutButton /></div>
           {!NO_RANGE.includes(pathname) && <DateRangeBar />}
           <Outlet />
         </div>

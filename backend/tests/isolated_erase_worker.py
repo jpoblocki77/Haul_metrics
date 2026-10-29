@@ -13,10 +13,12 @@ with get_conn() as c:
     c.execute("INSERT INTO session_revocations VALUES ('TEST_security',9999999999)")
     c.execute("INSERT INTO login_attempts VALUES ('TEST_security','TEST_user',5,9999999999)")
 before=None
-with get_conn() as c:before={t:rows(c,'SELECT * FROM '+t) for t in ['users','company_settings','session_revocations','login_attempts']}
+with get_conn() as c:before={t:rows(c,'SELECT * FROM '+t) for t in ['users','categories','drivers','trucks','telemetry_sources','company_settings','session_revocations','login_attempts']}
 assert erase_records(EraseIn(confirmation='ERASE ALL RECORDS',owner_password=os.environ['OWNER_PASSWORD']),account)['ok']
 init_db();server.startup()
 with get_conn() as c:
-    assert rows(c,'SELECT * FROM categories')==[]
     assert {t:rows(c,'SELECT * FROM '+t) for t in before}==before
-print('PASS deleted categories remain empty across init/startup; accounts, settings and security metadata preserved')
+with get_conn() as c:c.execute('DELETE FROM categories')
+init_db();server.startup()
+with get_conn() as c:assert rows(c,'SELECT * FROM categories')==[]
+print('PASS erase preserves setup and security metadata; individually deleted categories remain empty after restart')
