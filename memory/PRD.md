@@ -59,7 +59,8 @@
 - Product APIs are real, not mocked. SCS inputs in automated tests are SIMULATED. Pre-existing bridge contract tests mock input/network fixtures, separately from real bridge authentication verification.
 
 ## Limitations and roadmap
-- **P0: none known** after final search verification; all runnable requested flows covered.
+- **Functional P0: none known** after final search verification; all runnable requested flows covered. Functional test success is not security clearance.
+- **Security audit (2026-10-29): ACTION REQUIRED.** Read-only audit found HIGH SEC-001: workspace CORS_ORIGINS=* + credentialed CORS + SameSite=None cookie can permit cross-site authenticated access. Production values not verified. LOW SEC-002: login timing enumeration/targeted account lockout. Additional hardening: default desktop owner credential and browser JWT localStorage. No security remediation applied yet; user requested audit only. See `/app/memory/SECURITY_AUDIT.md`. Prioritize CORS/CSRF remediation and regression tests before treating app as security-cleared.
 - **P1: user-PC verification** of actual Windows BAT/EXE launch and real SCS/Funbit game capture. Linux preview cannot verify these. Installer workflow is configured, but no Windows executable built or run here.
 - SCS snapshots do not provide reliable delivered/cancelled events or fuel prices. Those remain explicit review fields. Simulator deadlines are not real dates; ETS2 currency is not automatically converted to USD. Connection gaps may miss partial fuel stops; use manual entry where necessary.
 - Cloud usage requires freshly downloaded McCoyTelemetry.py + StartMcCoyTelemetry.bat together on driving PC with Python 3.10+ and Funbit server/plugin running. Never expose telemetry port publicly.
